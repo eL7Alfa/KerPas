@@ -1,23 +1,46 @@
 import Head from 'next/head';
 import AppHeader from '../src/components/Home/AppHeader';
-import { Box, Container, CssBaseline, ThemeProvider } from '@mui/material';
+import {
+  Box,
+  Container,
+  CssBaseline,
+  Divider,
+  ThemeProvider,
+} from '@mui/material';
 import theme from '../src/config/theme';
 import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import { AutoFixHigh, Category } from '@mui/icons-material';
 import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
+import { StoreProps } from '../src/components/Home/Stores/Store';
+import Promo from '../src/components/Home/Promo';
+import Products from '../src/components/Home/Products';
+import { newProducts } from '../src/helper/products';
 
 type HomeProps = {
   campaigns: {
     error: boolean;
     result: any[];
   };
+  mitra: {
+    error: boolean;
+    result: any[];
+  };
+  getProducts: {
+    error: boolean;
+    result: { [key: string]: any };
+  };
 };
 
-export default function Home({ campaigns }: HomeProps) {
+export default function Home({ campaigns, mitra, getProducts }: HomeProps) {
+  const [stores, setStores] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
+  const [currentProductPage, setCurrentProductPage] = useState<number>(1);
+  const [lastProductPage, setLastProductPage] = useState<number>(0);
   const featuredServiceData = [
     {
       icon: function Icon() {
@@ -84,44 +107,46 @@ export default function Home({ campaigns }: HomeProps) {
     },
   ];
 
-  const fakeStores = [
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-2.3159a3bb.jpeg',
-      url: '',
-      name: 'Daeng Jony',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-3.ba9e3c5e.jpeg',
-      url: '',
-      name: 'Daeng Lontong',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-2.3159a3bb.jpeg',
-      url: '',
-      name: 'Pa\' Balue',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-3.ba9e3c5e.jpeg',
-      url: '',
-      name: 'Toko Siska',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-3.ba9e3c5e.jpeg',
-      url: '',
-      name: 'Daeng Sopa',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-3.ba9e3c5e.jpeg',
-      url: '',
-      name: 'Manessa Laris',
-    },
-  ];
+  const onShowMoreProductBtnClicked = () => {
+    const nextProductPage = currentProductPage + 1;
+    if (!isProductLoading && nextProductPage <= lastProductPage) {
+      setIsProductLoading(true);
+      axios()
+        .get(`/product?page=${nextProductPage}`)
+        .then(({ data }) => {
+          console.log(newProducts(data.result.data));
+          setProducts(prevProducts => [
+            ...prevProducts,
+            ...newProducts(data.result.data),
+          ]);
+          setCurrentProductPage(nextProductPage);
+        })
+        .finally(() => setIsProductLoading(false));
+    }
+  };
+
+  useEffect(() => {
+    if (mitra && !mitra.error) {
+      const stores = mitra.result.map(m => {
+        return {
+          name: m.cnama_mitra,
+          imageUri: `https://kbi.sfo3.digitaloceanspaces.com/api/public/assets/upload/images/mitra/${m.cfoto}`,
+          marketName: 'Pasar Sentral',
+          block: 'A1 - B2',
+          location: m.ckota,
+        };
+      });
+      setStores(stores);
+    }
+  }, [mitra]);
+
+  useEffect(() => {
+    if (getProducts && !getProducts.error && getProducts.result.data.length) {
+      setProducts(newProducts(getProducts.result.data));
+      setLastProductPage(getProducts.result.last_page);
+      setIsProductLoading(false);
+    }
+  }, [getProducts]);
 
   return (
     <Fragment>
@@ -137,7 +162,16 @@ export default function Home({ campaigns }: HomeProps) {
           <Campaign data={campaigns.result} />
           <FeaturedServices data={featuredServiceData} />
           <Categories data={fakeCats} />
-          <Stores data={fakeStores} />
+          <Divider />
+          <Promo data={products} />
+          <Divider />
+          <Stores data={stores} />
+          <Divider />
+          <Products
+            data={products}
+            onShowMoreBtnClicked={onShowMoreProductBtnClicked}
+            isLoading={isProductLoading}
+          />
         </Box>
       </Container>
     </Fragment>
@@ -147,13 +181,15 @@ export default function Home({ campaigns }: HomeProps) {
 export const getStaticProps = async () => {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const { data: campaigns } = await axios.post('/ads/campaign', {
+  const { data: campaigns } = await axios().post('/ads/campaign', {
     category: '0',
   });
+  const { data: mitra } = await axios().get('/mall/category/01');
+  const { data: getProducts } = await axios().get('/product');
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
   return {
-    props: { campaigns },
+    props: { campaigns, mitra, getProducts },
   };
 };

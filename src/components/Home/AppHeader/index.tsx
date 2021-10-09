@@ -3,23 +3,26 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import { createStyles, makeStyles } from '@mui/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import { alpha, Button } from '@mui/material';
+import { Button, ClickAwayListener, useTheme } from '@mui/material';
 import CartButton from '../../CartButton';
-import { Theme } from '@mui/material/styles';
 import useStyles from './styles';
 
 const AppHeader = () => {
+  const theme = useTheme();
   const classes = useStyles();
-  const [searchWidth, setSearchWidth] = useState(60);
+  const [searchWidth, setSearchWidth] = useState('60%');
 
   const onSearchFocused = () => {
-    setSearchWidth(100);
+    if (window.innerWidth > theme.breakpoints.values.lg) {
+      setSearchWidth(`${theme.breakpoints.values.lg - 16 * 2}px`);
+    } else {
+      setSearchWidth('100%');
+    }
   };
 
   const onSearchBlurred = () => {
-    setSearchWidth(60);
+    setSearchWidth('60%');
   };
 
   return (
@@ -29,24 +32,26 @@ const AppHeader = () => {
           KERPAS
         </Typography>
         <div className={classes.searchW}>
-          <div className={classes.search} style={{ width: `${searchWidth}%` }}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+          <ClickAwayListener onClickAway={onSearchBlurred}>
+            <div className={classes.search} style={{ width: `${searchWidth}` }}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Cari di kerpas"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onFocus={onSearchFocused}
+              />
+              <Button className={classes.searchBtn}>Cari</Button>
             </div>
-            <InputBase
-              placeholder="Cari di kerpas"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-              onFocus={onSearchFocused}
-              onBlur={onSearchBlurred}
-            />
-          </div>
+          </ClickAwayListener>
         </div>
         <div className={classes.toolbarItemRight}>
-          <CartButton />
+          <CartButton classes={{ iconButton: classes.cartBtn }} />
           <Button className={classes.loginButton} color={'secondary'}>
             MASUK
           </Button>

@@ -12,8 +12,15 @@ import { ShoppingCart } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
+import clsx from 'clsx';
 
-const CartButton = () => {
+type CartButtonPropsType = {
+  classes?: { iconButton: string };
+};
+
+const CartButton = ({
+  classes: classesProps = { iconButton: '' },
+}: CartButtonPropsType) => {
   const classes = useStyles();
   const cartBtnRef = React.useRef<HTMLButtonElement>(null);
   const [cartOpen, setCartOpen] = React.useState(false);
@@ -21,7 +28,7 @@ const CartButton = () => {
     <Fragment>
       <IconButton
         ref={cartBtnRef}
-        className={classes.cartButton}
+        className={clsx(classes.cartButton, classesProps.iconButton)}
         onMouseOver={() => !cartOpen && setCartOpen(true)}
         onMouseLeave={() => setCartOpen(false)}>
         <ShoppingCart />

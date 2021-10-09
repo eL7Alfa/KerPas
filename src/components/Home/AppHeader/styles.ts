@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import { alpha } from '@mui/material';
+import { green, grey, yellow } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,9 +15,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       textOverflow: 'unset',
-      paddingRight: theme.spacing(1),
+      color: theme.palette.primary.main,
+      [theme.breakpoints.up('lg')]: {
+        minWidth: 'calc((100% - 1200px) / 4)',
+      },
     },
     searchW: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
       justifyContent: 'center',
       display: 'flex',
       flex: 1,
@@ -27,12 +33,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '60%',
       transition: theme.transitions.create('width'),
       borderRadius: 10,
-      backgroundColor: alpha(theme.palette.secondary.main, 0.25),
+      backgroundColor: alpha(theme.palette.primary.main, 0.1),
       '&:hover': {
-        backgroundColor: alpha(theme.palette.secondary.main, 0.25),
+        backgroundColor: alpha(theme.palette.primary.main, 0.15),
       },
       marginLeft: 0,
-      paddingRight: theme.spacing(1),
+      overflow: 'hidden',
     },
     searchIcon: {
       padding: theme.spacing(0, 2),
@@ -47,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
     inputRoot: {
       color: 'inherit',
       width: '100%',
+      paddingRight: theme.spacing(1),
     },
     inputInput: {
       padding: theme.spacing(1, 1, 1, 0),
@@ -56,20 +63,43 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbarItemRight: {
       display: 'flex',
       flexFlow: 'row nowrap',
-      // marginLeft: 'auto',
+      [theme.breakpoints.up('lg')]: {
+        minWidth: 'calc((100% - 1200px) / 4)',
+      },
+    },
+    cartBtn: {
+      backgroundColor: 'rgba(0,0,0,0)',
+      color: theme.palette.primary.main,
     },
     loginButton: {
       backgroundColor: theme.palette.secondary.main,
+      color: '#ffffff',
       marginLeft: theme.spacing(1),
       borderRadius: 8,
       '&.MuiButton-root': {
-        boxShadow:
-          '0px 3px 1px -2px rgba(254,204,43,0.2), 0px 2px 2px 0px rgba(254,204,43,0.1), 0px 1px 5px 0px rgba(254,204,43,0.08)',
-        color: theme.palette.background.default,
+        boxShadow: `0px 2px 5px -2px ${alpha(
+          theme.palette.secondary.main,
+          0.5,
+        )}`,
+        fontWeight: '800',
         '&:hover': {
-          boxShadow:
-            '0px 5px 10px 5px rgba(254,204,43,0.3), 0px 5px 2px 0px rgba(254,204,43,0.1), 0px 1px 5px 0px rgba(254,204,43,0.08)',
+          boxShadow: `0px 8px 8px -4px ${alpha(
+            theme.palette.secondary.main,
+            0.7,
+          )}`,
           backgroundColor: theme.palette.secondary.main,
+        },
+      },
+    },
+    searchBtn: {
+      backgroundColor: theme.palette.primary.main,
+      color: '#ffffff',
+      marginLeft: theme.spacing(1),
+      borderRadius: 0,
+      '&.MuiButton-root': {
+        fontWeight: '800',
+        '&:hover': {
+          backgroundColor: theme.palette.primary.main,
         },
       },
     },

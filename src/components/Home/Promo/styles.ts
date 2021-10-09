@@ -5,8 +5,9 @@ import { grey } from '@mui/material/colors';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: theme.spacing(1),
       position: 'relative',
+      marginTop: theme.spacing(1),
+      justifyContent: 'center',
       '&:hover': {
         '& $nextIconBtn': {
           right: theme.spacing(2),
@@ -21,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       color: grey[800],
     },
+    hListW: {
+      display: 'flex',
+      alignItems: 'center',
+    },
     itemsW: {
       paddingTop: theme.spacing(2),
       paddingBottom: theme.spacing(4),
@@ -33,6 +38,13 @@ const useStyles = makeStyles((theme: Theme) =>
       '&::-webkit-scrollbar': {
         display: 'none',
       },
+    },
+    productW: {
+      scrollSnapAlign: 'start',
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+      minWidth: `calc(1200px / 6)!important`,
+      maxWidth: `calc(1200px / 6)!important`,
     },
     gridItem: { display: 'flex' },
     prevIconBtn: {

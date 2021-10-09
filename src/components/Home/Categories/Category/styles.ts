@@ -5,8 +5,9 @@ import { grey } from '@mui/material/colors';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      minWidth: `calc(1200px / 4)!important`,
-      maxWidth: `calc(1200px / 4)!important`,
+      scrollSnapAlign: 'start',
+      minWidth: `calc(1200px / 5)!important`,
+      maxWidth: `calc(1200px / 5)!important`,
       display: 'flex',
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),

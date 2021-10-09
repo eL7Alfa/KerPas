@@ -1,22 +1,10 @@
-import { Button, Grid, IconButton, Paper, Typography } from '@mui/material';
+import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
-import {
-  AutoFixHigh,
-  FlightOutlined,
-  NavigateBefore,
-  NavigateNext,
-} from '@mui/icons-material';
+import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Store, { StoreProps } from './Store';
-import React, {
-  createRef,
-  JSXElementConstructor,
-  Key,
-  LegacyRef,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { createRef, useEffect, useState } from 'react';
+import { onNext, onPrev } from '../constants';
+import usePrevious from '../../../helper/usePrevious';
 
 type StoresProps = {
   data: StoreProps[];
@@ -24,49 +12,61 @@ type StoresProps = {
 
 const Stores = ({ data }: StoresProps) => {
   const classes = useStyles();
+  const theme = useTheme();
   const listW = createRef<HTMLDivElement>();
-  const [listLoaded, setListLoaded] = useState({ state: false, height: 0 });
-
-  const onPrev = () => {
-    listW.current?.scrollTo({
-      left: listW.current?.scrollLeft - 1200 / 5,
-      behavior: 'smooth',
-    });
-  };
-
-  const onNext = () => {
-    listW.current?.scrollTo({
-      left: listW.current?.scrollLeft + 1200 / 5,
-      behavior: 'smooth',
-    });
-  };
+  const prevData = usePrevious(data);
+  const [listLoaded, setListLoaded] = useState<{
+    state: boolean;
+    height: number;
+    hList?: HTMLDivElement;
+  }>({
+    state: false,
+    height: 0,
+  });
 
   useEffect(() => {
-    if (listW.current && !listLoaded.state) {
+    if (
+      prevData !== data &&
+      data.length &&
+      listW.current &&
+      !listLoaded.state
+    ) {
       console.log(listW.current.getBoundingClientRect().height);
       setListLoaded({
         state: true,
         height: listW.current.getBoundingClientRect().height,
+        hList: listW.current,
       });
     }
-  }, [listW, listW.current]);
+  }, [data]);
   return (
     <div className={classes.root}>
       <Typography variant={'h6'} className={classes.title} px={2}>
-        Mitra Kerpas
+        Kios Pangan Kerpas
       </Typography>
       <div className={classes.itemsW} ref={listW}>
         {data.map((d, key) => (
-          <Store key={key} imageUri={d.imageUri} name={d.name} url={d.url} />
+          <Store
+            key={key}
+            imageUri={d.imageUri}
+            name={d.name}
+            marketName={d.marketName}
+            block={d.block}
+            location={d.location}
+            url={d.url}
+          />
         ))}
       </div>
-      {listLoaded && (
+      {listLoaded.state && (
         <IconButton
           tabIndex={1}
-          onClick={onPrev}
+          onClick={onPrev({
+            hList: listLoaded.hList,
+            breakpoint: theme.breakpoints.values.lg,
+          })}
           className={classes.prevIconBtn}
           style={{
-            bottom: listLoaded.height / 2 - 40,
+            bottom: listLoaded.height / 2 - 10,
           }}>
           <NavigateBefore />
         </IconButton>
@@ -74,10 +74,13 @@ const Stores = ({ data }: StoresProps) => {
       {listLoaded.state && (
         <IconButton
           tabIndex={1}
-          onClick={onNext}
+          onClick={onNext({
+            hList: listLoaded.hList,
+            breakpoint: theme.breakpoints.values.lg,
+          })}
           className={classes.nextIconBtn}
           style={{
-            bottom: listLoaded.height / 2 - 40,
+            bottom: listLoaded.height / 2 - 10,
           }}>
           <NavigateNext />
         </IconButton>

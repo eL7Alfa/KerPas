@@ -1,13 +1,14 @@
 import { createTheme } from '@mui/material/styles';
+import { green, yellow } from '@mui/material/colors';
 
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: 'rgba(210,1,39,1)',
+      main: '#37bd39',
     },
     secondary: {
-      main: 'rgba(254,204,43,1)',
+      main: yellow[700],
     },
     background: {
       default: '#fcfcfc',

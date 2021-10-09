@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
     wrapper: {
       paddingLeft: iconWrapperWH * 0.4,
       width: '100%',
+      backgroundColor: 'rgba(0,0,0,0)',
     },
     root: {
       display: 'flex',
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderWidth: 1,
       borderStyle: 'solid',
       height: '100%',
+      backgroundColor: '#ffffff',
     },
     iconContainer: {
       display: 'flex',
