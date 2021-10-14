@@ -32,10 +32,12 @@ const useStyles = makeStyles((theme: Theme) =>
       '&.MuiLoadingButton-loading': {
         border: `1px ${alpha(theme.palette.primary.main, 0.2)} solid`,
       },
+      '&:hover': {
+        border: `1px ${theme.palette.primary.main} solid`,
+      },
       [theme.breakpoints.up('sm')]: {
         '&:hover': {
           color: '#ffffff',
-          border: `1px ${theme.palette.primary.main} solid`,
           backgroundColor: theme.palette.primary.main,
           boxShadow: `0 10px 20px -5px ${alpha(
             theme.palette.primary.main,
