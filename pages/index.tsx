@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import theme from '../src/config/theme';
 import Campaign from '../src/components/Home/Campaign';
-import axios from '../src/config/axios';
+import axios, { baseURL } from '../src/config/axios';
 import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import { AutoFixHigh, Category } from '@mui/icons-material';
@@ -25,7 +25,7 @@ type HomeProps = {
     error: boolean;
     result: any[];
   };
-  mitra: {
+  getSupplier: {
     error: boolean;
     result: any[];
   };
@@ -33,11 +33,21 @@ type HomeProps = {
     error: boolean;
     result: { [key: string]: any };
   };
+  getMenu: {
+    error: boolean;
+    result: { [key: string]: any };
+  };
 };
 
-export default function Home({ campaigns, mitra, getProducts }: HomeProps) {
-  const [stores, setStores] = useState<any[]>([]);
+export default function Home({
+  campaigns,
+  getSupplier,
+  getProducts,
+  getMenu,
+}: HomeProps) {
+  const [supplier, setSupplier] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
+  const [menu, setMenu] = useState<any[]>([]);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
   const [lastProductPage, setLastProductPage] = useState<number>(0);
@@ -126,19 +136,32 @@ export default function Home({ campaigns, mitra, getProducts }: HomeProps) {
   };
 
   useEffect(() => {
-    if (mitra && !mitra.error) {
-      const stores = mitra.result.map(m => {
+    if (getSupplier && !getSupplier.error) {
+      const supplier = getSupplier.result.map(m => {
         return {
-          name: m.cnama_mitra,
-          imageUri: `https://kbi.sfo3.digitaloceanspaces.com/api/public/assets/upload/images/mitra/${m.cfoto}`,
-          marketName: 'Pasar Sentral',
+          name: m.cnama_supplier,
+          imageUri: `https://cdn.kerbel.in/assets/suplier/${m.cimg_supplier}`,
+          marketName: m.calamat_supplier,
           block: 'A1 - B2',
-          location: m.ckota,
+          location: 'Makassar',
         };
       });
-      setStores(stores);
+      setSupplier(supplier);
     }
-  }, [mitra]);
+  }, [getSupplier]);
+
+  useEffect(() => {
+    if (getMenu && !getMenu.error) {
+      const newMenu = getMenu.result.map((gM: { ckelas: any; cicon: any }) => {
+        return {
+          name: gM.ckelas,
+          imageUri: `https://cdn.kerbel.in/api/icon/market/${gM.cicon}`,
+          url: '',
+        };
+      });
+      setMenu(newMenu);
+    }
+  }, [getMenu]);
 
   useEffect(() => {
     if (getProducts && !getProducts.error && getProducts.result.data.length) {
@@ -161,11 +184,11 @@ export default function Home({ campaigns, mitra, getProducts }: HomeProps) {
         <Box my={8} py={1}>
           <Campaign data={campaigns.result} />
           <FeaturedServices data={featuredServiceData} />
-          <Categories data={fakeCats} />
+          <Categories data={menu} />
           <Divider />
           <Promo data={products} />
           <Divider />
-          <Stores data={stores} />
+          <Stores data={supplier} />
           <Divider />
           <Products
             data={products}
@@ -181,15 +204,14 @@ export default function Home({ campaigns, mitra, getProducts }: HomeProps) {
 export const getStaticProps = async () => {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const { data: campaigns } = await axios().post('/ads/campaign', {
-    category: '0',
-  });
-  const { data: mitra } = await axios().get('/mall/category/01');
-  const { data: getProducts } = await axios().get('/product');
+  const { data: campaigns } = await axios().post('/market/ads/campaign');
+  const { data: getSupplier } = await axios().get('/market/supplier');
+  const { data: getProducts } = await axios().post('/market/product');
+  const { data: getMenu } = await axios().get('/market/menu');
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
   return {
-    props: { campaigns, mitra, getProducts },
+    props: { campaigns, getSupplier, getProducts, getMenu },
   };
 };
