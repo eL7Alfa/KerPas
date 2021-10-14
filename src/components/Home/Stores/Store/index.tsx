@@ -26,7 +26,13 @@ const Store = ({
       <Button>
         <Paper className={classes.body}>
           <div className={classes.imgW}>
-            <Image src={imageUri} layout={'fill'} alt={name} />
+            <Image
+              src={imageUri}
+              layout={'fill'}
+              alt={name}
+              placeholder={'blur'}
+              blurDataURL={imageUri}
+            />
           </div>
           <div className={classes.detailW}>
             <div className={classes.name}>{name}</div>
