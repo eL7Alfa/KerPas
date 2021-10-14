@@ -7,8 +7,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Button, ClickAwayListener, Hidden, useTheme } from '@mui/material';
 import CartButton from '../../CartButton';
 import useStyles from './styles';
+import { useDispatch } from 'react-redux';
+import { setModalOpenR } from '../../../redux/actions';
 
 const AppHeader = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
   const [searchWidth, setSearchWidth] = useState('60%');
@@ -19,6 +22,10 @@ const AppHeader = () => {
 
   const onSearchBlurred = () => {
     setSearchWidth('60%');
+  };
+
+  const onLoginBtnClicked = () => {
+    dispatch(setModalOpenR(true));
   };
 
   useEffect(() => {
@@ -59,7 +66,10 @@ const AppHeader = () => {
         </Hidden>
         <div className={classes.toolbarItemRight}>
           <CartButton classes={{ iconButton: classes.cartBtn }} />
-          <Button className={classes.loginButton} color={'secondary'}>
+          <Button
+            className={classes.loginButton}
+            color={'secondary'}
+            onClick={onLoginBtnClicked}>
             MASUK
           </Button>
         </div>
