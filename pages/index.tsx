@@ -13,7 +13,7 @@ import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/helper/products';
 
 type HomeProps = {
-  campaigns: {
+  getCampaigns: {
     error: boolean;
     result: any[];
   };
@@ -36,7 +36,7 @@ type HomeProps = {
 };
 
 export default function Home({
-  campaigns,
+  getCampaigns,
   getSupplier,
   getProducts,
   getPromotedProducts,
@@ -93,9 +93,8 @@ export default function Home({
     if (!isProductLoading && nextProductPage <= lastProductPage) {
       setIsProductLoading(true);
       axios()
-        .get(`/product?page=${nextProductPage}`)
+        .post(`/market/product?page=${nextProductPage}`, { limit: 12 })
         .then(({ data }) => {
-          console.log(newProducts(data.result.data));
           setProducts(prevProducts => [
             ...prevProducts,
             ...newProducts(data.result.data),
@@ -163,7 +162,7 @@ export default function Home({
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
         <Box my={8} py={1}>
-          <Campaign data={campaigns.result} />
+          <Campaign data={getCampaigns.result} />
           <FeaturedServices data={featuredServiceData} />
           <Categories data={menu} />
           <Divider />
@@ -185,11 +184,13 @@ export default function Home({
 export const getStaticProps = async () => {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const { data: campaigns } = await axios().post('/market/ads/campaign', {
+  const { data: getCampaigns } = await axios().post('/market/ads/campaign', {
     category: 7,
   });
   const { data: getSupplier } = await axios().get('/market/supplier');
-  const { data: getProducts } = await axios().post('/market/product');
+  const { data: getProducts } = await axios().post('/market/product', {
+    limit: 12,
+  });
   const { data: getPromotedProducts } = await axios().post('/market/product', {
     type: 'promo',
   });
@@ -199,7 +200,7 @@ export const getStaticProps = async () => {
   // will receive `posts` as a prop at build time
   return {
     props: {
-      campaigns,
+      getCampaigns,
       getSupplier,
       getProducts,
       getPromotedProducts,
