@@ -1,10 +1,4 @@
-import React, {
-  createRef,
-  Fragment,
-  LegacyRef,
-  ReactEventHandler,
-  useState,
-} from 'react';
+import React, { createRef, Fragment, LegacyRef, useState } from 'react';
 import {
   Button,
   IconButton,
