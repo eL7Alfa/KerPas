@@ -1,7 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import { alpha } from '@mui/material';
-import { green, grey, yellow } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textOverflow: 'unset',
       color: theme.palette.primary.main,
       [theme.breakpoints.up('lg')]: {
-        minWidth: 'calc((100% - 1200px) / 4)',
+        minWidth: `calc((100% - 1200px) / 2)`,
       },
     },
     searchW: {
@@ -64,8 +63,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexFlow: 'row nowrap',
       [theme.breakpoints.up('lg')]: {
-        minWidth: 'calc((100% - 1200px) / 4)',
+        minWidth: `calc((100% - 1200px) / 2)`,
       },
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 'auto',
+      },
+      justifyContent: 'flex-end',
     },
     cartBtn: {
       backgroundColor: 'rgba(0,0,0,0)',
