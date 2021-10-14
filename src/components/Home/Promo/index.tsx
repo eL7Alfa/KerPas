@@ -49,7 +49,6 @@ const Promo = ({ data }: PromoProps) => {
           {data.map((d, key) => (
             <div key={key} className={classes.productW}>
               <Product
-                promo
                 imageUri={d.imageUri}
                 name={d.name}
                 price={d.price}
