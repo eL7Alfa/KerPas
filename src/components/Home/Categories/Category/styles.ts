@@ -18,11 +18,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     body: {
+      display: 'flex',
+      flexDirection: 'column',
       position: 'relative',
       width: '100%',
       boxShadow: '0 1px 4px 0 rgb(0 0 0 / 14%)',
       padding: theme.spacing(1.5),
       borderRadius: theme.spacing(1),
+      height: '100%',
       '&:hover': {
         '& $imgW': {
           top: theme.spacing(-6),
@@ -45,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 180,
       overflow: 'hidden',
       borderRadius: theme.spacing(0.5),
+      backgroundColor: '#000000',
     },
     clickInfo: {
       fontSize: 12,
@@ -53,6 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
       textTransform: 'none',
     },
     name: {
+      display: 'flex',
+      justifyContent: 'center',
+      height: '100%',
+      alignItems: 'center',
       marginTop: theme.spacing(1),
       color: grey[800],
     },
