@@ -1,21 +1,13 @@
 import Head from 'next/head';
 import AppHeader from '../src/components/Home/AppHeader';
-import {
-  Box,
-  Container,
-  CssBaseline,
-  Divider,
-  ThemeProvider,
-} from '@mui/material';
-import theme from '../src/config/theme';
+import { Box, Container, CssBaseline, Divider } from '@mui/material';
 import Campaign from '../src/components/Home/Campaign';
-import axios, { baseURL } from '../src/config/axios';
+import axios from '../src/config/axios';
 import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
-import { AutoFixHigh, Category } from '@mui/icons-material';
+import { AutoFixHigh } from '@mui/icons-material';
 import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
-import { StoreProps } from '../src/components/Home/Stores/Store';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/helper/products';
@@ -33,6 +25,10 @@ type HomeProps = {
     error: boolean;
     result: { [key: string]: any };
   };
+  getPromotedProducts: {
+    error: boolean;
+    result: { [key: string]: any };
+  };
   getMenu: {
     error: boolean;
     result: { [key: string]: any };
@@ -43,10 +39,12 @@ export default function Home({
   campaigns,
   getSupplier,
   getProducts,
+  getPromotedProducts,
   getMenu,
 }: HomeProps) {
   const [supplier, setSupplier] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
+  const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
   const [menu, setMenu] = useState<any[]>([]);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
@@ -87,33 +85,6 @@ export default function Home({
       subtitle: 'Paling Lengkap dan harga pasar tradisional',
       iconBgColor:
         'linear-gradient(47deg, rgba(49,184,51,1) 0%, rgba(126,244,129,1) 100%)',
-    },
-  ];
-
-  const fakeCats = [
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-2.3159a3bb.jpeg',
-      url: '',
-      name: 'Beras',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-3.ba9e3c5e.jpeg',
-      url: '',
-      name: 'Daging Sapi',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-2.3159a3bb.jpeg',
-      url: '',
-      name: 'Ikan & Hasil Laut',
-    },
-    {
-      imageUri:
-        'https://demos.creative-tim.com/material-dashboard-pro-react/static/media/card-3.ba9e3c5e.jpeg',
-      url: '',
-      name: 'Bumbu Dapur',
     },
   ];
 
@@ -171,6 +142,16 @@ export default function Home({
     }
   }, [getProducts]);
 
+  useEffect(() => {
+    if (
+      getPromotedProducts &&
+      !getPromotedProducts.error &&
+      getPromotedProducts.result.data.length
+    ) {
+      setPromotedProducts(newProducts(getPromotedProducts.result.data));
+    }
+  }, [getPromotedProducts]);
+
   return (
     <Fragment>
       <Head>
@@ -186,7 +167,7 @@ export default function Home({
           <FeaturedServices data={featuredServiceData} />
           <Categories data={menu} />
           <Divider />
-          <Promo data={products} />
+          <Promo data={promotedProducts} />
           <Divider />
           <Stores data={supplier} />
           <Divider />
@@ -204,14 +185,25 @@ export default function Home({
 export const getStaticProps = async () => {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
-  const { data: campaigns } = await axios().post('/market/ads/campaign');
+  const { data: campaigns } = await axios().post('/market/ads/campaign', {
+    category: 7,
+  });
   const { data: getSupplier } = await axios().get('/market/supplier');
   const { data: getProducts } = await axios().post('/market/product');
+  const { data: getPromotedProducts } = await axios().post('/market/product', {
+    type: 'promo',
+  });
   const { data: getMenu } = await axios().get('/market/menu');
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
   return {
-    props: { campaigns, getSupplier, getProducts, getMenu },
+    props: {
+      campaigns,
+      getSupplier,
+      getProducts,
+      getPromotedProducts,
+      getMenu,
+    },
   };
 };
