@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 180,
       overflow: 'hidden',
       borderRadius: theme.spacing(0.5),
-      backgroundColor: '#000000',
+      backgroundColor: '#eeeeee',
     },
     clickInfo: {
       fontSize: 12,
