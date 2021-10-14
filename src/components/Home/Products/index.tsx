@@ -1,9 +1,8 @@
-import { Button, Grid, IconButton, Typography, useTheme } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useStyles from './styles';
-import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Product, { ProductProps } from '../../Items/Product';
-import React, { createRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 type ProductsProps = {
   data: ProductProps[];
