@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: '0 2px 5px 0 rgb(0 0 0 / 14%)',
       borderRadius: theme.spacing(1),
       overflow: 'hidden',
-      backgroundColor: '#000000',
+      backgroundColor: '#ffffff',
     },
     imgW: {
       position: 'relative',
