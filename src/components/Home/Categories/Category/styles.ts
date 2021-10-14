@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
           boxShadow: '0 12px 20px -5px rgb(0 0 0 / 30%)',
         },
       },
+      background: `linear-gradient(0deg, ${alpha(
+        theme.palette.primary.main,
+        1,
+      )} 0%, ${alpha(theme.palette.primary.main, 0.3)} 100%)`,
     },
     imgW: {
       position: 'absolute',
@@ -41,19 +46,19 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: '0 8px 10px -5px rgb(0 0 0 / 30%)',
       transition:
         'top 0.3s cubic-bezier(0.34, 1.61, 0.7, 1), box-shadow 0.3s cubic-bezier(0.34, 1.61, 0.7, 1)',
+      borderRadius: theme.spacing(1),
+      overflow: 'hidden',
     },
     imgC: {
       position: 'relative',
       width: '100%',
       height: 180,
-      overflow: 'hidden',
-      borderRadius: theme.spacing(0.5),
       backgroundColor: '#eeeeee',
     },
     clickInfo: {
       fontSize: 12,
       marginTop: 180 - 50,
-      color: grey[600],
+      color: grey[800],
       textTransform: 'none',
     },
     name: {
@@ -62,7 +67,8 @@ const useStyles = makeStyles((theme: Theme) =>
       height: '100%',
       alignItems: 'center',
       marginTop: theme.spacing(1),
-      color: grey[800],
+      color: '#ffffff',
+      fontWeight: 800,
     },
   }),
 );
