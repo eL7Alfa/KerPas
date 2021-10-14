@@ -11,6 +11,7 @@ import Stores from '../src/components/Home/Stores';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/helper/products';
+import Auth from '../src/components/Auth';
 
 type HomeProps = {
   getCampaigns: {
@@ -177,6 +178,7 @@ export default function Home({
           />
         </Box>
       </Container>
+      <Auth />
     </Fragment>
   );
 }
