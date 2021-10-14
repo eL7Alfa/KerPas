@@ -5,7 +5,6 @@ import toRupiah from '../../../modules/toRupiah';
 import { AddShoppingCart } from '@mui/icons-material';
 
 export type ProductProps = {
-  promo?: boolean;
   imageUri: string;
   url: string;
   name: string;
@@ -18,7 +17,6 @@ export type ProductProps = {
 };
 
 const Product = ({
-  promo = false,
   imageUri,
   url,
   name,
@@ -46,12 +44,6 @@ const Product = ({
               <div className={classes.priceW}>
                 <div className={classes.price}>{toRupiah(price)}</div>
                 <div className={classes.discount}>{discount}%</div>
-              </div>
-            )}
-            {promo && (
-              <div className={classes.priceW}>
-                <div className={classes.price}>{toRupiah(price)}</div>
-                <div className={classes.discount}>30%</div>
               </div>
             )}
             <div className={classes.fixedPrice}>{toRupiah(fixedPrice)}</div>
