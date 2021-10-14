@@ -182,8 +182,6 @@ export default function Home({
 }
 
 export const getStaticProps = async () => {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
   const { data: getCampaigns } = await axios().post('/market/ads/campaign', {
     category: 7,
   });
@@ -196,8 +194,6 @@ export const getStaticProps = async () => {
   });
   const { data: getMenu } = await axios().get('/market/menu');
 
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
   return {
     props: {
       getCampaigns,
