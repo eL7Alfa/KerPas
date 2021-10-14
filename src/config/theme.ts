@@ -11,7 +11,7 @@ const theme = createTheme({
       main: red[500],
     },
     background: {
-      default: '#fcfcfc',
+      default: '#fafafa',
     },
   },
   components: {
