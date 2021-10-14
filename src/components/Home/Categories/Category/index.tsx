@@ -16,7 +16,13 @@ const Category = ({ imageUri, url, name }: CategoryProps) => {
         <Paper className={classes.body}>
           <div className={classes.imgW}>
             <div className={classes.imgC}>
-              <Image src={imageUri} layout={'fill'} alt={name} />
+              <Image
+                src={imageUri}
+                layout={'fill'}
+                alt={name}
+                placeholder={'blur'}
+                blurDataURL={imageUri}
+              />
             </div>
           </div>
           <div className={classes.clickInfo}>Klik untuk melihat produk</div>
