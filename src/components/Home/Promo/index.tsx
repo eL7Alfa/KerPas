@@ -1,7 +1,7 @@
 import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
-import React, { createRef, RefObject, useEffect, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import Product, { ProductProps } from '../../Items/Product';
 import { onNext, onPrev } from '../constants';
 import usePrevious from '../../../helper/usePrevious';
