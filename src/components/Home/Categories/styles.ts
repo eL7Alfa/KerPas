@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       color: grey[800],
     },
+    hListW: {
+      display: 'flex',
+      alignItems: 'center',
+    },
     itemsW: {
       marginTop: theme.spacing(-5),
       paddingTop: theme.spacing(8),
