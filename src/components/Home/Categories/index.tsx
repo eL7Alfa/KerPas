@@ -3,7 +3,7 @@ import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Category, { CategoryProps } from './Category';
 import React, { createRef, useEffect, useState } from 'react';
-import { onPrev } from '../constants';
+import { onNext, onPrev } from '../constants';
 import usePrevious from '../../../helper/usePrevious';
 
 type CategoriesProps = {
@@ -39,39 +39,44 @@ const Categories = ({ data }: CategoriesProps) => {
       <Typography variant={'h6'} className={classes.title} px={2}>
         Kebutuhan Pangan Anda
       </Typography>
-      <div className={classes.itemsW} ref={listW}>
-        {data.map((d, key) => (
-          <Category key={key} imageUri={d.imageUri} name={d.name} url={d.url} />
-        ))}
+      <div className={classes.hListW}>
+        <div className={classes.itemsW} ref={listW}>
+          {data.map((d, key) => (
+            <Category
+              key={key}
+              imageUri={d.imageUri}
+              name={d.name}
+              url={d.url}
+            />
+          ))}
+        </div>
+        {listLoaded.state && (
+          <IconButton
+            tabIndex={1}
+            onClick={onPrev({
+              hList: listLoaded.hList,
+              breakpoint: theme.breakpoints.values.lg,
+              length: 5,
+            })}
+            className={classes.prevIconBtn}
+            style={{ marginBottom: 16 }}>
+            <NavigateBefore />
+          </IconButton>
+        )}
+        {listLoaded.state && (
+          <IconButton
+            tabIndex={1}
+            onClick={onNext({
+              hList: listLoaded.hList,
+              breakpoint: theme.breakpoints.values.lg,
+              length: 5,
+            })}
+            className={classes.nextIconBtn}
+            style={{ marginBottom: 16 }}>
+            <NavigateNext />
+          </IconButton>
+        )}
       </div>
-      {listLoaded.state && (
-        <IconButton
-          tabIndex={1}
-          onClick={onPrev({
-            hList: listLoaded.hList,
-            breakpoint: theme.breakpoints.values.lg,
-          })}
-          className={classes.prevIconBtn}
-          style={{
-            bottom: listLoaded.height / 2 - 20,
-          }}>
-          <NavigateBefore />
-        </IconButton>
-      )}
-      {listLoaded.state && (
-        <IconButton
-          tabIndex={1}
-          onClick={onPrev({
-            hList: listLoaded.hList,
-            breakpoint: theme.breakpoints.values.lg,
-          })}
-          className={classes.nextIconBtn}
-          style={{
-            bottom: listLoaded.height / 2 - 20,
-          }}>
-          <NavigateNext />
-        </IconButton>
-      )}
     </div>
   );
 };
