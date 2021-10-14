@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, LegacyRef, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   Button,
   IconButton,
@@ -27,9 +27,7 @@ const Campaign = ({ data }: CampaignPropsType) => {
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = data.length;
   const [isSwiping, setIsSwiping] = useState(false);
-  const imgBtnRef: LegacyRef<HTMLButtonElement> = createRef();
   const [imageLoaded, setImageLoaded] = useState({ status: false, total: 0 });
-  const imageRef = createRef();
 
   const handleNext = () => {
     if (!isSwiping) {
@@ -80,6 +78,8 @@ const Campaign = ({ data }: CampaignPropsType) => {
               }}
               src={`https://kbi.sfo3.digitaloceanspaces.com/assets/img/campaign/${data[iA].cfoto_other}`}
               alt={data[iA].cfoto_other}
+              placeholder={'blur'}
+              blurDataURL={`https://kbi.sfo3.digitaloceanspaces.com/assets/img/campaign/${data[iA].cfoto_other}`}
               layout={'responsive'}
               width={'100%'}
               height={'100%'}
