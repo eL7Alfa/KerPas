@@ -52,6 +52,7 @@ const Campaign = ({ data }: CampaignPropsType) => {
   };
 
   const handleStepChange = (step: number) => {
+    setIsSwiping(true);
     setActiveStep(step);
   };
 
@@ -134,7 +135,7 @@ const Campaign = ({ data }: CampaignPropsType) => {
           <Skeleton
             variant={'rectangular'}
             animation={'wave'}
-            width={'100%'}
+            width={`calc(100% - (${theme.spacing(2)} * 2))`}
             sx={{
               borderRadius: 4,
               position: 'absolute',
