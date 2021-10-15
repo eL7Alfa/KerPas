@@ -94,7 +94,10 @@ export default function Home({
     if (!isProductLoading && nextProductPage <= lastProductPage) {
       setIsProductLoading(true);
       axios()
-        .post(`/market/product?page=${nextProductPage}`, { limit: 12 })
+        .post(`/market/product?page=${nextProductPage}`, {
+          limit: 12,
+          type: 'all',
+        })
         .then(({ data }) => {
           setProducts(prevProducts => [
             ...prevProducts,
@@ -190,8 +193,10 @@ export const getStaticProps = async () => {
   const { data: getSupplier } = await axios().get('/market/supplier');
   const { data: getProducts } = await axios().post('/market/product', {
     limit: 12,
+    type: 'all',
   });
   const { data: getPromotedProducts } = await axios().post('/market/product', {
+    limit: 12,
     type: 'promo',
   });
   const { data: getMenu } = await axios().get('/market/menu');
