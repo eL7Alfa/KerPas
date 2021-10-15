@@ -178,6 +178,7 @@ export default function Home({
             data={products}
             onShowMoreBtnClicked={onShowMoreProductBtnClicked}
             isLoading={isProductLoading}
+            isLastProductReached={currentProductPage + 1 > lastProductPage}
           />
         </Box>
       </Container>

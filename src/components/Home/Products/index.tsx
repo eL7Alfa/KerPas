@@ -8,9 +8,15 @@ type ProductsProps = {
   data: ProductProps[];
   onShowMoreBtnClicked: () => void;
   isLoading: boolean;
+  isLastProductReached: boolean;
 };
 
-const Products = ({ data, onShowMoreBtnClicked, isLoading }: ProductsProps) => {
+const Products = ({
+  data,
+  onShowMoreBtnClicked,
+  isLoading,
+  isLastProductReached,
+}: ProductsProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const [listLoaded, setListLoaded] = useState({ state: false, height: 0 });
@@ -35,15 +41,17 @@ const Products = ({ data, onShowMoreBtnClicked, isLoading }: ProductsProps) => {
           </Grid>
         ))}
       </Grid>
-      <div className={classes.showMoreW}>
-        <LoadingButton
-          loading={isLoading}
-          variant={'outlined'}
-          className={classes.showMoreBtn}
-          onClick={onShowMoreBtnClicked}>
-          Lebih Banyak
-        </LoadingButton>
-      </div>
+      {!isLastProductReached && (
+        <div className={classes.showMoreW}>
+          <LoadingButton
+            loading={isLoading}
+            variant={'outlined'}
+            className={classes.showMoreBtn}
+            onClick={onShowMoreBtnClicked}>
+            Lebih Banyak
+          </LoadingButton>
+        </div>
+      )}
     </div>
   );
 };
