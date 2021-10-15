@@ -3,7 +3,7 @@ import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Store, { StoreProps } from './Store';
 import React, { createRef, useEffect, useState } from 'react';
-import { onNext, onPrev } from '../constants';
+import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 
 type StoresProps = {

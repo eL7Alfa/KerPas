@@ -3,7 +3,7 @@ import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import React, { createRef, useEffect, useState } from 'react';
 import Product, { ProductProps } from '../../Items/Product';
-import { onNext, onPrev } from '../constants';
+import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 
 type PromoProps = {
