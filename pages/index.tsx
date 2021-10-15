@@ -12,6 +12,7 @@ import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/helper/products';
 import Auth from '../src/components/Auth';
+import { featuredServiceData } from '../src/components/Home/constants';
 
 type HomeProps = {
   getCampaigns: {
@@ -50,44 +51,6 @@ export default function Home({
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
   const [lastProductPage, setLastProductPage] = useState<number>(0);
-  const featuredServiceData = [
-    {
-      icon: function Icon() {
-        return <AutoFixHigh />;
-      },
-      title: 'Segar & Higenis',
-      subtitle: 'Produk pilihan',
-      iconBgColor:
-        'linear-gradient(47deg, rgba(255,164,26,1) 0%, rgba(255,203,107,1) 100%)',
-    },
-    {
-      icon: function Icon() {
-        return <AutoFixHigh />;
-      },
-      title: 'Timbangan Pasti Pas',
-      subtitle: 'Sesuai ukuran / berat',
-      iconBgColor:
-        'linear-gradient(47deg, rgba(255,26,26,1) 0%, rgba(255,99,99,1) 100%)',
-    },
-    {
-      icon: function Icon() {
-        return <AutoFixHigh />;
-      },
-      title: 'Diantar 2 Kali Sehari',
-      subtitle: 'Jam 9 pagi dan jam 3 sore',
-      iconBgColor:
-        'linear-gradient(47deg, rgba(26,42,255,1) 0%, rgba(89,101,255,1) 100%)',
-    },
-    {
-      icon: function Icon() {
-        return <AutoFixHigh />;
-      },
-      title: 'Lengkap & Murah',
-      subtitle: 'Paling Lengkap dan harga pasar tradisional',
-      iconBgColor:
-        'linear-gradient(47deg, rgba(49,184,51,1) 0%, rgba(126,244,129,1) 100%)',
-    },
-  ];
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;

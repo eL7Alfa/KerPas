@@ -1,9 +1,9 @@
 import { Paper, Typography } from '@mui/material';
 import useStyles from './styles';
-import { JSXElementConstructor, ReactElement } from 'react';
+import { FC } from 'react';
 
 export type FeaturedItemProps = {
-  icon: () => ReactElement<any, string | JSXElementConstructor<any>>;
+  icon: FC;
   iconBgColor: string;
   subtitle: string;
   title: string;
