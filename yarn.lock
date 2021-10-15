@@ -3698,6 +3698,7 @@ fsevents@~2.3.1:
     prettier: ^2.4.0
     react: 17.0.2
     react-dom: 17.0.2
+    react-hook-form: ^7.17.4
     react-redux: ^7.2.5
     react-swipeable-views: ^0.14.0
     react-swipeable-views-core: ^0.14.0
@@ -4858,6 +4859,15 @@ fsevents@~2.3.1:
   peerDependencies:
     react: ^16.3.0
   checksum: 0287e0ae8cbf0a4c03889ffc2b745f5494b3edea0f4667357d709f5646dd78c7289ce305b6f473ec6ac5789f8a937c86b7e543d0249f0bf787bccdb1eab7ecd0
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.17.4":
+  version: 7.17.4
+  resolution: "react-hook-form@npm:7.17.4"
+  peerDependencies:
+    react: ^16.8.0 || ^17
+  checksum: 96a851633a380fb2e33dca0f6db40bc0bc1cf6fd89c0a9318a7c1f582b554025ba754cf8c298da728fc844e21cde8b71bc69b3ab078469661639b2f8fea344b0
   languageName: node
   linkType: hard
 
