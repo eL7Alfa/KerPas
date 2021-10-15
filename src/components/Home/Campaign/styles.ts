@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     autoPlay: {
       transition: 'box-shadow 0.3s',
       borderRadius: 16,
+      overflow: 'hidden',
       width: '100%',
       boxShadow: '0 10px 15px -5px rgb(0 0 0 / 10%)',
       '& div': {
