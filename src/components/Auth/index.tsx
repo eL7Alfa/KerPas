@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  Modal,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalOpenR } from '../../redux/actions';
 import useStyles from './styles';
+import SignIn from './SignIn';
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -27,12 +21,7 @@ const Auth = () => {
   return (
     <Modal {...{ open, onClose }} className={classes.root}>
       <Box className={classes.box}>
-        <Card className={classes.card}>
-          <Toolbar>
-            <Typography variant={'h5'}>Masuk</Typography>
-          </Toolbar>
-          <CardContent></CardContent>
-        </Card>
+        <SignIn />
       </Box>
     </Modal>
   );
