@@ -1,5 +1,7 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
+import { alpha } from '@mui/material';
+import { blue } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,16 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       marginTop: 'auto',
       marginBottom: 'auto',
-    },
-    card: {
-      margin: 'auto',
-      width: '100%',
-      maxWidth: 400,
-      [theme.breakpoints.up('sm')]: {
-        minWidth: 400,
+      [theme.breakpoints.down('sm')]: {
+        width: '90%',
       },
-      borderRadius: 10,
-      boxShadow: '0 15px 10px -5px rgba(0,0,0,0.3)',
     },
   }),
 );
