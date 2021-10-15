@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setModalOpenR } from '../../redux/actions';
 import useStyles from './styles';
 import SignIn from './SignIn';
+import Information from './Information';
 
 const Auth = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Auth = () => {
   return (
     <Modal {...{ open, onClose }} className={classes.root}>
       <Box className={classes.box}>
+        <Information />
         <SignIn />
       </Box>
     </Modal>

@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       flex: 1,
       position: 'relative',
-      margin: 'auto',
+      margin: 'auto 10px',
       padding: `${theme.spacing(4)} ${theme.spacing(4)}`,
       maxWidth: 400,
       [theme.breakpoints.up('sm')]: {
