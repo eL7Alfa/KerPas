@@ -116,16 +116,10 @@ const Campaign = ({ data }: CampaignPropsType) => {
                 <Image
                   onLoad={(e: any) => {
                     if (e.target.complete === true) {
-                      setImageLoaded(prevState => ({
-                        ...prevState,
-                        total: prevState.total + 1,
-                      }));
-                      if (data.length === imageLoaded.total) {
-                        setImageLoaded(prevState => ({
-                          ...prevState,
-                          status: true,
-                        }));
-                      }
+                      setImageLoaded({
+                        status: true,
+                        total: 1,
+                      });
                     }
                   }}
                   src={`https://kbi.sfo3.digitaloceanspaces.com/assets/img/campaign/${data[0].cfoto_other}`}
