@@ -91,25 +91,63 @@ const Campaign = ({ data }: CampaignPropsType) => {
     return <Fragment />;
   };
 
+  if (data.length === 0) {
+    return <Fragment />;
+  }
+
   return (
     <Fragment>
       <div className={classes.wrapper}>
-        <AutoPlaySwipeableViews
-          index={activeStep}
-          onChangeIndex={handleStepChange}
-          onTransitionEnd={handleTransitionEnd}
-          className={classes.autoPlay}
-          interval={6000}
-          springConfig={{ duration: '1s', easeFunction: 'ease', delay: '0s' }}
-          {...{ slideRenderer }}
-          enableMouseEvents
-        />
-        <IconButton
-          tabIndex={1}
-          onClick={handleBack}
-          className={classes.backIconButton}>
-          <NavigateBefore />
-        </IconButton>
+        {data.length > 1 ? (
+          <AutoPlaySwipeableViews
+            index={activeStep}
+            onChangeIndex={handleStepChange}
+            onTransitionEnd={handleTransitionEnd}
+            className={classes.autoPlay}
+            interval={6000}
+            springConfig={{ duration: '1s', easeFunction: 'ease', delay: '0s' }}
+            {...{ slideRenderer }}
+            enableMouseEvents
+          />
+        ) : (
+          <div className={classes.autoPlay}>
+            <Button onClick={() => {}} className={classes.imgW}>
+              <div>
+                <Image
+                  onLoad={(e: any) => {
+                    if (e.target.complete === true) {
+                      setImageLoaded(prevState => ({
+                        ...prevState,
+                        total: prevState.total + 1,
+                      }));
+                      if (data.length === imageLoaded.total) {
+                        setImageLoaded(prevState => ({
+                          ...prevState,
+                          status: true,
+                        }));
+                      }
+                    }
+                  }}
+                  src={`https://kbi.sfo3.digitaloceanspaces.com/assets/img/campaign/${data[0].cfoto_other}`}
+                  alt={data[0].cfoto_other}
+                  placeholder={'blur'}
+                  blurDataURL={`https://kbi.sfo3.digitaloceanspaces.com/assets/img/campaign/${data[0].cfoto_other}`}
+                  layout={'responsive'}
+                  width={'100%'}
+                  height={'100%'}
+                />
+              </div>
+            </Button>
+          </div>
+        )}
+        {data.length > 1 && (
+          <IconButton
+            tabIndex={1}
+            onClick={handleBack}
+            className={classes.backIconButton}>
+            <NavigateBefore />
+          </IconButton>
+        )}
         <MobileStepper
           variant={'dots'}
           steps={maxSteps}
@@ -119,12 +157,14 @@ const Campaign = ({ data }: CampaignPropsType) => {
           nextButton={<Fragment />}
           backButton={<Fragment />}
         />
-        <IconButton
-          tabIndex={1}
-          onClick={handleNext}
-          className={classes.nextIconButton}>
-          <NavigateNext />
-        </IconButton>
+        {data.length > 1 && (
+          <IconButton
+            tabIndex={1}
+            onClick={handleNext}
+            className={classes.nextIconButton}>
+            <NavigateNext />
+          </IconButton>
+        )}
         {!imageLoaded.status && (
           <Skeleton
             variant={'rectangular'}
