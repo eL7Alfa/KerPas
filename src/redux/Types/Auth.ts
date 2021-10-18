@@ -1,1 +1,1 @@
-export const setModalOpenT = 'setModalOpenT';
+export const setAuthModalOpenT = 'setAuthModalOpenT';

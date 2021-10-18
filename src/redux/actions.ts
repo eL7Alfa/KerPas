@@ -1,8 +1,8 @@
-import { setModalOpenT } from './Types/Auth';
+import { setAuthModalOpenT } from './Types/Auth';
 
-export const setModalOpenR = (payload: boolean) => {
+export const setAuthModalOpenR = (payload: boolean) => {
   return {
-    type: setModalOpenT,
+    type: setAuthModalOpenT,
     payload,
   };
 };
