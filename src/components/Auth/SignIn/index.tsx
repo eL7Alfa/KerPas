@@ -1,4 +1,4 @@
-import React, { FormEventHandler, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -27,7 +27,7 @@ import { useDispatch } from 'react-redux';
 import { setAuthModalOpenR, setAuthUserDataR } from '../../../redux/actions';
 import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
-import { string } from 'prop-types';
+import { useSnackbarConst } from './constants';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -36,19 +36,8 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [snackbarState, setSnackbarState] = useState<{
-    open: boolean;
-    msg: string;
-    severity: 'success' | 'error' | 'warning' | 'info';
-    anchorOrigin: SnackbarOrigin;
-    timeout: number;
-  }>({
-    open: false,
-    severity: 'success',
-    msg: '',
-    anchorOrigin: { vertical: 'top', horizontal: 'center' },
-    timeout: 3000,
-  });
+  const { snackbarState, setSnackbarState, onSnackbarClose } =
+    useSnackbarConst();
 
   const onInputChanged =
     (name: string | number) =>
@@ -88,16 +77,16 @@ const SignIn = () => {
             }));
           }
         })
+        .catch(() => {
+          setSnackbarState(prevState => ({
+            ...prevState,
+            open: true,
+            severity: 'error',
+            msg: 'Terjadi kesalahan, coba lagi sekarang atau nanti.',
+          }));
+        })
         .finally(() => setIsAuthenticating(false));
     }
-  };
-
-  const onSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarState(prevState => ({ ...prevState, open: false }));
   };
 
   const onShowPasswordClicked = () => {
