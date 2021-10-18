@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,16 +7,43 @@ import {
   CardContent,
   Divider,
   IconButton,
+  InputAdornment,
   TextField,
   Toolbar,
   Typography,
 } from '@mui/material';
-import { FacebookRounded, Person, VpnKey } from '@mui/icons-material';
+import {
+  Close,
+  FacebookRounded,
+  Person,
+  Visibility,
+  VisibilityOff,
+  VpnKey,
+} from '@mui/icons-material';
 import theme from '../../../config/theme';
 import useStyles from './styles';
+import { useDispatch } from 'react-redux';
+import { setAuthModalOpenR } from '../../../redux/actions';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const [passIsVisible, setPassIsVisible] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setPassIsVisible(!passIsVisible);
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+  };
+
+  const onCloseAuthBtnClicked = () => {
+    dispatch(setAuthModalOpenR(false));
+  };
+
   return (
     <Card className={classes.card}>
       <div className={classes.shapeA} />
@@ -61,9 +88,22 @@ const SignIn = () => {
               variant={'filled'}
               size={'small'}
               label={'Kata sandi'}
-              type={'password'}
+              type={passIsVisible ? 'text' : 'password'}
               className={classes.textField}
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end">
+                      {passIsVisible ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Box>
           <Button
@@ -87,6 +127,11 @@ const SignIn = () => {
           <ButtonBase>Daftar Sekarang</ButtonBase>
         </div>
       </CardContent>
+      <IconButton
+        className={classes.closeAuthBtn}
+        onClick={onCloseAuthBtnClicked}>
+        <Close />
+      </IconButton>
     </Card>
   );
 };
