@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEventHandler, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   Divider,
   IconButton,
   InputAdornment,
+  SnackbarOrigin,
   TextField,
   Toolbar,
   Typography,
@@ -23,21 +24,88 @@ import {
 import theme from '../../../config/theme';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
-import { setAuthModalOpenR } from '../../../redux/actions';
+import { setAuthModalOpenR, setAuthUserDataR } from '../../../redux/actions';
+import axios from '../../../config/axios';
+import Snackbar from '../../../smallComponents/Snackbar';
+import { string } from 'prop-types';
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [passIsVisible, setPassIsVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [snackbarState, setSnackbarState] = useState<{
+    open: boolean;
+    msg: string;
+    severity: 'success' | 'error' | 'warning' | 'info';
+    anchorOrigin: SnackbarOrigin;
+    timeout: number;
+  }>({
+    open: false,
+    severity: 'success',
+    msg: '',
+    anchorOrigin: { vertical: 'top', horizontal: 'center' },
+    timeout: 3000,
+  });
 
-  const handleClickShowPassword = () => {
+  const onInputChanged =
+    (name: string | number) =>
+    (e: { target: { value: React.SetStateAction<string> } }) => {
+      switch (name) {
+        case 'email': {
+          setEmail(e.target.value);
+          break;
+        }
+        case 'password': {
+          setPassword(e.target.value);
+          break;
+        }
+      }
+    };
+
+  const onSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (!isAuthenticating) {
+      const formData = {
+        email_phone: email,
+        kata_kunci: password,
+      };
+      axios()
+        .post('/user/auth', formData)
+        .then(({ data: { error, result } }) => {
+          if (!error) {
+            localStorage.setItem('userCode', result.ckode_user);
+            localStorage.setItem('token', result.token);
+            dispatch(setAuthUserDataR(result));
+          } else {
+            setSnackbarState(prevState => ({
+              ...prevState,
+              open: true,
+              severity: 'error',
+              msg: 'Email/No. HP atau Kata Sandi salah!',
+            }));
+          }
+        })
+        .finally(() => setIsAuthenticating(false));
+    }
+  };
+
+  const onSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarState(prevState => ({ ...prevState, open: false }));
+  };
+
+  const onShowPasswordClicked = () => {
     setPassIsVisible(!passIsVisible);
   };
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
+  const onPasswordMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
   };
 
   const onCloseAuthBtnClicked = () => {
@@ -50,6 +118,15 @@ const SignIn = () => {
       <div className={classes.shapeB} />
       <div className={classes.shapeC} />
       <div className={classes.shapeD} />
+      <Snackbar
+        open={snackbarState.open}
+        msg={snackbarState.msg}
+        severity={snackbarState.severity}
+        onClose={onSnackbarClose}
+        anchorOrigin={snackbarState.anchorOrigin}
+        className={classes.snackbar}
+        autoHideDuration={snackbarState.timeout}
+      />
       <Toolbar sx={{ px: `0!important` }}>
         <div>
           <Typography variant={'h4'} fontWeight={'bold'}>
@@ -63,6 +140,7 @@ const SignIn = () => {
       <CardContent sx={{ px: 0 }}>
         <Box
           component={'form'}
+          onSubmit={onSubmit}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -77,6 +155,8 @@ const SignIn = () => {
               size={'small'}
               label={'Email atau nomor handphone'}
               className={classes.textField}
+              onChange={onInputChanged('email')}
+              value={email}
               fullWidth
             />
           </Box>
@@ -90,14 +170,16 @@ const SignIn = () => {
               label={'Kata sandi'}
               type={passIsVisible ? 'text' : 'password'}
               className={classes.textField}
+              onChange={onInputChanged('password')}
+              value={password}
               fullWidth
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
+                      onClick={onShowPasswordClicked}
+                      onMouseDown={onPasswordMouseDown}
                       edge="end">
                       {passIsVisible ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
