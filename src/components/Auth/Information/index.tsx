@@ -13,7 +13,7 @@ const Information = () => {
           variant={'h5'}
           fontWeight={'bold'}
           className={classes.title}>
-          Temukan Berbagai Kemudahan Di Keranjang Belanja
+          Temukan Berbagai Kemudahan Di Asisten Belanjamu
         </Typography>
         <div className={classes.logoW}>
           <div className={classes.logoC}>
