@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setModalOpenR } from '../../redux/actions';
+import { setAuthModalOpenR } from '../../redux/actions';
 import useStyles from './styles';
 import SignIn from './SignIn';
 import Information from './Information';
@@ -13,7 +13,7 @@ const Auth = () => {
   const [open, setOpen] = useState(false);
 
   const onClose = () => {
-    dispatch(setModalOpenR(false));
+    dispatch(setAuthModalOpenR(false));
   };
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import { Button, ClickAwayListener, Hidden, useTheme } from '@mui/material';
 import CartButton from '../../CartButton';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
-import { setModalOpenR } from '../../../redux/actions';
+import { setAuthModalOpenR } from '../../../redux/actions';
 
 const AppHeader = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const AppHeader = () => {
   };
 
   const onLoginBtnClicked = () => {
-    dispatch(setModalOpenR(true));
+    dispatch(setAuthModalOpenR(true));
   };
 
   useEffect(() => {
