@@ -108,6 +108,11 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: alpha(theme.palette.primary.main, 0.2),
       boxShadow: '-8px 10px 10px -5px rgba(0,0,0,0.15)',
     },
+    closeAuthBtn: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+    },
   }),
 );
 
