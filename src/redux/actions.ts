@@ -16,7 +16,7 @@ export const setAuthUserDataR = (payload: boolean) => {
   };
 };
 
-export const setAuthResetUserDataT = () => {
+export const setAuthResetUserDataR = () => {
   return {
     type: setAuthUserDataT,
     payload: authDefState.userData,
