@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       justifyContent: 'center',
-      backdropFilter: 'blur(30px)',
+      backdropFilter: 'blur(40px)',
       '& .MuiBackdrop-root': {
         backgroundColor: 'rgba(0,0,0,0.15)',
       },
