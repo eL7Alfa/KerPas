@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   ButtonBase,
   Card,
   CardContent,
@@ -27,6 +26,7 @@ import { setAuthModalOpenR, setAuthUserDataR } from '../../../redux/actions';
 import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useSnackbarConst } from './constants';
+import { LoadingButton } from '@mui/lab';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -35,8 +35,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const { snackbarState, setSnackbarState, onSnackbarClose } =
-    useSnackbarConst();
+  const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
 
   const onInputChanged =
     (name: string | number) =>
@@ -56,6 +55,7 @@ const SignIn = () => {
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!isAuthenticating) {
+      setIsAuthenticating(true);
       const formData = {
         email_phone: email,
         kata_kunci: password,
@@ -68,21 +68,29 @@ const SignIn = () => {
             localStorage.setItem('token', result.token);
             dispatch(setAuthUserDataR(result));
           } else {
-            setSnackbarState(prevState => ({
-              ...prevState,
-              open: true,
-              severity: 'error',
-              msg: 'Email/No. HP atau Kata Sandi salah!',
-            }));
+            setSnackPack(prev => [
+              ...prev,
+              {
+                ...snackbarState,
+                open: true,
+                severity: 'error',
+                msg: 'Email/No. HP atau Kata Sandi salah!',
+                key: new Date().getTime(),
+              },
+            ]);
           }
         })
         .catch(() => {
-          setSnackbarState(prevState => ({
-            ...prevState,
-            open: true,
-            severity: 'error',
-            msg: 'Terjadi kesalahan, coba lagi sekarang atau nanti.',
-          }));
+          setSnackPack(prev => [
+            ...prev,
+            {
+              ...snackbarState,
+              open: true,
+              severity: 'error',
+              msg: 'Terjadi kesalahan, coba lagi sekarang atau nanti.',
+              key: new Date().getTime(),
+            },
+          ]);
         })
         .finally(() => setIsAuthenticating(false));
     }
@@ -107,6 +115,7 @@ const SignIn = () => {
       <div className={classes.shapeC} />
       <div className={classes.shapeD} />
       <Snackbar
+        key={snackbarState.key}
         open={snackbarState.open}
         msg={snackbarState.msg}
         severity={snackbarState.severity}
@@ -176,18 +185,21 @@ const SignIn = () => {
               }}
             />
           </Box>
-          <Button
+          <LoadingButton
             variant={'contained'}
             className={classes.submitBtn}
-            type={'submit'}>
+            type={'submit'}
+            loading={isAuthenticating}>
             MASUK
-          </Button>
+          </LoadingButton>
         </Box>
         <div className={classes.orSocialBtnW}>
           <Typography variant={'body2'}>Atau masuk dengan</Typography>
         </div>
         <div className={classes.socialAuthW}>
-          <IconButton className={classes.facebookBtn}>
+          <IconButton
+            className={classes.facebookBtn}
+            disabled={isAuthenticating}>
             <FacebookRounded />
           </IconButton>
         </div>
