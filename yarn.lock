@@ -896,6 +896,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-facebook-login@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "@types/react-facebook-login@npm:4.1.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: 335bf2bf2acc3c31954860c3b37320a7395b433a77fb66f845881d35193c2d621bbd91f9fee9814dd05af10c6ee89137fcd9113fcbcd8dae81baf5aa1da37e25
+  languageName: node
+  linkType: hard
+
 "@types/react-is@npm:^16.7.1 || ^17.0.0":
   version: 17.0.2
   resolution: "@types/react-is@npm:17.0.2"
@@ -3680,6 +3689,7 @@ fsevents@~2.3.1:
     "@reduxjs/toolkit": ^1.6.1
     "@types/node": ^16.10.1
     "@types/react": 17.0.21
+    "@types/react-facebook-login": ^4.1.4
     "@types/react-redux": ^7.1.18
     "@types/react-swipeable-views-core": ^0.13.0
     "@types/react-swipeable-views-utils": ^0.13.3
@@ -3699,7 +3709,6 @@ fsevents@~2.3.1:
     react: 17.0.2
     react-dom: 17.0.2
     react-facebook-login: ^4.1.1
-    react-hook-form: ^7.17.4
     react-redux: ^7.2.5
     react-swipeable-views: ^0.14.0
     react-swipeable-views-core: ^0.14.0
@@ -4869,15 +4878,6 @@ fsevents@~2.3.1:
   peerDependencies:
     react: ^16.0.0
   checksum: e644da474c6bf308e9a862c55397d61fd876a088345f3e9d234ec457eb3c205d1deb1263c5000005adfc1899bf6774cf761ee670c33bd6b0887f0dfd3bdff957
-  languageName: node
-  linkType: hard
-
-"react-hook-form@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "react-hook-form@npm:7.17.4"
-  peerDependencies:
-    react: ^16.8.0 || ^17
-  checksum: 96a851633a380fb2e33dca0f6db40bc0bc1cf6fd89c0a9318a7c1f582b554025ba754cf8c298da728fc844e21cde8b71bc69b3ab078469661639b2f8fea344b0
   languageName: node
   linkType: hard
 
