@@ -18,22 +18,27 @@ type HomeProps = {
   getCampaigns: {
     error: boolean;
     result: any[];
+    response: number;
   };
   getSupplier: {
     error: boolean;
     result: any[];
+    response: number;
   };
   getProducts: {
     error: boolean;
     result: { [key: string]: any };
+    response: number;
   };
   getPromotedProducts: {
     error: boolean;
     result: { [key: string]: any };
+    response: number;
   };
   getMenu: {
     error: boolean;
     result: { [key: string]: any };
+    response: number;
   };
 };
 
@@ -73,7 +78,7 @@ export default function Home({
   };
 
   useEffect(() => {
-    if (getSupplier && !getSupplier.error) {
+    if (getSupplier.response === 200 && getSupplier && !getSupplier.error) {
       const supplier = getSupplier.result.map(m => {
         return {
           name: m.cnama_supplier,
@@ -88,7 +93,7 @@ export default function Home({
   }, [getSupplier]);
 
   useEffect(() => {
-    if (getMenu && !getMenu.error) {
+    if (getMenu.response === 200 && getMenu && !getMenu.error) {
       const newMenu = getMenu.result.map((gM: { ckelas: any; cicon: any }) => {
         return {
           name: gM.ckelas,
@@ -101,7 +106,12 @@ export default function Home({
   }, [getMenu]);
 
   useEffect(() => {
-    if (getProducts && !getProducts.error && getProducts.result.data.length) {
+    if (
+      getProducts.response === 200 &&
+      getProducts &&
+      !getProducts.error &&
+      getProducts.result.data.length
+    ) {
       setProducts(newProducts(getProducts.result.data));
       setLastProductPage(getProducts.result.last_page);
       setIsProductLoading(false);
@@ -110,6 +120,7 @@ export default function Home({
 
   useEffect(() => {
     if (
+      getPromotedProducts.response === 200 &&
       getPromotedProducts &&
       !getPromotedProducts.error &&
       getPromotedProducts.result.data.length
