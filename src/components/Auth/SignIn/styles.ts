@@ -8,12 +8,17 @@ const useStyles = makeStyles((theme: Theme) =>
     card: {
       flex: 1,
       position: 'relative',
-      margin: 'auto 10px',
+      margin: '10px',
       padding: `${theme.spacing(4)} ${theme.spacing(4)}`,
       maxWidth: 400,
       [theme.breakpoints.up('sm')]: {
         minWidth: 400,
+        margin: 'auto 10px',
       },
+      [theme.breakpoints.down('lg')]: {
+        margin: '10px',
+      },
+      height: 'fit-content',
       borderRadius: 10,
       boxShadow: '0 25px 20px -10px rgba(0,0,0,0.3)',
     },
