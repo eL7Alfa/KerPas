@@ -29,19 +29,23 @@ const Information = () => {
           <div className={classes.fSIconW}>
             <CreditCard />
           </div>
-          <Typography variant={'h6'}>Checkout Pesanan Dengan Mudah</Typography>
+          <Typography variant={'h6'} className={classes.featuredServiceText}>
+            Checkout Pesanan Dengan Mudah
+          </Typography>
         </div>
         <div className={classes.featuredServiceW}>
           <div className={classes.fSIconW}>
             <FactCheck />
           </div>
-          <Typography variant={'h6'}>Lacak Pesanan Secara Real Time</Typography>
+          <Typography variant={'h6'} className={classes.featuredServiceText}>
+            Lacak Pesanan Secara Real Time
+          </Typography>
         </div>
         <div className={classes.featuredServiceW}>
           <div className={classes.fSIconW}>
             <Receipt />
           </div>
-          <Typography variant={'h6'}>
+          <Typography variant={'h6'} className={classes.featuredServiceText}>
             Seluruh Informasi Transaksi Anda Di Satu Tempat
           </Typography>
         </div>
