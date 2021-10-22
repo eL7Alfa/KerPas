@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   ButtonBase,
@@ -27,6 +27,7 @@ import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useSnackbarConst } from './constants';
 import { LoadingButton } from '@mui/lab';
+import { initFB } from '../../Home/constants';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,20 @@ const SignIn = () => {
 
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    if (!email && !password) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Masukkan Email dan Kata Sandi!',
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
+
     if (!isAuthenticating) {
       setIsAuthenticating(true);
       const formData = {
@@ -64,8 +79,7 @@ const SignIn = () => {
         .post('/user/auth', formData)
         .then(({ data: { error, result } }) => {
           if (!error) {
-            localStorage.setItem('userCode', result.ckode_user);
-            localStorage.setItem('token', result.token);
+            localStorage.setItem('userData', JSON.stringify(result));
             dispatch(setAuthUserDataR(result));
           } else {
             setSnackPack(prev => [
@@ -80,7 +94,7 @@ const SignIn = () => {
             ]);
           }
         })
-        .catch(() => {
+        .catch(e => {
           setSnackPack(prev => [
             ...prev,
             {
@@ -96,6 +110,33 @@ const SignIn = () => {
     }
   };
 
+  const fBAuth = () => {
+    if (!isAuthenticating) {
+      setIsAuthenticating(true);
+      FB.getLoginStatus((resA: { status: string }) => {
+        if (resA.status === 'connected') {
+          FB.logout();
+        }
+        FB.login((resB: { authResponse: any }) => {
+          if (resB.authResponse) {
+            localStorage.setItem('fbAuth', JSON.stringify(resB));
+            FB.api('/me', (resC: { id: string; name: string }) => {
+              axios()
+                .post('/user/register', { fb_id: resC.id })
+                .then(({ data }) => {
+                  localStorage.setItem('userData', JSON.stringify(data));
+                  dispatch(setAuthUserDataR(data));
+                })
+                .finally(() => setIsAuthenticating(false));
+            });
+          } else {
+            setIsAuthenticating(false);
+          }
+        });
+      });
+    }
+  };
+
   const onShowPasswordClicked = () => {
     setPassIsVisible(!passIsVisible);
   };
@@ -107,6 +148,10 @@ const SignIn = () => {
   const onCloseAuthBtnClicked = () => {
     dispatch(setAuthModalOpenR(false));
   };
+
+  useEffect(() => {
+    initFB();
+  }, []);
 
   return (
     <Card className={classes.card}>
@@ -198,6 +243,7 @@ const SignIn = () => {
         </div>
         <div className={classes.socialAuthW}>
           <IconButton
+            onClick={fBAuth}
             className={classes.facebookBtn}
             disabled={isAuthenticating}>
             <FacebookRounded />
