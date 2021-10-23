@@ -9,7 +9,7 @@ import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
-import { newProducts } from '../src/helper/products';
+import { newProducts } from '../src/components/constants';
 import Auth from '../src/components/Auth';
 import { featuredServiceData } from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';

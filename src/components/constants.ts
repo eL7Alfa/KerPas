@@ -1,6 +1,36 @@
 import React, { useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
+import { productImgUrl } from '../config/urls';
+
+// Serialize New Product
+export const newProducts = (
+  data: {
+    cnama_produk: string;
+    cimg_top: string;
+    nretail_price: number;
+    discount: number;
+    min_price: number;
+  }[],
+) =>
+  data.map(
+    ({
+      cnama_produk = '',
+      cimg_top = '',
+      nretail_price = 0,
+      discount = 0,
+      min_price = 0,
+    }) => {
+      return {
+        name: cnama_produk,
+        imageUri: `${productImgUrl}/${cimg_top}`,
+        price: nretail_price,
+        discount: discount,
+        fixedPrice: min_price,
+        maxRequest: 'Maksimal Pesanan 1 product',
+      };
+    },
+  );
 
 // Auth
 export const checkUserData = async () => {
