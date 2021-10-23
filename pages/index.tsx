@@ -15,6 +15,7 @@ import { featuredServiceData } from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';
 import { setAuthUserDataR } from '../src/redux/actions';
 import { checkUserData } from '../src/components/constants';
+import { menuImgUrl, supplierImgUrl } from '../src/config/urls';
 
 type HomeProps = {
   getCampaigns: {
@@ -93,7 +94,7 @@ export default function Home({
       const supplier = getSupplier.result.map(m => {
         return {
           name: m.cnama_supplier,
-          imageUri: `https://cdn.kerbel.in/assets/suplier/${m.cimg_supplier}`,
+          imageUri: `${supplierImgUrl}/${m.cimg_supplier}`,
           marketName: m.calamat_supplier,
           block: 'A1 - B2',
           location: 'Makassar',
@@ -108,7 +109,7 @@ export default function Home({
       const newMenu = getMenu.result.map((gM: { ckelas: any; cicon: any }) => {
         return {
           name: gM.ckelas,
-          imageUri: `https://cdn.kerbel.in/api/icon/market/${gM.cicon}`,
+          imageUri: `${menuImgUrl}/${gM.cicon}`,
           url: '',
         };
       });

@@ -1,3 +1,5 @@
+import { productImgUrl } from '../config/urls';
+
 export const newProducts = (
   data: {
     cnama_produk: string;
@@ -17,7 +19,7 @@ export const newProducts = (
     }) => {
       return {
         name: cnama_produk,
-        imageUri: `https://kbi.sfo3.digitaloceanspaces.com/assets/product/${cimg_top}`,
+        imageUri: `${productImgUrl}/${cimg_top}`,
         price: nretail_price,
         discount: discount,
         fixedPrice: min_price,
