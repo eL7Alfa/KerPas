@@ -15,7 +15,9 @@ const useStyles = makeStyles((theme: Theme) =>
         padding: 0,
       },
       '&:hover': {
-        transform: 'scale(1.05)',
+        [theme.breakpoints.up('sm')]: {
+          transform: 'scale(1.05)',
+        },
         '& $body': {
           boxShadow: '0 16px 20px -10px rgb(0 0 0 / 20%)',
           backgroundColor: '#ffffff',
