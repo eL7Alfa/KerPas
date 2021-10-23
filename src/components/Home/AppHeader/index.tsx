@@ -1,20 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, ClickAwayListener, Hidden, useTheme } from '@mui/material';
+import {
+  Button,
+  ClickAwayListener,
+  Hidden,
+  Menu,
+  MenuItem,
+  useTheme,
+} from '@mui/material';
 import CartButton from '../../CartButton';
 import useStyles from './styles';
-import { useDispatch } from 'react-redux';
-import { setAuthModalOpenR } from '../../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setAuthModalOpenR,
+  setAuthResetUserDataR,
+} from '../../../redux/actions';
+import { defaultStateRT } from '../../../redux/defaultStateR';
+import Image from 'next/image';
+import { profileUrl } from '../../../config/urls';
+import { rootReducerI } from '../../../redux/reducers';
+import authStateR from '../../../redux/defaultStateR/authStateR';
+import { initFB } from '../constants';
+import axios from '../../../config/axios';
 
 const AppHeader = () => {
+  const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
+  const {
+    authState: { userData: userDataR },
+  } = selector;
   const theme = useTheme();
   const classes = useStyles();
   const [searchWidth, setSearchWidth] = useState('60%');
+  const [userData, setUserData] = useState(userDataR);
+  const [profileBtnEl, setProfileBtnEl] = React.useState<null | HTMLElement>(
+    null,
+  );
+  const profileBtnHovered = Boolean(profileBtnEl);
 
   const onSearchFocused = () => {
     setSearchWidth('100%');
@@ -24,16 +50,46 @@ const AppHeader = () => {
     setSearchWidth('60%');
   };
 
+  const onProfileBtnClicked = e => {
+    setProfileBtnEl(e.currentTarget);
+  };
+
   const onLoginBtnClicked = () => {
     dispatch(setAuthModalOpenR(true));
   };
 
+  const onLogoutClicked = () => {
+    FB.getLoginStatus((resA: { status: string }) => {
+      axios()
+        .post('/user/logout', { ckode_user: userData.ckode_user })
+        .then(({ data: { response } }) => {
+          if (response === 200) {
+            if (resA.status === 'connected') {
+              FB.logout();
+              localStorage.removeItem('fbAuth');
+            }
+            dispatch(setAuthResetUserDataR());
+          }
+        });
+    });
+    onCloseProfileBtnClicked();
+  };
+
+  const onCloseProfileBtnClicked = () => {
+    setProfileBtnEl(null);
+  };
+
   useEffect(() => {
+    initFB();
     window.addEventListener('resize', onSearchBlurred);
     return () => {
       window.removeEventListener('resize', onSearchBlurred);
     };
   }, []);
+
+  useEffect(() => {
+    setUserData(userDataR);
+  }, [userDataR]);
 
   return (
     <AppBar position="fixed" elevation={5} className={classes.root}>
@@ -66,12 +122,34 @@ const AppHeader = () => {
         </Hidden>
         <div className={classes.toolbarItemRight}>
           <CartButton classes={{ iconButton: classes.cartBtn }} />
-          <Button
-            className={classes.loginButton}
-            color={'secondary'}
-            onClick={onLoginBtnClicked}>
-            MASUK
-          </Button>
+          {userData === authStateR.userData ? (
+            <Button
+              className={classes.loginButton}
+              color={'secondary'}
+              onClick={onLoginBtnClicked}>
+              MASUK
+            </Button>
+          ) : (
+            <Fragment>
+              <Button
+                className={classes.userProfileBtn}
+                onClick={onProfileBtnClicked}>
+                <Image
+                  src={`${profileUrl}/${userData.cprofile_picture}`}
+                  layout={'fill'}
+                  alt={userData.cprofile_picture}
+                  placeholder={'blur'}
+                  blurDataURL={`${profileUrl}/${userData.cprofile_picture}`}
+                />
+              </Button>
+              <Menu
+                open={profileBtnHovered}
+                anchorEl={profileBtnEl}
+                onClose={onCloseProfileBtnClicked}>
+                <MenuItem onClick={onLogoutClicked}>Logout</MenuItem>
+              </Menu>
+            </Fragment>
+          )}
         </div>
       </Toolbar>
     </AppBar>
