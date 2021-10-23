@@ -851,6 +851,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/facebook-js-sdk@npm:^3.3.5":
+  version: 3.3.5
+  resolution: "@types/facebook-js-sdk@npm:3.3.5"
+  checksum: 8e6c5b9e7fd56a9abac2fff6afda894d03452ffbf3b567f6949830cf5c11d8137e41b66c82f2960bf6ea07d3f62173ec7d1bb27805940c283e486fac41e4dc35
+  languageName: node
+  linkType: hard
+
 "@types/hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
@@ -3687,6 +3694,7 @@ fsevents@~2.3.1:
     "@mui/material": ^5.0.0
     "@mui/styles": ^5.0.1
     "@reduxjs/toolkit": ^1.6.1
+    "@types/facebook-js-sdk": ^3.3.5
     "@types/node": ^16.10.1
     "@types/react": 17.0.21
     "@types/react-facebook-login": ^4.1.4
