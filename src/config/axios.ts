@@ -7,7 +7,7 @@ const axios = (token: string | null = null) => {
     return axiosBase.create({
       baseURL,
       headers: {
-        Authorization: token,
+        Authorization: `kbi ${token}`,
       },
     });
   }
