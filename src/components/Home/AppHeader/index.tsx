@@ -67,6 +67,7 @@ const AppHeader = () => {
               FB.logout();
               localStorage.removeItem('fbAuth');
             }
+            localStorage.removeItem('userData');
             dispatch(setAuthResetUserDataR());
           }
         });
