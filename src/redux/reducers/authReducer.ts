@@ -1,4 +1,4 @@
-import authStateR from '../defaultStateR/authStateR';
+import authDefStateR from '../defaultStateR/authDefStateR';
 import { AnyAction } from 'redux';
 import {
   setAuthModalOpenT,
@@ -6,7 +6,7 @@ import {
   setAuthUserDataT,
 } from '../Types/Auth';
 
-const authReducer = (state = authStateR, { type, payload }: AnyAction) => {
+const authReducer = (state = authDefStateR, { type, payload }: AnyAction) => {
   switch (type) {
     case setAuthModalOpenT: {
       return { ...state, modalOpen: payload };

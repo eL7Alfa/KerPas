@@ -10,7 +10,6 @@ import {
   Hidden,
   Menu,
   MenuItem,
-  useTheme,
 } from '@mui/material';
 import CartButton from '../../CartButton';
 import useStyles from './styles';
@@ -22,7 +21,7 @@ import {
 import Image from 'next/image';
 import { profileUrl } from '../../../config/urls';
 import { rootReducerI } from '../../../redux/reducers';
-import authStateR from '../../../redux/defaultStateR/authStateR';
+import authDefStateR from '../../../redux/defaultStateR/authDefStateR';
 import axios from '../../../config/axios';
 
 const AppHeader = () => {
@@ -31,7 +30,6 @@ const AppHeader = () => {
   const {
     authState: { userData: userDataR },
   } = selector;
-  const theme = useTheme();
   const classes = useStyles();
   const [searchWidth, setSearchWidth] = useState('60%');
   const [userData, setUserData] = useState(userDataR);
@@ -122,7 +120,7 @@ const AppHeader = () => {
         </Hidden>
         <div className={classes.toolbarItemRight}>
           <CartButton classes={{ iconButton: classes.cartBtn }} />
-          {userData === authStateR.userData ? (
+          {userData === authDefStateR.userData ? (
             <Button
               className={classes.loginButton}
               color={'secondary'}

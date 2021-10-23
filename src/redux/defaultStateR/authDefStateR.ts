@@ -15,12 +15,12 @@ export type userDataRT = {
   token: string;
 };
 
-export type authStateRT = {
+export type authDefStateRT = {
   modalOpen: boolean;
   userData: userDataRT;
 };
 
-const authStateR: authStateRT = {
+const authDefStateR: authDefStateRT = {
   modalOpen: false,
   userData: {
     id: 0,
@@ -40,4 +40,4 @@ const authStateR: authStateRT = {
   },
 };
 
-export default authStateR;
+export default authDefStateR;
