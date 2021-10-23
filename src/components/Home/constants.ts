@@ -1,5 +1,6 @@
 import { AutoFixHigh } from '@mui/icons-material';
 import { fbAppId } from '../../config/auth';
+import axios from '../../config/axios';
 
 export const featuredServiceData = [
   {
@@ -52,4 +53,20 @@ export const initFB = () => {
     js.src = 'https://connect.facebook.net/en_US/sdk.js';
     fjs.parentNode.insertBefore(js, fjs);
   })(document, 'script', 'facebook-jssdk');
+};
+
+export const checkUserData = async () => {
+  const _userData = localStorage.getItem('userData');
+  if (_userData) {
+    const userData = JSON.parse(_userData);
+    return await axios(userData.token)
+      .post('/user/retrieve', { ckode_user: userData.ckode_user })
+      .then(({ data: { response } }) => {
+        if (response === 200) {
+          return userData;
+        }
+      })
+      .catch(() => null);
+  }
+  return null;
 };
