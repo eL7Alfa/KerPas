@@ -11,12 +11,10 @@ import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/helper/products';
 import Auth from '../src/components/Auth';
-import {
-  checkUserData,
-  featuredServiceData,
-} from '../src/components/Home/constants';
+import { featuredServiceData } from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';
 import { setAuthUserDataR } from '../src/redux/actions';
+import { checkUserData } from '../src/components/constants';
 
 type HomeProps = {
   getCampaigns: {
