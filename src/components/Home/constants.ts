@@ -1,5 +1,4 @@
 import { AutoFixHigh } from '@mui/icons-material';
-import axios from '../../config/axios';
 
 export const featuredServiceData = [
   {
