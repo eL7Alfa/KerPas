@@ -48,8 +48,6 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: 'hidden',
       borderRadius: theme.spacing(1),
       boxShadow: '0 5px 5px -3px rgb(0 0 0 / 15%)',
-      // minHeight: `calc(1200px / 6 - ${theme.spacing(2)})!important`,
-      // maxHeight: `calc(1200px / 6 - ${theme.spacing(2)})!important`,
     },
     detailW: {
       padding: theme.spacing(1),
