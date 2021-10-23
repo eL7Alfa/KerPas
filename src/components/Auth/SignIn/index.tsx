@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux';
 import { setAuthModalOpenR, setAuthUserDataR } from '../../../redux/actions';
 import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
-import { useSnackbarConst } from './constants';
+import { useSnackbarConst } from '../../constants';
 import { LoadingButton } from '@mui/lab';
 
 const SignIn = () => {
@@ -54,7 +54,7 @@ const SignIn = () => {
 
   const onSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    if (!email && !password) {
+    if (!email || !password) {
       setSnackPack(prev => [
         ...prev,
         {
@@ -94,7 +94,7 @@ const SignIn = () => {
             ]);
           }
         })
-        .catch(e => {
+        .catch(() => {
           setSnackPack(prev => [
             ...prev,
             {
