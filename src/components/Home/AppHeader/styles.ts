@@ -94,6 +94,15 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    userProfileBtn: {
+      position: 'relative',
+      width: 40,
+      minWidth: 40,
+      height: 40,
+      minHeight: 40,
+      borderRadius: 20,
+      overflow: 'hidden',
+    },
     searchBtn: {
       backgroundColor: theme.palette.primary.main,
       color: '#ffffff',
