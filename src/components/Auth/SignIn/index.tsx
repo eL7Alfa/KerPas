@@ -81,6 +81,7 @@ const SignIn = () => {
           if (!error) {
             localStorage.setItem('userData', JSON.stringify(result));
             dispatch(setAuthUserDataR(result));
+            dispatch(setAuthModalOpenR(false));
           } else {
             setSnackPack(prev => [
               ...prev,
@@ -124,8 +125,14 @@ const SignIn = () => {
               axios()
                 .post('/user/register', { fb_id: resC.id })
                 .then(({ data }) => {
-                  localStorage.setItem('userData', JSON.stringify(data));
-                  dispatch(setAuthUserDataR(data));
+                  if (data.response === 200) {
+                    localStorage.setItem(
+                      'userData',
+                      JSON.stringify(data.result),
+                    );
+                    dispatch(setAuthUserDataR(data.result));
+                    dispatch(setAuthModalOpenR(false));
+                  }
                 })
                 .finally(() => setIsAuthenticating(false));
             });
@@ -199,6 +206,7 @@ const SignIn = () => {
               className={classes.textField}
               onChange={onInputChanged('email')}
               value={email}
+              name={'email'}
               fullWidth
             />
           </Box>
@@ -214,6 +222,7 @@ const SignIn = () => {
               className={classes.textField}
               onChange={onInputChanged('password')}
               value={password}
+              name={'password'}
               fullWidth
               InputProps={{
                 endAdornment: (
