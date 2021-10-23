@@ -1,5 +1,22 @@
 import React, { useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
+import axios from '../config/axios';
+
+export const checkUserData = async () => {
+  const _userData = localStorage.getItem('userData');
+  if (_userData) {
+    const userData = JSON.parse(_userData);
+    return await axios(userData.token)
+      .post('/user/retrieve', { ckode_user: userData.ckode_user })
+      .then(({ data: { response } }) => {
+        if (response === 200) {
+          return userData;
+        }
+      })
+      .catch(() => null);
+  }
+  return null;
+};
 
 export type snackbarStateT = {
   open: boolean;

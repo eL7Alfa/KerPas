@@ -31,19 +31,3 @@ export const featuredServiceData = [
       'linear-gradient(47deg, rgba(49,184,51,1) 0%, rgba(126,244,129,1) 100%)',
   },
 ];
-
-export const checkUserData = async () => {
-  const _userData = localStorage.getItem('userData');
-  if (_userData) {
-    const userData = JSON.parse(_userData);
-    return await axios(userData.token)
-      .post('/user/retrieve', { ckode_user: userData.ckode_user })
-      .then(({ data: { response } }) => {
-        if (response === 200) {
-          return userData;
-        }
-      })
-      .catch(() => null);
-  }
-  return null;
-};
