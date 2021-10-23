@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
 
+// Auth
 export const checkUserData = async () => {
   const _userData = localStorage.getItem('userData');
   if (_userData) {
@@ -18,6 +19,7 @@ export const checkUserData = async () => {
   return null;
 };
 
+// Snackbar
 export type snackbarStateT = {
   open: boolean;
   msg: string;
