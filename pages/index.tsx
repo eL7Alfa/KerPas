@@ -5,14 +5,18 @@ import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
 import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
-import { AutoFixHigh } from '@mui/icons-material';
 import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/helper/products';
 import Auth from '../src/components/Auth';
-import { featuredServiceData } from '../src/components/Home/constants';
+import {
+  checkUserData,
+  featuredServiceData,
+} from '../src/components/Home/constants';
+import { useDispatch } from 'react-redux';
+import { setAuthUserDataR } from '../src/redux/actions';
 
 type HomeProps = {
   getCampaigns: {
@@ -49,6 +53,7 @@ export default function Home({
   getPromotedProducts,
   getMenu,
 }: HomeProps) {
+  const dispatch = useDispatch();
   const [supplier, setSupplier] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
@@ -76,6 +81,14 @@ export default function Home({
         .finally(() => setIsProductLoading(false));
     }
   };
+
+  useEffect(() => {
+    checkUserData().then(res => {
+      if (res) {
+        dispatch(setAuthUserDataR(res));
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (getSupplier.response === 200 && getSupplier && !getSupplier.error) {
