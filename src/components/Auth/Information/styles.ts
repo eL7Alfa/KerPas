@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     shapeA: {
       bottom: 60,
+      [theme.breakpoints.down('sm')]: {
+        bottom: 40,
+      },
       position: 'absolute',
       backgroundColor: theme.palette.primary.main,
       width: '200%',
