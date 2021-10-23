@@ -1,5 +1,4 @@
 import { AutoFixHigh } from '@mui/icons-material';
-import { fbAppId } from '../../config/auth';
 import axios from '../../config/axios';
 
 export const featuredServiceData = [
@@ -32,28 +31,6 @@ export const featuredServiceData = [
       'linear-gradient(47deg, rgba(49,184,51,1) 0%, rgba(126,244,129,1) 100%)',
   },
 ];
-
-export const initFB = () => {
-  window.fbAsyncInit = function () {
-    FB.init({
-      appId: fbAppId,
-      xfbml: true,
-      version: 'v12.0',
-    });
-  };
-
-  (function (d, s, id) {
-    let js,
-      fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-      return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  })(document, 'script', 'facebook-jssdk');
-};
 
 export const checkUserData = async () => {
   const _userData = localStorage.getItem('userData');

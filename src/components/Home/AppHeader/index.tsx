@@ -23,7 +23,6 @@ import Image from 'next/image';
 import { profileUrl } from '../../../config/urls';
 import { rootReducerI } from '../../../redux/reducers';
 import authStateR from '../../../redux/defaultStateR/authStateR';
-import { initFB } from '../constants';
 import axios from '../../../config/axios';
 
 const AppHeader = () => {
@@ -49,7 +48,9 @@ const AppHeader = () => {
     setSearchWidth('60%');
   };
 
-  const onProfileBtnClicked = e => {
+  const onProfileBtnClicked = (e: {
+    currentTarget: React.SetStateAction<HTMLElement | null>;
+  }) => {
     setProfileBtnEl(e.currentTarget);
   };
 
@@ -58,13 +59,13 @@ const AppHeader = () => {
   };
 
   const onLogoutClicked = () => {
-    FB.getLoginStatus((resA: { status: string }) => {
+    window.FB.getLoginStatus((resA: { status: string }) => {
       axios()
         .post('/user/logout', { ckode_user: userData.ckode_user })
         .then(({ data: { response } }) => {
           if (response === 200) {
             if (resA.status === 'connected') {
-              FB.logout();
+              window.FB.logout();
               localStorage.removeItem('fbAuth');
             }
             localStorage.removeItem('userData');
@@ -80,7 +81,6 @@ const AppHeader = () => {
   };
 
   useEffect(() => {
-    initFB();
     window.addEventListener('resize', onSearchBlurred);
     return () => {
       window.removeEventListener('resize', onSearchBlurred);

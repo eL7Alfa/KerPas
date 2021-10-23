@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   ButtonBase,
@@ -27,7 +27,6 @@ import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useSnackbarConst } from './constants';
 import { LoadingButton } from '@mui/lab';
-import { initFB } from '../../Home/constants';
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -114,14 +113,14 @@ const SignIn = () => {
   const fBAuth = () => {
     if (!isAuthenticating) {
       setIsAuthenticating(true);
-      FB.getLoginStatus((resA: { status: string }) => {
+      window.FB.getLoginStatus((resA: { status: string }) => {
         if (resA.status === 'connected') {
-          FB.logout();
+          window.FB.logout();
         }
-        FB.login((resB: { authResponse: any }) => {
+        window.FB.login((resB: { authResponse: any }) => {
           if (resB.authResponse) {
             localStorage.setItem('fbAuth', JSON.stringify(resB));
-            FB.api('/me', (resC: { id: string; name: string }) => {
+            window.FB.api('/me', (resC: { id: string; name: string }) => {
               axios()
                 .post('/user/register', { fb_id: resC.id })
                 .then(({ data }) => {
@@ -155,10 +154,6 @@ const SignIn = () => {
   const onCloseAuthBtnClicked = () => {
     dispatch(setAuthModalOpenR(false));
   };
-
-  useEffect(() => {
-    initFB();
-  }, []);
 
   return (
     <Card className={classes.card}>
