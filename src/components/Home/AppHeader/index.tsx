@@ -19,7 +19,6 @@ import {
   setAuthModalOpenR,
   setAuthResetUserDataR,
 } from '../../../redux/actions';
-import { defaultStateRT } from '../../../redux/defaultStateR';
 import Image from 'next/image';
 import { profileUrl } from '../../../config/urls';
 import { rootReducerI } from '../../../redux/reducers';

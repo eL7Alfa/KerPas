@@ -1,5 +1,4 @@
-import { setAuthModalOpenT } from './Types/Auth';
-import { setAuthUserDataT } from './Types/Auth';
+import { setAuthModalOpenT, setAuthUserDataT } from './Types/Auth';
 import authStateR from './defaultStateR/authStateR';
 
 export const setAuthModalOpenR = (payload: boolean) => {
