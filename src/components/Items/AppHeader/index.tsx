@@ -11,7 +11,7 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
-import CartButton from '../../Items/CartButton';
+import CartButton from '../CartButton';
 import useStyles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import {

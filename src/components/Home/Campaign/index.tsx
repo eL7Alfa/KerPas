@@ -16,7 +16,7 @@ import {
 import SwipeableViews from 'react-swipeable-views';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import { mod } from 'react-swipeable-views-core';
-import { CampaignPropsType } from '../AppHeader/constants';
+import { CampaignPropsType } from '../../Items/AppHeader/constants';
 import useStyles from './styles';
 
 const AutoPlaySwipeableViews = autoPlay(virtualize(SwipeableViews));

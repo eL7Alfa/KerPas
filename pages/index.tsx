@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import AppHeader from '../src/components/Home/AppHeader';
+import AppHeader from '../src/components/Items/AppHeader';
 import { Box, Container, CssBaseline, Divider } from '@mui/material';
 import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
