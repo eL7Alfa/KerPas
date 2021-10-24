@@ -11,11 +11,15 @@ import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
 import { newProducts } from '../src/components/constants';
 import Auth from '../src/components/Auth';
-import { featuredServiceData } from '../src/components/Home/constants';
+import {
+  featuredServiceData,
+  selectedCatId,
+} from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';
 import { setAuthUserDataR } from '../src/redux/actions';
 import { checkUserData } from '../src/components/constants';
 import { menuImgUrl, supplierImgUrl } from '../src/config/urls';
+import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 
 type HomeProps = {
   getCampaigns: {
@@ -38,6 +42,11 @@ type HomeProps = {
     result: { [key: string]: any };
     response: number;
   };
+  getProductsByCategory: {
+    error: boolean;
+    result: { [key: string]: any };
+    response: number;
+  };
   getMenu: {
     error: boolean;
     result: { [key: string]: any };
@@ -50,12 +59,18 @@ export default function Home({
   getSupplier,
   getProducts,
   getPromotedProducts,
+  getProductsByCategory,
   getMenu,
 }: HomeProps) {
   const dispatch = useDispatch();
   const [supplier, setSupplier] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
+  const [selectedCat, setSelectedCat] = useState<{ id: number; name: string }>({
+    id: selectedCatId,
+    name: 'Bumbu dan Bahan Dapur',
+  });
+  const [productsByCategory, setProductsByCategory] = useState<any[]>([]);
   const [menu, setMenu] = useState<any[]>([]);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
@@ -141,6 +156,17 @@ export default function Home({
     }
   }, [getPromotedProducts]);
 
+  useEffect(() => {
+    if (
+      getProductsByCategory.response === 200 &&
+      getProductsByCategory &&
+      !getProductsByCategory.error &&
+      getProductsByCategory.result.data.length
+    ) {
+      setProductsByCategory(newProducts(getProductsByCategory.result.data));
+    }
+  }, [getProductsByCategory]);
+
   return (
     <Fragment>
       <Head>
@@ -157,6 +183,11 @@ export default function Home({
           <Categories data={menu} />
           <Divider />
           <Promo data={promotedProducts} />
+          <Divider />
+          <ProductsByCategory
+            category={selectedCat}
+            data={productsByCategory}
+          />
           <Divider />
           <Stores data={supplier} />
           <Divider />
@@ -187,6 +218,14 @@ export const getStaticProps = async () => {
     type: 'promo',
   });
   const { data: getMenu } = await axios().get('/market/menu');
+  const { data: getProductsByCategory } = await axios().post(
+    '/market/product',
+    {
+      limit: 12,
+      type: 'category',
+      subcategory: selectedCatId,
+    },
+  );
 
   return {
     props: {
@@ -195,6 +234,7 @@ export const getStaticProps = async () => {
       getProducts,
       getPromotedProducts,
       getMenu,
+      getProductsByCategory,
     },
   };
 };

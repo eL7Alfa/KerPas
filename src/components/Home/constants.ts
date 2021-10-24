@@ -30,3 +30,5 @@ export const featuredServiceData = [
       'linear-gradient(47deg, rgba(49,184,51,1) 0%, rgba(126,244,129,1) 100%)',
   },
 ];
+
+export const selectedCatId = 177;
