@@ -20,6 +20,8 @@ import { setAuthUserDataR } from '../src/redux/actions';
 import { checkUserData } from '../src/components/constants';
 import { menuImgUrl, supplierImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
+import NearestMarket from '../src/components/Home/NearestMarket';
+import haversine from 'haversine';
 
 type HomeProps = {
   getCampaigns: {
@@ -97,6 +99,29 @@ export default function Home({
   };
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const { latitude, longitude, accuracy } = coords;
+        if (accuracy <= 50) {
+          console.log(
+            (
+              haversine(
+                { latitude, longitude },
+                {
+                  latitude: -5.133116723362335,
+                  longitude: 119.42446459719548,
+                },
+                { unit: 'meter' },
+              ) / 1000
+            ).toFixed(2),
+          );
+        }
+      },
+      e => console.log(e),
+      {
+        enableHighAccuracy: true,
+      },
+    );
     checkUserData().then(res => {
       if (res) {
         dispatch(setAuthUserDataR(res));
@@ -182,6 +207,13 @@ export default function Home({
           <FeaturedServices data={featuredServiceData} />
           <Categories data={menu} />
           <Divider />
+          <NearestMarket
+            marketName={'Pasar Terong'}
+            address={'Jln. Pasar Terong'}
+            distance={5}
+            location={'Makassar'}
+          />
+          <Divider />
           <Promo data={promotedProducts} />
           <Divider />
           <ProductsByCategory
@@ -205,36 +237,136 @@ export default function Home({
 }
 
 export const getStaticProps = async () => {
-  const { data: getCampaigns } = await axios().post('/market/ads/campaign', {
-    category: 7,
-  });
-  const { data: getSupplier } = await axios().get('/market/supplier');
-  const { data: getProducts } = await axios().post('/market/product', {
-    limit: 12,
-    type: 'all',
-  });
-  const { data: getPromotedProducts } = await axios().post('/market/product', {
-    limit: 12,
-    type: 'promo',
-  });
-  const { data: getMenu } = await axios().get('/market/menu');
-  const { data: getProductsByCategory } = await axios().post(
-    '/market/product',
-    {
+  let props = {};
+  try {
+    const { data: getCampaigns } = await axios().post('/market/ads/campaign', {
+      category: 7,
+    });
+    props = {
+      ...props,
+      getCampaigns,
+    };
+  } catch (e) {
+    props = {
+      ...props,
+      getCampaigns: {
+        error: true,
+        result: [],
+      },
+    };
+  }
+  try {
+    const { data: getSupplier } = await axios().get('/market/supplier');
+    props = {
+      ...props,
+      getSupplier,
+    };
+  } catch (e) {
+    props = {
+      ...props,
+      getSupplier: {
+        error: true,
+        result: [],
+      },
+    };
+  }
+  try {
+    const { data: getProducts } = await axios().post('/market/product', {
       limit: 12,
-      type: 'category',
-      subcategory: selectedCatId,
-    },
-  );
+      type: 'all',
+    });
+    props = {
+      ...props,
+      getProducts,
+    };
+  } catch (e) {
+    props = {
+      ...props,
+      getProducts: {
+        error: true,
+        result: {
+          data: [],
+        },
+      },
+    };
+  }
+  try {
+    const { data: getPromotedProducts } = await axios().post(
+      '/market/product',
+      {
+        limit: 12,
+        type: 'promo',
+      },
+    );
+    props = {
+      ...props,
+      getPromotedProducts,
+    };
+  } catch (e) {
+    props = {
+      ...props,
+      getPromotedProducts: {
+        error: true,
+        result: {
+          data: [],
+        },
+      },
+    };
+  }
+  try {
+    const { data: getMenu } = await axios().get('/market/menu');
+    props = {
+      ...props,
+      getMenu,
+    };
+  } catch (e) {
+    props = {
+      ...props,
+      getMenu: {
+        error: true,
+        result: {
+          data: [],
+        },
+      },
+    };
+  }
+  try {
+    const { data: getProductsByCategory } = await axios().post(
+      '/market/product',
+      {
+        limit: 12,
+        type: 'category',
+        subcategory: selectedCatId,
+      },
+    );
+    props = {
+      ...props,
+      getProductsByCategory,
+    };
+  } catch (e) {
+    props = {
+      ...props,
+      getProductsByCategory: {
+        error: true,
+        result: {
+          data: [],
+        },
+      },
+    };
+  }
+
+  // return {
+  //   props: {
+  //     getCampaigns,
+  //     getSupplier,
+  //     getProducts,
+  //     getPromotedProducts,
+  //     getMenu,
+  //     getProductsByCategory,
+  //   },
+  // };
 
   return {
-    props: {
-      getCampaigns,
-      getSupplier,
-      getProducts,
-      getPromotedProducts,
-      getMenu,
-      getProductsByCategory,
-    },
+    props,
   };
 };
