@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('lg')]: {
         margin: '10px',
       },
+      [theme.breakpoints.down('sm')]: {
+        margin: 'auto 10px 10px 10px',
+      },
       height: 'fit-content',
       borderRadius: 10,
       boxShadow: '0 25px 20px -10px rgba(0,0,0,0.3)',
