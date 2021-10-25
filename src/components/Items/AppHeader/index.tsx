@@ -95,7 +95,7 @@ const AppHeader = () => {
 
   return (
     <AppBar position="fixed" elevation={5} className={classes.root}>
-      <Toolbar color={'primary'}>
+      <Toolbar color={'primary'} className={classes.sectionAToolbar}>
         <Typography className={classes.title} variant="h6" noWrap>
           KERPAS
         </Typography>
