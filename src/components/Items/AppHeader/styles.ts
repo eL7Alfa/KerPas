@@ -115,6 +115,38 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    sectionBToolbar: {
+      padding: `${theme.spacing(0.5)} 0`,
+      minHeight: `0!important`,
+    },
+    sectionBC: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: `0 ${theme.spacing(2)}`,
+      overflow: 'hidden',
+    },
+    sBAddressIcon: { color: theme.palette.primary.main },
+    sBAddressBtn: {
+      textTransform: 'unset',
+      padding: 0,
+      minWidth: 0,
+    },
+    sBAddressName: {
+      margin: `0 ${theme.spacing(0.5)}`,
+      fontWeight: 800,
+      color: '#000000',
+    },
+    sBAddressSeparator: {
+      margin: `0 ${theme.spacing(0.5)}`,
+      fontWeight: 800,
+      color: '#000000',
+    },
+    sBAddress: {
+      margin: `0 ${theme.spacing(0.5)}`,
+      fontWeight: 'normal',
+      color: '#000000',
+    },
   }),
 );
 

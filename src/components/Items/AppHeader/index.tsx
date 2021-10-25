@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import {
   Button,
   ClickAwayListener,
+  Container,
   Hidden,
   Menu,
   MenuItem,
@@ -23,6 +24,7 @@ import { profileUrl } from '../../../config/urls';
 import { rootReducerI } from '../../../redux/reducers';
 import authDefStateR from '../../../redux/defaultStateR/authDefStateR';
 import axios from '../../../config/axios';
+import { Room } from '@mui/icons-material';
 
 const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
@@ -77,6 +79,8 @@ const AppHeader = () => {
   const onCloseProfileBtnClicked = () => {
     setProfileBtnEl(null);
   };
+
+  const onAddressClicked = () => {};
 
   useEffect(() => {
     window.addEventListener('resize', onSearchBlurred);
@@ -149,6 +153,25 @@ const AppHeader = () => {
             </Fragment>
           )}
         </div>
+      </Toolbar>
+      <Toolbar color={'primary'} className={classes.sectionBToolbar}>
+        <Container maxWidth={'lg'} className={classes.sectionBC}>
+          <Room fontSize={'small'} className={classes.sBAddressIcon} />
+          <Typography variant={'body2'}>Dikirim ke:</Typography>
+          <Button className={classes.sBAddressBtn} onClick={onAddressClicked}>
+            <Typography variant={'body2'} className={classes.sBAddressName}>
+              Rumah
+            </Typography>
+            <Typography
+              variant={'body2'}
+              className={classes.sBAddressSeparator}>
+              •
+            </Typography>
+            <Typography variant={'body2'} className={classes.sBAddress}>
+              Jl. Pasaran Keke
+            </Typography>
+          </Button>
+        </Container>
       </Toolbar>
     </AppBar>
   );
