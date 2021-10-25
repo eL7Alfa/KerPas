@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
-const withImages = require('next-images');
-module.exports = withImages({
+module.exports = {
   reactStrictMode: false,
   images: {
     domains: ['kbi.sfo3.digitaloceanspaces.com', 'cdn.kerbel.in'],
   },
-  webpack: (config, options) => {
+  webpack: config => {
     // Important: return the modified config
     config.module.rules.push({
       test: /\.scss$/,
@@ -23,4 +22,4 @@ module.exports = withImages({
     });
     return config;
   },
-});
+};
