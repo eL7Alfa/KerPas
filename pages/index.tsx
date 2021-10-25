@@ -234,7 +234,7 @@ export default function Home({
       <CssBaseline />
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
-        <Box my={8} py={1}>
+        <Box py={1} mt={12} mb={8}>
           <Campaign data={getCampaigns.result} />
           <FeaturedServices data={featuredServiceData} />
           <Categories data={menu} />
