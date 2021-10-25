@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
     imgBgW: {
       position: 'absolute',
       top: 0,
-      left: 0,
-      right: 0,
+      left: theme.spacing(1),
+      right: theme.spacing(1),
       bottom: 0,
     },
     imgBgC: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: '55%',
       minWidth: '45%',
       height: 'fit-content',
-      minHeight: 166,
+      minHeight: 160,
       marginTop: theme.spacing(10),
       marginLeft: theme.spacing(5),
       [theme.breakpoints.down('md')]: {
