@@ -1,7 +1,7 @@
-import authStateR, { authStateRT } from './authStateR';
+import authStateR, { authDefStateRT } from './authDefStateR';
 
 export interface defaultStateRT {
-  authStateR: authStateRT;
+  authStateR: authDefStateRT;
 }
 
 const defaultStateR: defaultStateRT = {
