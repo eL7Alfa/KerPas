@@ -2,6 +2,7 @@ import React from 'react';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@mui/styles';
 import theme from '../src/config/theme';
+import { googleMapsApiKey } from '../src/components/constants';
 
 class AppDocument extends Document {
   render() {
@@ -17,6 +18,11 @@ class AppDocument extends Document {
         <body style={{ backgroundColor: theme.palette.background.default }}>
           <Main />
           <NextScript />
+          <script
+            async
+            defer
+            src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}`}
+          />
         </body>
       </Html>
     );
