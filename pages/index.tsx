@@ -129,6 +129,9 @@ export default function Home({
                       distance: elements[key].distance,
                     };
                   })
+                  .filter((d: { distance: { value: number } }) => {
+                    return d.distance.value < 3000;
+                  })
                   .sort(
                     (
                       a: { distance: { value: number } },
@@ -137,13 +140,13 @@ export default function Home({
                       return a.distance.value - b.distance.value;
                     },
                   );
-                setNearestMarket(newData[0] ?? null);
+                newData[0] && setNearestMarket(newData[0]);
               });
             });
         }
       },
       e => console.log(e),
-      { enableHighAccuracy: true },
+      { enableHighAccuracy: true, timeout: 5000 },
     );
   };
 
