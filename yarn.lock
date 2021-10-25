@@ -858,6 +858,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/google.maps@npm:^3.46.0":
+  version: 3.46.0
+  resolution: "@types/google.maps@npm:3.46.0"
+  checksum: 96c9bf45d03c67b45871f40132697f881dbbce74ac6d1f4d23fac522494ea637af785b18d1a7e0b5a7ceb13d6e3dcaa8d2f22e1c189a0fcaa0f60ffc14ab9be9
+  languageName: node
+  linkType: hard
+
 "@types/hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
@@ -3695,6 +3702,7 @@ fsevents@~2.3.1:
     "@mui/styles": ^5.0.1
     "@reduxjs/toolkit": ^1.6.1
     "@types/facebook-js-sdk": ^3.3.5
+    "@types/google.maps": ^3.46.0
     "@types/node": ^16.10.1
     "@types/react": 17.0.21
     "@types/react-facebook-login": ^4.1.4
