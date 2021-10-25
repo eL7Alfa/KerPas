@@ -129,9 +129,9 @@ export default function Home({
                       distance: elements[key].distance,
                     };
                   })
-                  .filter((d: { distance: { value: number } }) => {
-                    return d.distance.value < 3000;
-                  })
+                  // .filter((d: { distance: { value: number } }) => {
+                  //   return d.distance.value < 3000;
+                  // })
                   .sort(
                     (
                       a: { distance: { value: number } },
