@@ -32,7 +32,11 @@ const CartButton = ({
         onMouseLeave={() => setCartOpen(false)}>
         <ShoppingCart />
       </IconButton>
-      <Popper open={cartOpen} anchorEl={cartBtnRef.current} transition>
+      <Popper
+        open={cartOpen}
+        anchorEl={cartBtnRef.current}
+        transition
+        className={classes.popper}>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}

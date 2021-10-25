@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    popper: {
+      zIndex: 9999,
+    },
     cartMenuPaperW: {
       paddingTop: 10,
     },
