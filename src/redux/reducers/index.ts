@@ -1,9 +1,9 @@
 import authReducer from './authReducer';
 import { configureStore } from '@reduxjs/toolkit';
-import { authStateRT } from '../defaultStateR/authStateR';
+import { authDefStateRT } from '../defaultStateR/authDefStateR';
 
 export interface rootReducerI {
-  authState: authStateRT;
+  authState: authDefStateRT;
 }
 
 export const rootReducer = {
