@@ -24,7 +24,7 @@ import { profileUrl } from '../../../config/urls';
 import { rootReducerI } from '../../../redux/reducers';
 import authDefStateR from '../../../redux/defaultStateR/authDefStateR';
 import axios from '../../../config/axios';
-import { Room } from '@mui/icons-material';
+import { KeyboardArrowDown, Room } from '@mui/icons-material';
 
 const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
@@ -170,6 +170,10 @@ const AppHeader = () => {
             <Typography variant={'body2'} className={classes.sBAddress}>
               Jl. Pasaran Keke
             </Typography>
+            <KeyboardArrowDown
+              fontSize={'small'}
+              className={classes.sBAddressKArrowDown}
+            />
           </Button>
         </Container>
       </Toolbar>

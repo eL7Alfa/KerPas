@@ -147,6 +147,10 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 'normal',
       color: '#000000',
     },
+    sBAddressKArrowDown: {
+      fontWeight: 'normal',
+      color: '#000000',
+    },
   }),
 );
 
