@@ -53,7 +53,7 @@ const CartButton = ({
                   <ListItemAvatar>
                     <Avatar>A</Avatar>
                   </ListItemAvatar>
-                  <Typography>Hello oooooooooooooo0000000000000</Typography>
+                  <Typography>Hello heaven!</Typography>
                 </ListItem>
               </Paper>
             </div>
