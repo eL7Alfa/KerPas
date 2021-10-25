@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import useStyles from './styles';
 import Image from 'next/image';
 import { Paper, Typography } from '@mui/material';
 import { Room } from '@mui/icons-material';
 
 export type NearestMarketT = {
+  marketId: string;
+  marketCode: string;
   marketName: string;
   address: string;
-  distance: number;
+  distance: { text: string; value: number };
   location: string;
+  marketImg: string;
 };
 
 const NearestMarket = ({
+  marketId,
+  marketCode,
   marketName,
   address,
   distance,
   location,
+  marketImg,
 }: NearestMarketT) => {
   const classes = useStyles();
+  if (!marketId) {
+    return <Fragment />;
+  }
   return (
     <div className={classes.root}>
       <div className={classes.imgBgW}>
@@ -36,11 +45,11 @@ const NearestMarket = ({
           <div className={classes.itemInfoW}>
             <div className={classes.itemImgW}>
               <Image
-                alt={'Pasar Terdekat Anda'}
-                src={'/assets/images/nearestMarketBg.png'}
+                alt={marketName}
+                src={marketImg}
                 layout={'fill'}
                 placeholder={'blur'}
-                blurDataURL={'/assets/images/nearestMarketBg.png'}
+                blurDataURL={marketImg}
               />
             </div>
             <div className={classes.itemInfoDetail}>
@@ -51,7 +60,7 @@ const NearestMarket = ({
                 {address}
               </Typography>
               <Typography variant={'body1'} className={classes.detailDistance}>
-                {`${distance} km`}
+                {distance.text}
               </Typography>
               <div className={classes.detailLocationW}>
                 <Room className={classes.locationIcon} />

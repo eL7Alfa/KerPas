@@ -9,7 +9,11 @@ import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
-import { newProducts } from '../src/components/constants';
+import {
+  checkUserData,
+  getDistanceMatrix,
+  newProducts,
+} from '../src/components/constants';
 import Auth from '../src/components/Auth';
 import {
   featuredServiceData,
@@ -17,11 +21,9 @@ import {
 } from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';
 import { setAuthUserDataR } from '../src/redux/actions';
-import { checkUserData } from '../src/components/constants';
-import { menuImgUrl, supplierImgUrl } from '../src/config/urls';
+import { marketImgUrl, menuImgUrl, supplierImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
-import haversine from 'haversine';
 
 type HomeProps = {
   getCampaigns: {
@@ -77,6 +79,9 @@ export default function Home({
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
   const [lastProductPage, setLastProductPage] = useState<number>(0);
+  const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
+    {},
+  );
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
@@ -98,30 +103,52 @@ export default function Home({
     }
   };
 
-  useEffect(() => {
+  const getMarket = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         const { latitude, longitude, accuracy } = coords;
         if (accuracy <= 50) {
-          console.log(
-            (
-              haversine(
-                { latitude, longitude },
-                {
-                  latitude: -5.133116723362335,
-                  longitude: 119.42446459719548,
+          axios()
+            .get('/market/get')
+            .then(({ data }) => {
+              const destinations = data.result.map(
+                (d: { dlat: string; dlng: string }) => {
+                  return {
+                    lat: Number(d.dlat),
+                    lng: Number(d.dlng),
+                  };
                 },
-                { unit: 'meter' },
-              ) / 1000
-            ).toFixed(2),
-          );
+              );
+              const origins = [{ lat: latitude, lng: longitude }];
+              getDistanceMatrix({ destinations, origins }).then(r => {
+                const { elements } = r[0];
+                const newData = data.result
+                  .map((d: any, key: number) => {
+                    return {
+                      ...d,
+                      distance: elements[key].distance,
+                    };
+                  })
+                  .sort(
+                    (
+                      a: { distance: { value: number } },
+                      b: { distance: { value: number } },
+                    ) => {
+                      return a.distance.value - b.distance.value;
+                    },
+                  );
+                setNearestMarket(newData[0] ?? null);
+              });
+            });
         }
       },
       e => console.log(e),
-      {
-        enableHighAccuracy: true,
-      },
+      { enableHighAccuracy: true },
     );
+  };
+
+  useEffect(() => {
+    getMarket();
     checkUserData().then(res => {
       if (res) {
         dispatch(setAuthUserDataR(res));
@@ -208,10 +235,13 @@ export default function Home({
           <Categories data={menu} />
           <Divider />
           <NearestMarket
-            marketName={'Pasar Terong'}
-            address={'Jln. Pasar Terong'}
-            distance={5}
-            location={'Makassar'}
+            marketId={nearestMarket.id}
+            marketCode={nearestMarket.ckode_mitra}
+            marketName={nearestMarket.cnama_mitra}
+            address={nearestMarket.calamat_toko}
+            distance={nearestMarket.distance}
+            location={nearestMarket.ckota}
+            marketImg={`${marketImgUrl}/${nearestMarket.cfoto}`}
           />
           <Divider />
           <Promo data={promotedProducts} />
@@ -354,17 +384,6 @@ export const getStaticProps = async () => {
       },
     };
   }
-
-  // return {
-  //   props: {
-  //     getCampaigns,
-  //     getSupplier,
-  //     getProducts,
-  //     getPromotedProducts,
-  //     getMenu,
-  //     getProductsByCategory,
-  //   },
-  // };
 
   return {
     props,

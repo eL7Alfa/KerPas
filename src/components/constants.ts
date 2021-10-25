@@ -3,6 +3,28 @@ import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
 import { productImgUrl } from '../config/urls';
 
+// Google API Key
+export const googleMapsApiKey = 'AIzaSyAtCUe0ZNVf6otms1PhEOIAaB0cW7djbRw';
+
+export type getDistanceMatrixProps = {
+  destinations: { lat: number; lng: number }[];
+  origins: { lat: number; lng: number }[];
+};
+
+export const getDistanceMatrix = async ({
+  destinations,
+  origins,
+}: getDistanceMatrixProps) => {
+  const google = window.google;
+  const services = new google.maps.DistanceMatrixService();
+  const { rows } = await services.getDistanceMatrix({
+    destinations,
+    origins,
+    travelMode: google.maps.TravelMode.DRIVING,
+  });
+  return rows;
+};
+
 // Serialize New Product
 export const newProducts = (
   data: {
