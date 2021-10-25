@@ -858,13 +858,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/haversine@npm:^1.1.5":
-  version: 1.1.5
-  resolution: "@types/haversine@npm:1.1.5"
-  checksum: 55253fa19e78ee4c9f400bd3a69fbd5e2b76970fdb27f9db602daace7ab5d58d5a33ffa280ceba4737ca5393afdef9772075874dd48642cd3579d4fba1540f2a
-  languageName: node
-  linkType: hard
-
 "@types/hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.1
   resolution: "@types/hoist-non-react-statics@npm:3.3.1"
@@ -3024,13 +3017,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"haversine@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "haversine@npm:1.1.1"
-  checksum: 0d635e4da5bdd21c74ca92bb1bd44d6f8c6ca2166447fdbc33bb51469172c2326b103588a942767820602e3ba72d0a780b7180b042fac36381186bbc54316fcb
-  languageName: node
-  linkType: hard
-
 "he@npm:1.2.0":
   version: 1.2.0
   resolution: "he@npm:1.2.0"
@@ -3709,7 +3695,6 @@ fsevents@~2.3.1:
     "@mui/styles": ^5.0.1
     "@reduxjs/toolkit": ^1.6.1
     "@types/facebook-js-sdk": ^3.3.5
-    "@types/haversine": ^1.1.5
     "@types/node": ^16.10.1
     "@types/react": 17.0.21
     "@types/react-facebook-login": ^4.1.4
@@ -3726,7 +3711,6 @@ fsevents@~2.3.1:
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-react: ^7.24.0
     eslint-plugin-react-hooks: ^4.2.0
-    haversine: ^1.1.1
     next: 11.1.2
     next-images: ^1.8.1
     prettier: ^2.4.0
