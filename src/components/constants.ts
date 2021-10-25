@@ -10,7 +10,6 @@ export type getDistanceMatrixProps = {
   destinations: { lat: number; lng: number }[];
   origins: { lat: number; lng: number }[];
 };
-
 export const getDistanceMatrix = async ({
   destinations,
   origins,
