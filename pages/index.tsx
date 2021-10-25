@@ -140,7 +140,9 @@ export default function Home({
                       return a.distance.value - b.distance.value;
                     },
                   );
-                newData[0] && setNearestMarket(newData[0]);
+                if (newData.length > 0) {
+                  setNearestMarket(newData[0]);
+                }
               });
             });
         }
