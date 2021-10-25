@@ -107,6 +107,7 @@ export default function Home({
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         const { latitude, longitude, accuracy } = coords;
+        console.log(coords);
         if (accuracy <= 50) {
           axios()
             .get('/market/get')
