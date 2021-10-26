@@ -48,7 +48,6 @@ export const newProducts = (
         price: nretail_price,
         discount: discount,
         fixedPrice: min_price,
-        maxRequest: 'Maksimal Pesanan 1 product',
       };
     },
   );

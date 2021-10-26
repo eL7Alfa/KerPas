@@ -1,8 +1,8 @@
-import { Grid, Typography, useTheme } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useStyles from './styles';
 import Product, { ProductProps } from '../../Items/Product';
-import React, { useState } from 'react';
+import React from 'react';
 
 type ProductsProps = {
   data: ProductProps[];
@@ -18,8 +18,6 @@ const Products = ({
   isLastProductReached,
 }: ProductsProps) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const [listLoaded, setListLoaded] = useState({ state: false, height: 0 });
 
   return (
     <div className={classes.root}>
@@ -35,7 +33,6 @@ const Products = ({
               price={d.price}
               discount={d.discount}
               fixedPrice={d.fixedPrice}
-              maxRequest={d.maxRequest}
               url={d.url}
             />
           </Grid>

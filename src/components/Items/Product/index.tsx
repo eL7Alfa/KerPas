@@ -11,7 +11,6 @@ export type ProductProps = {
   price: number;
   discount: number;
   fixedPrice: number;
-  maxRequest: string;
   onClick?: () => void;
   onCartClick?: () => void;
 };
@@ -23,7 +22,6 @@ const Product = ({
   price,
   discount,
   fixedPrice,
-  maxRequest,
   onClick = () => {},
   onCartClick = () => {},
 }: ProductProps) => {
@@ -53,7 +51,6 @@ const Product = ({
               </div>
             )}
             <div className={classes.fixedPrice}>{toRupiah(fixedPrice)}</div>
-            <div className={classes.maxRequest}>{maxRequest}</div>
           </div>
         </Button>
       </div>
