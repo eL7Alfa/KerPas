@@ -2,7 +2,7 @@ import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Category, { CategoryProps } from './Category';
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 
@@ -34,6 +34,11 @@ const Categories = ({ data }: CategoriesProps) => {
       });
     }
   }, [data, listW, listW.current]);
+
+  if (data.length === 0) {
+    return <Fragment />;
+  }
+
   return (
     <div className={classes.root}>
       <Typography variant={'h6'} className={classes.title} px={2}>

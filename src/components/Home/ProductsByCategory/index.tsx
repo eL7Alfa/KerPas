@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import useStyles from './styles';
 import Product, { ProductProps } from '../../Items/Product';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 type ProductsByCategoryProps = {
   category: { id: number; name: string };
@@ -10,6 +10,10 @@ type ProductsByCategoryProps = {
 
 const ProductsByCategory = ({ category, data }: ProductsByCategoryProps) => {
   const classes = useStyles();
+
+  if (data.length === 0) {
+    return <Fragment />;
+  }
 
   return (
     <div className={classes.root}>
