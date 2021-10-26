@@ -25,7 +25,6 @@ const ProductsByCategory = ({ category, data }: ProductsByCategoryProps) => {
               price={d.price}
               discount={d.discount}
               fixedPrice={d.fixedPrice}
-              maxRequest={d.maxRequest}
               url={d.url}
             />
           </Grid>
