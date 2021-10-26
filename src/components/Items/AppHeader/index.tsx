@@ -156,27 +156,29 @@ const AppHeader = () => {
       </Toolbar>
       <Toolbar color={'primary'} className={classes.sectionBToolbar}>
         <Container maxWidth={'lg'} className={classes.sectionBC}>
-          <Room fontSize={'small'} className={classes.sBAddressIcon} />
-          <Typography variant={'body2'} className={classes.sBAddressLabel}>
-            Dikirim ke:
-          </Typography>
-          <Button className={classes.sBAddressBtn} onClick={onAddressClicked}>
-            <Typography variant={'body2'} className={classes.sBAddressName}>
-              Rumah
+          <div className={classes.sBAddressW}>
+            <Room fontSize={'small'} className={classes.sBAddressIcon} />
+            <Typography variant={'body2'} className={classes.sBAddressLabel}>
+              Dikirim ke:
             </Typography>
-            <Typography
-              variant={'body2'}
-              className={classes.sBAddressSeparator}>
-              •
-            </Typography>
-            <Typography variant={'body2'} className={classes.sBAddress}>
-              Jl. Pasaran Keke asd as dasdas dasd asdasd asda
-            </Typography>
-            <KeyboardArrowDown
-              fontSize={'small'}
-              className={classes.sBAddressKArrowDown}
-            />
-          </Button>
+            <Button className={classes.sBAddressBtn} onClick={onAddressClicked}>
+              <Typography variant={'body2'} className={classes.sBAddressName}>
+                Rumah
+              </Typography>
+              <Typography
+                variant={'body2'}
+                className={classes.sBAddressSeparator}>
+                •
+              </Typography>
+              <Typography variant={'body2'} className={classes.sBAddress}>
+                Jl. Pasaran Keke
+              </Typography>
+              <KeyboardArrowDown
+                fontSize={'small'}
+                className={classes.sBAddressKArrowDown}
+              />
+            </Button>
+          </div>
         </Container>
       </Toolbar>
     </AppBar>

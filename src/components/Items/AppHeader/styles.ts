@@ -128,8 +128,14 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      padding: `0 ${theme.spacing(1)}`,
+      padding: `0 ${theme.spacing(2)}`,
       overflow: 'hidden',
+    },
+    sBAddressW: {
+      marginLeft: 'auto',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     sBAddressIcon: { color: theme.palette.primary.main },
     sBAddressLabel: {
