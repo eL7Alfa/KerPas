@@ -150,14 +150,14 @@ export default function Home({
               });
             });
         } else {
-          if (locationRequestCount <= 10) {
+          if (locationRequestCount <= 6) {
             getMarket();
           }
         }
       },
       e => {
         console.log(e);
-        if (locationRequestCount <= 11) {
+        if (locationRequestCount <= 6) {
           getMarket();
         }
       },
