@@ -54,7 +54,6 @@ const Promo = ({ data }: PromoProps) => {
                 price={d.price}
                 discount={d.discount}
                 fixedPrice={d.fixedPrice}
-                maxRequest={d.maxRequest}
                 url={d.url}
               />
             </div>
