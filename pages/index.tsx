@@ -124,6 +124,7 @@ export default function Home({
               );
               const origins = [{ lat: latitude, lng: longitude }];
               getDistanceMatrix({ destinations, origins }).then(r => {
+                locationRequestCount = 0;
                 const { elements } = r[0];
                 const newData = data.result
                   .map((d: any, key: number) => {
@@ -156,11 +157,11 @@ export default function Home({
       },
       e => {
         console.log(e);
-        if (locationRequestCount <= 10) {
+        if (locationRequestCount <= 11) {
           getMarket();
         }
       },
-      { enableHighAccuracy: true, timeout: 5000 },
+      { enableHighAccuracy: true, timeout: 3000 },
     );
   };
 
