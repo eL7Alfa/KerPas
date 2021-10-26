@@ -100,6 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     userProfileBtn: {
+      marginLeft: theme.spacing(1),
       position: 'relative',
       width: 40,
       minWidth: 40,
