@@ -128,19 +128,26 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      padding: `0 ${theme.spacing(2)}`,
+      padding: `0 ${theme.spacing(1)}`,
       overflow: 'hidden',
     },
     sBAddressIcon: { color: theme.palette.primary.main },
+    sBAddressLabel: {
+      whiteSpace: 'nowrap',
+    },
     sBAddressBtn: {
       textTransform: 'unset',
       padding: 0,
       minWidth: 0,
+      whiteSpace: 'nowrap',
     },
     sBAddressName: {
       margin: `0 ${theme.spacing(0.5)}`,
       fontWeight: 800,
       color: '#000000',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
     sBAddressSeparator: {
       margin: `0 ${theme.spacing(0.5)}`,
@@ -151,6 +158,13 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: `0 ${theme.spacing(0.5)}`,
       fontWeight: 'normal',
       color: '#000000',
+      maxWidth: 200,
+      [theme.breakpoints.down('sm')]: {
+        maxWidth: 150,
+      },
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
     sBAddressKArrowDown: {
       fontSize: 16,

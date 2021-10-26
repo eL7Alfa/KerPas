@@ -157,7 +157,9 @@ const AppHeader = () => {
       <Toolbar color={'primary'} className={classes.sectionBToolbar}>
         <Container maxWidth={'lg'} className={classes.sectionBC}>
           <Room fontSize={'small'} className={classes.sBAddressIcon} />
-          <Typography variant={'body2'}>Dikirim ke:</Typography>
+          <Typography variant={'body2'} className={classes.sBAddressLabel}>
+            Dikirim ke:
+          </Typography>
           <Button className={classes.sBAddressBtn} onClick={onAddressClicked}>
             <Typography variant={'body2'} className={classes.sBAddressName}>
               Rumah
@@ -168,7 +170,7 @@ const AppHeader = () => {
               •
             </Typography>
             <Typography variant={'body2'} className={classes.sBAddress}>
-              Jl. Pasaran Keke
+              Jl. Pasaran Keke asd as dasdas dasd asdasd asda
             </Typography>
             <KeyboardArrowDown
               fontSize={'small'}
