@@ -103,7 +103,10 @@ export default function Home({
     }
   };
 
+  let locationRequestCount = 0;
+
   const getMarket = () => {
+    locationRequestCount++;
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
         const { latitude, longitude, accuracy } = coords;
@@ -145,9 +148,18 @@ export default function Home({
                 }
               });
             });
+        } else {
+          if (locationRequestCount <= 10) {
+            getMarket();
+          }
         }
       },
-      e => console.log(e),
+      e => {
+        console.log(e);
+        if (locationRequestCount <= 10) {
+          getMarket();
+        }
+      },
       { enableHighAccuracy: true, timeout: 5000 },
     );
   };
