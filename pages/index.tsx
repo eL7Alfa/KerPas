@@ -118,7 +118,8 @@ export default function Home() {
                     },
                   );
                 if (newData.length > 0) {
-                  setNearestMarket(newData[0]);
+                  console.log(newData);
+                  setNearestMarket(newData[1]);
                 }
               });
             });
