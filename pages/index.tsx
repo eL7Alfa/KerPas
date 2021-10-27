@@ -181,9 +181,7 @@ export default function Home() {
             category={selectedCat}
             data={productsByCategory}
           />
-          <Divider />
           <Stores data={supplier} />
-          <Divider />
           <Products
             data={products}
             onShowMoreBtnClicked={onShowMoreProductBtnClicked}
