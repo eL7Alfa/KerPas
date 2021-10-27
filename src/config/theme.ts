@@ -1,5 +1,14 @@
 import { createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+import { red, yellow } from '@mui/material/colors';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    tertiary: { main: string };
+  }
+  interface PaletteOptions {
+    tertiary: { main: string };
+  }
+}
 
 const theme = createTheme({
   palette: {
@@ -12,6 +21,9 @@ const theme = createTheme({
     },
     background: {
       default: '#fafafa',
+    },
+    tertiary: {
+      main: yellow[700],
     },
   },
   components: {
