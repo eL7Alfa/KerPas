@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'relative',
       borderRadius: theme.spacing(1),
       background: `linear-gradient(45deg, ${
-        theme.palette.primary.main
-      } 0%, ${alpha(theme.palette.primary.main, 0.8)} 100%)`,
+        theme.palette.tertiary.main
+      } 0%, ${alpha(theme.palette.tertiary.main, 0.8)} 100%)`,
       [theme.breakpoints.down('lg')]: {
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
