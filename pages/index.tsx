@@ -108,7 +108,7 @@ export default function Home() {
                       };
                     })
                     // .filter((d: { distance: { value: number } }) => {
-                    //   return d.distance.value < 3000;
+                    //   return d.distance.value <= 3000;
                     // })
                     .sort(
                       (
@@ -120,7 +120,7 @@ export default function Home() {
                     );
                   if (newData.length > 0) {
                     console.log(newData);
-                    setNearestMarket(newData[1]);
+                    setNearestMarket(newData[0]);
                   }
                 });
               }
