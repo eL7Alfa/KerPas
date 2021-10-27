@@ -2,7 +2,7 @@ import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
 import Store, { StoreProps } from './Store';
-import React, { createRef, useEffect, useState } from 'react';
+import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 
@@ -31,7 +31,6 @@ const Stores = ({ data }: StoresProps) => {
       listW.current &&
       !listLoaded.state
     ) {
-      console.log(listW.current.getBoundingClientRect().height);
       setListLoaded({
         state: true,
         height: listW.current.getBoundingClientRect().height,
@@ -39,6 +38,11 @@ const Stores = ({ data }: StoresProps) => {
       });
     }
   }, [data]);
+
+  if (!data.length) {
+    return <Fragment />;
+  }
+
   return (
     <div className={classes.root}>
       <Typography variant={'h6'} className={classes.title} px={2}>
