@@ -87,41 +87,43 @@ export default function Home() {
           axios()
             .get('/market/get')
             .then(({ data }) => {
-              const destinations = data.result.map(
-                (d: { dlat: string; dlng: string }) => {
-                  return {
-                    lat: Number(d.dlat),
-                    lng: Number(d.dlng),
-                  };
-                },
-              );
-              const origins = [{ lat: latitude, lng: longitude }];
-              getDistanceMatrix({ destinations, origins }).then(r => {
-                locationRequestCount = 0;
-                const { elements } = r[0];
-                const newData = data.result
-                  .map((d: any, key: number) => {
+              if (data.response === 200) {
+                const destinations = data.result.map(
+                  (d: { dlat: string; dlng: string }) => {
                     return {
-                      ...d,
-                      distance: elements[key].distance,
+                      lat: Number(d.dlat),
+                      lng: Number(d.dlng),
                     };
-                  })
-                  // .filter((d: { distance: { value: number } }) => {
-                  //   return d.distance.value < 3000;
-                  // })
-                  .sort(
-                    (
-                      a: { distance: { value: number } },
-                      b: { distance: { value: number } },
-                    ) => {
-                      return a.distance.value - b.distance.value;
-                    },
-                  );
-                if (newData.length > 0) {
-                  console.log(newData);
-                  setNearestMarket(newData[1]);
-                }
-              });
+                  },
+                );
+                const origins = [{ lat: latitude, lng: longitude }];
+                getDistanceMatrix({ destinations, origins }).then(r => {
+                  locationRequestCount = 0;
+                  const { elements } = r[0];
+                  const newData = data.result
+                    .map((d: any, key: number) => {
+                      return {
+                        ...d,
+                        distance: elements[key].distance,
+                      };
+                    })
+                    // .filter((d: { distance: { value: number } }) => {
+                    //   return d.distance.value < 3000;
+                    // })
+                    .sort(
+                      (
+                        a: { distance: { value: number } },
+                        b: { distance: { value: number } },
+                      ) => {
+                        return a.distance.value - b.distance.value;
+                      },
+                    );
+                  if (newData.length > 0) {
+                    console.log(newData);
+                    setNearestMarket(newData[1]);
+                  }
+                });
+              }
             });
         } else {
           if (locationRequestCount <= 6) {
