@@ -21,64 +21,37 @@ import {
 } from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';
 import { setAuthUserDataR } from '../src/redux/actions';
-import { marketImgUrl, menuImgUrl, supplierImgUrl } from '../src/config/urls';
+import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
+import {
+  useGetCampaigns,
+  useGetMenu,
+  useGetProducts,
+  useGetProductsByCategory,
+  useGetPromotedProducts,
+  useGetSupplier,
+} from '../src/Requests/HomeRequests';
 
-type HomeProps = {
-  getCampaigns: {
-    error: boolean;
-    result: any[];
-    response: number;
-  };
-  getSupplier: {
-    error: boolean;
-    result: any[];
-    response: number;
-  };
-  getProducts: {
-    error: boolean;
-    result: { [key: string]: any };
-    response: number;
-  };
-  getPromotedProducts: {
-    error: boolean;
-    result: { [key: string]: any };
-    response: number;
-  };
-  getProductsByCategory: {
-    error: boolean;
-    result: { [key: string]: any };
-    response: number;
-  };
-  getMenu: {
-    error: boolean;
-    result: { [key: string]: any };
-    response: number;
-  };
-};
-
-export default function Home({
-  getCampaigns,
-  getSupplier,
-  getProducts,
-  getPromotedProducts,
-  getProductsByCategory,
-  getMenu,
-}: HomeProps) {
+export default function Home() {
   const dispatch = useDispatch();
-  const [supplier, setSupplier] = useState<any[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
-  const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
-  const [selectedCat, setSelectedCat] = useState<{ id: number; name: string }>({
+  const { campaigns } = useGetCampaigns();
+  const { supplier } = useGetSupplier();
+  const { menu } = useGetMenu();
+  const { promotedProducts } = useGetPromotedProducts();
+  const [selectedCat] = useState<{ id: number; name: string }>({
     id: selectedCatId,
     name: 'Bumbu dan Bahan Dapur',
   });
-  const [productsByCategory, setProductsByCategory] = useState<any[]>([]);
-  const [menu, setMenu] = useState<any[]>([]);
-  const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
+  const { productsByCategory } = useGetProductsByCategory();
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
-  const [lastProductPage, setLastProductPage] = useState<number>(0);
+  const {
+    products,
+    setProducts,
+    lastProductPage,
+    isProductLoading,
+    setIsProductLoading,
+  } = useGetProducts();
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
   );
@@ -174,69 +147,6 @@ export default function Home({
     });
   }, []);
 
-  useEffect(() => {
-    if (getSupplier.response === 200 && getSupplier && !getSupplier.error) {
-      const supplier = getSupplier.result.map(m => {
-        return {
-          name: m.cnama_supplier,
-          imageUri: `${supplierImgUrl}/${m.cimg_supplier}`,
-          marketName: m.calamat_supplier,
-          block: 'A1 - B2',
-          location: 'Makassar',
-        };
-      });
-      setSupplier(supplier);
-    }
-  }, [getSupplier]);
-
-  useEffect(() => {
-    if (getMenu.response === 200 && getMenu && !getMenu.error) {
-      const newMenu = getMenu.result.map((gM: { ckelas: any; cicon: any }) => {
-        return {
-          name: gM.ckelas,
-          imageUri: `${menuImgUrl}/${gM.cicon}`,
-          url: '',
-        };
-      });
-      setMenu(newMenu);
-    }
-  }, [getMenu]);
-
-  useEffect(() => {
-    if (
-      getProducts.response === 200 &&
-      getProducts &&
-      !getProducts.error &&
-      getProducts.result.data.length
-    ) {
-      setProducts(newProducts(getProducts.result.data));
-      setLastProductPage(getProducts.result.last_page);
-      setIsProductLoading(false);
-    }
-  }, [getProducts]);
-
-  useEffect(() => {
-    if (
-      getPromotedProducts.response === 200 &&
-      getPromotedProducts &&
-      !getPromotedProducts.error &&
-      getPromotedProducts.result.data.length
-    ) {
-      setPromotedProducts(newProducts(getPromotedProducts.result.data));
-    }
-  }, [getPromotedProducts]);
-
-  useEffect(() => {
-    if (
-      getProductsByCategory.response === 200 &&
-      getProductsByCategory &&
-      !getProductsByCategory.error &&
-      getProductsByCategory.result.data.length
-    ) {
-      setProductsByCategory(newProducts(getProductsByCategory.result.data));
-    }
-  }, [getProductsByCategory]);
-
   return (
     <Fragment>
       <Head>
@@ -248,7 +158,7 @@ export default function Home({
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
         <Box py={1} mt={10} mb={8}>
-          <Campaign data={getCampaigns.result} />
+          <Campaign data={campaigns} />
           <FeaturedServices data={featuredServiceData} />
           <Categories data={menu} />
           <Divider />
@@ -283,127 +193,3 @@ export default function Home({
     </Fragment>
   );
 }
-
-export const getStaticProps = async () => {
-  let props = {};
-  try {
-    const { data: getCampaigns } = await axios().post('/market/ads/campaign', {
-      category: 7,
-    });
-    props = {
-      ...props,
-      getCampaigns,
-    };
-  } catch (e) {
-    props = {
-      ...props,
-      getCampaigns: {
-        error: true,
-        result: [],
-      },
-    };
-  }
-  try {
-    const { data: getSupplier } = await axios().get('/market/supplier');
-    props = {
-      ...props,
-      getSupplier,
-    };
-  } catch (e) {
-    props = {
-      ...props,
-      getSupplier: {
-        error: true,
-        result: [],
-      },
-    };
-  }
-  try {
-    const { data: getProducts } = await axios().post('/market/product', {
-      limit: 12,
-      type: 'all',
-    });
-    props = {
-      ...props,
-      getProducts,
-    };
-  } catch (e) {
-    props = {
-      ...props,
-      getProducts: {
-        error: true,
-        result: {
-          data: [],
-        },
-      },
-    };
-  }
-  try {
-    const { data: getPromotedProducts } = await axios().post(
-      '/market/product',
-      {
-        limit: 12,
-        type: 'promo',
-      },
-    );
-    props = {
-      ...props,
-      getPromotedProducts,
-    };
-  } catch (e) {
-    props = {
-      ...props,
-      getPromotedProducts: {
-        error: true,
-        result: {
-          data: [],
-        },
-      },
-    };
-  }
-  try {
-    const { data: getMenu } = await axios().get('/market/menu');
-    props = {
-      ...props,
-      getMenu,
-    };
-  } catch (e) {
-    props = {
-      ...props,
-      getMenu: {
-        error: true,
-        result: {
-          data: [],
-        },
-      },
-    };
-  }
-  try {
-    const { data: getProductsByCategory } = await axios().post(
-      '/market/product',
-      {
-        limit: 12,
-        type: 'category',
-        subcategory: selectedCatId,
-      },
-    );
-    props = {
-      ...props,
-      getProductsByCategory,
-    };
-  } catch (e) {
-    props = {
-      ...props,
-      getProductsByCategory: {
-        error: true,
-        result: {
-          data: [],
-        },
-      },
-    };
-  }
-
-  return {
-    props,
-  };
-};
