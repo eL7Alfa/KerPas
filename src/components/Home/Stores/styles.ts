@@ -1,12 +1,22 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      marginTop: theme.spacing(1),
+      paddingTop: theme.spacing(1),
       position: 'relative',
+      borderRadius: theme.spacing(1),
+      background: `linear-gradient(45deg, ${
+        theme.palette.primary.main
+      } 0%, ${alpha(theme.palette.primary.main, 0.8)} 100%)`,
+      [theme.breakpoints.down('lg')]: {
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: theme.spacing(0),
+        borderTopLeftRadius: theme.spacing(0),
+      },
       '&:hover': {
         '& $nextIconBtn': {
           right: theme.spacing(2),
@@ -19,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     title: {
-      color: grey[800],
+      color: '#ffffff',
     },
     itemsW: {
       paddingTop: theme.spacing(2),
