@@ -23,7 +23,7 @@ const theme = createTheme({
       default: '#fafafa',
     },
     tertiary: {
-      main: yellow[700],
+      main: yellow[800],
     },
   },
   components: {
