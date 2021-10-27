@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.spacing(1),
       background: `linear-gradient(45deg, ${
         theme.palette.tertiary.main
-      } 0%, ${alpha(theme.palette.tertiary.main, 0.8)} 100%)`,
+      } 0%, ${alpha(theme.palette.tertiary.main, 0.7)} 100%)`,
       [theme.breakpoints.down('lg')]: {
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
