@@ -5,6 +5,7 @@ declare module '@mui/material/styles' {
   interface Palette {
     tertiary: { main: string };
   }
+
   interface PaletteOptions {
     tertiary: { main: string };
   }
