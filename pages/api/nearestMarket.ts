@@ -1,10 +1,7 @@
 import axios from '../../src/config/axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
-import {
-  getDistanceMatrix,
-  googleMapsApiKey,
-} from '../../src/components/constants';
+import { googleMapsApiKey } from '../../src/components/constants';
 import axiosBase from 'axios';
 
 export const config = {
