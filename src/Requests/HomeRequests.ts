@@ -4,6 +4,17 @@ import { menuImgUrl, supplierImgUrl } from '../config/urls';
 import { newProducts } from '../components/constants';
 import { selectedCatId } from '../components/Home/constants';
 
+type getAddressPropsT = { token: string; userCode: string };
+
+export const getAddress = async ({ token, userCode }: getAddressPropsT) => {
+  try {
+    const { data } = await axios(token).get(`/address/get/${userCode}`);
+    return data;
+  } catch (e) {
+    return e;
+  }
+};
+
 export const useGetCampaigns = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
   useEffect(() => {
