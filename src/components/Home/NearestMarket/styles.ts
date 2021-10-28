@@ -5,7 +5,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       position: 'relative',
-      margin: `${theme.spacing(2)} 0`,
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(2),
       padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
       overflow: 'hidden',
       height: 360,

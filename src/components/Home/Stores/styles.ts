@@ -5,6 +5,8 @@ import { alpha } from '@mui/material';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(4),
       paddingTop: theme.spacing(1),
       position: 'relative',
       borderRadius: theme.spacing(1),

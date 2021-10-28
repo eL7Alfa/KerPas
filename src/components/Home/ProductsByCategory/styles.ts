@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       position: 'relative',
       borderBottom: `1px ${grey[500]}`,
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(4),
     },
     title: {
       color: grey[800],
