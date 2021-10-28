@@ -11,9 +11,18 @@ export const getAddress = ({ token, userCode }: getAddressPropsT) =>
   new Promise((resolve, reject) => {
     axios(token)
       .get(`/address/get/${userCode}`)
-      .then(({ data }) => {
-        resolve(data);
-      })
+      .then(
+        ({
+          data: {
+            result: { address },
+            response,
+          },
+        }) => {
+          if (response === 200) {
+            resolve(address);
+          }
+        },
+      )
       .catch(e => {
         reject(e as AxiosError);
       });
