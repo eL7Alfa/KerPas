@@ -25,6 +25,7 @@ import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
 import {
+  getAddress,
   useGetCampaigns,
   useGetMenu,
   useGetProducts,
@@ -146,6 +147,8 @@ export default function Home() {
     checkUserData().then(res => {
       if (res) {
         dispatch(setAuthUserDataR(res));
+        const userData = { token: res.token, userCode: res.ckode_user };
+        getAddress(userData).then(res => console.log(res));
       }
     });
   }, []);
