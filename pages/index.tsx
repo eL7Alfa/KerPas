@@ -86,7 +86,6 @@ export default function Home() {
           axiosBase
             .post('/api/nearestMarket', { lat: latitude, lng: longitude })
             .then(({ data: { result, response } }) => {
-              console.log(result);
               if (response === 200) {
                 setNearestMarket(result);
               }
