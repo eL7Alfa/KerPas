@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         !(isFinite(Number(lng)) && Math.abs(Number(lng)) <= 180)
       ) {
         const result = {
-          result: [],
+          result: {},
           status: 'Bad Request',
           response: 400,
           error: false,
@@ -42,8 +42,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { data: dataG } = resGoogle;
         const statusG = resGoogle.status;
         if (dataG.status === 'OK' && statusG === 200) {
-          const { rows: r } = dataG;
-          const { elements } = r[0];
+          const { rows } = dataG;
+          const { elements } = rows[0];
 
           const newData = data.result
             .map((d: any, key: number) => {
@@ -81,7 +81,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(statusG).json(result);
           } else {
             const result = {
-              result: [],
+              result: {},
               status: dataG.status,
               response: statusG,
               error: false,
@@ -91,7 +91,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           }
         } else {
           const result = {
-            result: [],
+            result: {},
             status: dataG.status,
             error: true,
             response: statusG,
@@ -103,7 +103,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
   } catch (e: any) {
     const result = {
-      result: [],
+      result: {},
       status: e.response.status || e.status,
       response: e.response.status || e.status,
       error: true,
