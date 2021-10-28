@@ -26,7 +26,6 @@ const Categories = ({ data }: CategoriesProps) => {
 
   useEffect(() => {
     if (prevData !== data && listW.current && !listLoaded.state) {
-      console.log(listW.current.getBoundingClientRect().height);
       setListLoaded({
         state: true,
         height: listW.current.getBoundingClientRect().height,

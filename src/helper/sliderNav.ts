@@ -35,10 +35,6 @@ export const onNext =
           behavior: 'smooth',
         });
       } else {
-        console.log(
-          breakpoint / length,
-          Math.floor(window.innerWidth / (breakpoint / length)),
-        );
         hList.scrollTo({
           left:
             hList.scrollLeft +

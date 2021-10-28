@@ -31,7 +31,6 @@ const Promo = ({ data }: PromoProps) => {
       listW.current &&
       !listLoaded.state
     ) {
-      console.log(listW.current.getBoundingClientRect().height);
       setListLoaded({
         state: true,
         height: listW.current.getBoundingClientRect().height,
