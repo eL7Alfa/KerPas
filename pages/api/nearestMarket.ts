@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       ) {
         const result = {
           result: {},
-          status: 'Bad Request',
+          status: 'BAD REQUEST',
           response: 400,
           error: false,
           errorMessage: `Fill or check the required fields ("lat" & "lng")!`,
