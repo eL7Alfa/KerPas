@@ -84,8 +84,11 @@ export default function Home() {
         if (accuracy <= 50) {
           axiosBase
             .post('/api/nearestMarket', { lat: latitude, lng: longitude })
-            .then(({ data }) => {
-              setNearestMarket(data);
+            .then(({ data: { result, response } }) => {
+              console.log(result);
+              if (response === 200) {
+                setNearestMarket(result);
+              }
             });
         } else {
           if (locationRequestCount <= 6) {
