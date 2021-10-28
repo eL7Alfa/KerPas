@@ -9,11 +9,7 @@ import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Home/Products';
-import {
-  checkUserData,
-  getDistanceMatrix,
-  newProducts,
-} from '../src/components/constants';
+import { checkUserData, newProducts } from '../src/components/constants';
 import Auth from '../src/components/Auth';
 import {
   featuredServiceData,
@@ -33,6 +29,7 @@ import {
   useGetPromotedProducts,
   useGetSupplier,
 } from '../src/Requests/HomeRequests';
+import axiosBase from 'axios';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -85,45 +82,12 @@ export default function Home() {
       ({ coords }) => {
         const { latitude, longitude, accuracy } = coords;
         if (accuracy <= 50) {
-          axios()
-            .get('/market/get')
+          axiosBase
+            .post('/api/nearestMarket', { lat: latitude, lng: longitude })
             .then(({ data }) => {
-              if (data.response === 200) {
-                const destinations = data.result.map(
-                  (d: { dlat: string; dlng: string }) => {
-                    return {
-                      lat: Number(d.dlat),
-                      lng: Number(d.dlng),
-                    };
-                  },
-                );
-                const origins = [{ lat: latitude, lng: longitude }];
-                getDistanceMatrix({ destinations, origins }).then(r => {
-                  locationRequestCount = 0;
-                  const { elements } = r[0];
-                  const newData = data.result
-                    .map((d: any, key: number) => {
-                      return {
-                        ...d,
-                        distance: elements[key].distance,
-                      };
-                    })
-                    // .filter((d: { distance: { value: number } }) => {
-                    //   return d.distance.value <= 3000;
-                    // })
-                    .sort(
-                      (
-                        a: { distance: { value: number } },
-                        b: { distance: { value: number } },
-                      ) => {
-                        return a.distance.value - b.distance.value;
-                      },
-                    );
-                  if (newData.length > 0) {
-                    console.log(newData);
-                    setNearestMarket(newData[0]);
-                  }
-                });
+              if (data.length > 0) {
+                console.log(data);
+                setNearestMarket(data);
               }
             });
         } else {
