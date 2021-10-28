@@ -5,9 +5,9 @@ import { newProducts } from '../components/constants';
 import { selectedCatId } from '../components/Home/constants';
 import { AxiosError } from 'axios';
 
-type getAddressPropsT = { token: string; userCode: string };
+type getAddressesPropsT = { token: string; userCode: string };
 
-export const getAddress = ({ token, userCode }: getAddressPropsT) =>
+export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
   new Promise((resolve, reject) => {
     axios(token)
       .get(`/address/get/${userCode}`)

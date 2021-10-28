@@ -21,7 +21,7 @@ import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
 import {
-  getAddress,
+  getAddresses,
   useGetCampaigns,
   useGetMenu,
   useGetProducts,
@@ -113,7 +113,7 @@ export default function Home() {
       .then(userData => {
         if (userData) {
           dispatch(setAuthUserDataR(userData));
-          getAddress({
+          getAddresses({
             token: userData.token,
             userCode: userData.ckode_user,
           })
