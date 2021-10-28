@@ -53,6 +53,7 @@ export default function Home() {
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
   );
+  const [addresses, setAddresses] = useState<any>([]);
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
@@ -108,13 +109,19 @@ export default function Home() {
 
   useEffect(() => {
     getMarket();
-    checkUserData().then(res => {
-      if (res) {
-        dispatch(setAuthUserDataR(res));
-        const userData = { token: res.token, userCode: res.ckode_user };
-        getAddress(userData).then(res => console.log(res));
-      }
-    });
+    checkUserData()
+      .then(userData => {
+        if (userData) {
+          dispatch(setAuthUserDataR(userData));
+          getAddress({
+            token: userData.token,
+            userCode: userData.ckode_user,
+          })
+            .then(addresses => setAddresses(addresses))
+            .catch(e => console.log(e.response));
+        }
+      })
+      .catch(e => console.log(e.response));
   }, []);
 
   return (
