@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
 import { productImgUrl } from '../config/urls';
+import { AxiosError } from 'axios';
+import { userDataRT } from '../redux/defaultStateR/authDefStateR';
 
 // Google API Key
 export const googleMapsApiKey = 'AIzaSyAtCUe0ZNVf6otms1PhEOIAaB0cW7djbRw';
@@ -53,21 +55,27 @@ export const newProducts = (
   );
 
 // Auth
-export const checkUserData = async () => {
-  const _userData = localStorage.getItem('userData');
-  if (_userData) {
-    const userData = JSON.parse(_userData);
-    return await axios(userData.token)
-      .post('/user/retrieve', { ckode_user: userData.ckode_user })
-      .then(({ data: { response } }) => {
-        if (response === 200) {
-          return userData;
-        }
-      })
-      .catch(() => null);
-  }
-  return null;
-};
+export const checkUserData = () =>
+  new Promise<userDataRT>((resolve, reject) => {
+    const _userData = localStorage.getItem('userData');
+    if (_userData) {
+      const userData = JSON.parse(_userData);
+      axios(userData.token)
+        .post('/user/retrieve', {
+          ckode_user: userData.ckode_user,
+        })
+        .then(({ data: { response, result } }) => {
+          if (response === 200) {
+            const newUserData = { ...result, token: userData.token };
+            localStorage.setItem('userData', JSON.stringify(newUserData));
+            resolve(newUserData);
+          }
+        })
+        .catch((e: AxiosError) => {
+          reject(e);
+        });
+    }
+  });
 
 // Snackbar
 export type snackbarStateT = {
