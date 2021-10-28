@@ -3,17 +3,21 @@ import axios from '../config/axios';
 import { menuImgUrl, supplierImgUrl } from '../config/urls';
 import { newProducts } from '../components/constants';
 import { selectedCatId } from '../components/Home/constants';
+import { AxiosError } from 'axios';
 
 type getAddressPropsT = { token: string; userCode: string };
 
-export const getAddress = async ({ token, userCode }: getAddressPropsT) => {
-  try {
-    const { data } = await axios(token).get(`/address/get/${userCode}`);
-    return data;
-  } catch (e) {
-    return e;
-  }
-};
+export const getAddress = ({ token, userCode }: getAddressPropsT) =>
+  new Promise((resolve, reject) => {
+    axios(token)
+      .get(`/address/get/${userCode}`)
+      .then(({ data }) => {
+        resolve(data);
+      })
+      .catch(e => {
+        reject(e as AxiosError);
+      });
+  });
 
 export const useGetCampaigns = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
