@@ -3,7 +3,7 @@ import AppHeader from '../src/components/Items/AppHeader';
 import { Box, Container, CssBaseline, Divider } from '@mui/material';
 import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
@@ -76,8 +76,7 @@ export default function Home() {
   };
 
   let locationRequestCount = 0;
-
-  const getMarket = () => {
+  const getMarketByDeviceAddress = () => {
     locationRequestCount++;
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
@@ -92,21 +91,34 @@ export default function Home() {
             });
         } else {
           if (locationRequestCount <= 6) {
-            getMarket();
+            getMarketByDeviceAddress();
           }
         }
       },
       e => {
         console.log(e);
         if (locationRequestCount <= 6) {
-          getMarket();
+          getMarketByDeviceAddress();
         }
       },
       { enableHighAccuracy: true, timeout: 3000 },
     );
   };
 
+  const getMarket = useCallback(() => {
+    if (addresses.length) {
+      // axiosBase
+      //   .post('/api/nearestMarket', { lat: latitude, lng: longitude })
+      //   .then(({ data: { result, response } }) => {
+      //     if (response === 200) {
+      //       setNearestMarket(result);
+      //     }
+      //   });
+    }
+  }, [addresses]);
+
   useEffect(() => {
+    getMarketByDeviceAddress();
     getMarket();
     checkUserData()
       .then(userData => {
@@ -121,7 +133,7 @@ export default function Home() {
         }
       })
       .catch(e => console.log(e.response));
-  }, []);
+  }, [getMarket]);
 
   return (
     <Fragment>
