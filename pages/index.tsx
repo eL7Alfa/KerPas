@@ -15,7 +15,7 @@ import {
   featuredServiceData,
   selectedCatId,
 } from '../src/components/Home/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
@@ -30,8 +30,11 @@ import {
 } from '../src/Requests/HomeRequests';
 import axiosBase from 'axios';
 import { setAuthUserDataR } from '../src/redux/actions/authRActions';
+import { setSelectedAddressR } from '../src/redux/actions/appRActions';
+import { rootReducerI } from '../src/redux/reducers';
 
 export default function Home() {
+  const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
   const { campaigns } = useGetCampaigns();
   const { supplier } = useGetSupplier();
@@ -54,6 +57,7 @@ export default function Home() {
     {},
   );
   const [addresses, setAddresses] = useState<any>([]);
+  const [selectedAddress, setSelectedAddress] = useState<any>({});
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
@@ -105,24 +109,38 @@ export default function Home() {
     );
   };
 
-  const getNearestMarket = useCallback(() => {
-    if (addresses.length) {
-      // axiosBase
-      //   .post('/api/nearestMarket', { lat: latitude, lng: longitude })
-      //   .then(({ data: { result, response } }) => {
-      //     if (response === 200) {
-      //       setNearestMarket(result);
-      //     }
-      //   });
+  const getNearestMarket = ({ lat, lng }: { lat: number; lng: number }) => {
+    axiosBase
+      .post('/api/nearestMarket', { lat, lng })
+      .then(({ data: { result, response } }) => {
+        if (response === 200) {
+          setNearestMarket(result);
+        }
+      });
+  };
+
+  const getSelectedAddress = useCallback(() => {
+    const _selectedAddress = localStorage.getItem('selectedAddress');
+    if (_selectedAddress) {
+      const selectedAddress = JSON.parse(_selectedAddress);
+      dispatch(setSelectedAddressR(selectedAddress));
     }
   }, [addresses]);
 
   useEffect(() => {
-    // getNearestMarketByDeviceAddress();
-    // getNearestMarket();
+    if (Object.keys(selectedAddress).length !== 0) {
+      const { dlat: lat, dlng: lng } = selectedAddress;
+      getNearestMarket({ lat, lng });
+    } else {
+      getNearestMarketByDeviceAddress();
+    }
+  }, [selector.appState.selectedAddress]);
+
+  useEffect(() => {
     checkUserData()
       .then(userData => {
         if (userData) {
+          getSelectedAddress();
           dispatch(setAuthUserDataR(userData));
           getAddresses({
             token: userData.token,
@@ -133,7 +151,7 @@ export default function Home() {
         }
       })
       .catch(e => console.log(e.response));
-  }, [getNearestMarket]);
+  }, []);
 
   return (
     <Fragment>
