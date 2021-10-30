@@ -134,6 +134,10 @@ export default function Home() {
     } else {
       getNearestMarketByDeviceAddress();
     }
+  }, [selectedAddress]);
+
+  useEffect(() => {
+    setSelectedAddress(selectedAddress);
   }, [selector.appState.selectedAddress]);
 
   useEffect(() => {
