@@ -16,7 +16,6 @@ import {
   selectedCatId,
 } from '../src/components/Home/constants';
 import { useDispatch } from 'react-redux';
-import { setAuthUserDataR } from '../src/redux/actions';
 import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
@@ -30,6 +29,7 @@ import {
   useGetSupplier,
 } from '../src/Requests/HomeRequests';
 import axiosBase from 'axios';
+import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ export default function Home() {
   };
 
   let locationRequestCount = 0;
-  const getMarketByDeviceAddress = () => {
+  const getNearestMarketByDeviceAddress = () => {
     locationRequestCount++;
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
@@ -91,21 +91,21 @@ export default function Home() {
             });
         } else {
           if (locationRequestCount <= 6) {
-            getMarketByDeviceAddress();
+            getNearestMarketByDeviceAddress();
           }
         }
       },
       e => {
         console.log(e);
         if (locationRequestCount <= 6) {
-          getMarketByDeviceAddress();
+          getNearestMarketByDeviceAddress();
         }
       },
       { enableHighAccuracy: true, timeout: 3000 },
     );
   };
 
-  const getMarket = useCallback(() => {
+  const getNearestMarket = useCallback(() => {
     if (addresses.length) {
       // axiosBase
       //   .post('/api/nearestMarket', { lat: latitude, lng: longitude })
@@ -118,8 +118,8 @@ export default function Home() {
   }, [addresses]);
 
   useEffect(() => {
-    getMarketByDeviceAddress();
-    getMarket();
+    // getNearestMarketByDeviceAddress();
+    // getNearestMarket();
     checkUserData()
       .then(userData => {
         if (userData) {
@@ -133,7 +133,7 @@ export default function Home() {
         }
       })
       .catch(e => console.log(e.response));
-  }, [getMarket]);
+  }, [getNearestMarket]);
 
   return (
     <Fragment>
