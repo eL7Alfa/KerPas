@@ -22,7 +22,10 @@ import {
 import theme from '../../../config/theme';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
-import { setAuthModalOpenR, setAuthUserDataR } from '../../../redux/actions';
+import {
+  setAuthModalOpenR,
+  setAuthUserDataR,
+} from '../../../redux/actions/authRActions';
 import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useSnackbarConst } from '../../constants';

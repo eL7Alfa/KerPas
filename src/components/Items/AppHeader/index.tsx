@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setAuthModalOpenR,
   setAuthResetUserDataR,
-} from '../../../redux/actions';
+} from '../../../redux/actions/authRActions';
 import Image from 'next/image';
 import { profileUrl } from '../../../config/urls';
 import { rootReducerI } from '../../../redux/reducers';
