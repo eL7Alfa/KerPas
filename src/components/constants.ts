@@ -32,7 +32,7 @@ export const newProducts = (
     cnama_produk: string;
     cimg_top: string;
     nretail_price: number;
-    discount: number;
+    ndiscount: number;
     min_price: number;
   }[],
 ) =>
@@ -41,14 +41,14 @@ export const newProducts = (
       cnama_produk = '',
       cimg_top = '',
       nretail_price = 0,
-      discount = 0,
+      ndiscount = 0,
       min_price = 0,
     }) => {
       return {
         name: cnama_produk,
         imageUri: `${productImgUrl}/${cimg_top}`,
         price: nretail_price,
-        discount: discount,
+        discount: ndiscount,
         fixedPrice: min_price,
       };
     },
