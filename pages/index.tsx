@@ -86,8 +86,8 @@ export default function Home() {
       ({ coords }) => {
         const { latitude, longitude, accuracy } = coords;
         if (accuracy <= 50) {
-          axiosBase
-            .post('/api/nearestMarket', { lat: latitude, lng: longitude })
+          axios()
+            .post('/nearest', { lat: latitude, lng: longitude })
             .then(({ data: { result, response } }) => {
               if (response === 200) {
                 setNearestMarket(result);
