@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from '../config/axios';
 import { menuImgUrl, supplierImgUrl } from '../config/urls';
 import { newProducts } from '../components/constants';
-import { selectedCatId } from '../components/Home/constants';
 import { AxiosError } from 'axios';
 
 type getAddressesPropsT = { token: string; userCode: string };
@@ -163,31 +162,4 @@ export const useGetPromotedProducts = (marketCode: string) => {
     }
   }, [marketCode]);
   return { promotedProducts, setPromotedProducts };
-};
-
-export const useGetProductsByCategory = (marketCode: string) => {
-  const [productsByCategory, setProductsByCategory] = useState<any[]>([]);
-  useEffect(() => {
-    if (marketCode) {
-      axios()
-        .post('/market/product', {
-          limit: 12,
-          type: 'category',
-          subcategory: selectedCatId,
-          marketId: marketCode,
-        })
-        .then(({ data }) => {
-          if (
-            data.response === 200 &&
-            data &&
-            !data.error &&
-            data.result.data.length
-          ) {
-            setProductsByCategory(newProducts(data.result.data));
-          }
-        })
-        .catch(() => {});
-    }
-  }, [marketCode]);
-  return { productsByCategory, setProductsByCategory };
 };

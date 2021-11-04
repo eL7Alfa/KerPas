@@ -24,7 +24,6 @@ import {
   useGetCampaigns,
   useGetMenu,
   useGetProducts,
-  useGetProductsByCategory,
   useGetPromotedProducts,
   useGetSupplier,
 } from '../src/Requests/HomeRequests';
@@ -32,6 +31,7 @@ import axiosBase from 'axios';
 import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 import { setSelectedAddressR } from '../src/redux/actions/appRActions';
 import { rootReducerI } from '../src/redux/reducers';
+import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
 
 export default function Home() {
   const selector = useSelector((state: rootReducerI) => state);
@@ -49,9 +49,10 @@ export default function Home() {
     id: selectedCatId,
     name: 'Bumbu dan Bahan Dapur',
   });
-  const { productsByCategory } = useGetProductsByCategory(
-    nearestMarket.ckode_mitra,
-  );
+  const { productsByCategory } = useGetProductsByCategory({
+    marketCode: nearestMarket.ckode_mitra,
+    categoryId: selectedCat.id,
+  });
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
   const {
     products,
