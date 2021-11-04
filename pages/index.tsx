@@ -39,7 +39,7 @@ export default function Home() {
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
   );
-  const { campaigns } = useGetCampaigns();
+  const { campaigns } = useGetCampaigns(nearestMarket.ckode_mitra);
   const { supplier } = useGetSupplier(nearestMarket.ckode_mitra);
   const { menu } = useGetMenu();
   const { promotedProducts } = useGetPromotedProducts(
