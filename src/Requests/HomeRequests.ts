@@ -44,33 +44,39 @@ export const useGetCampaigns = () => {
   return { campaigns, setCampaigns };
 };
 
-export const useGetSupplier = () => {
+export const useGetSupplier = (marketCode: string) => {
   const [supplier, setSupplier] = useState<any[]>([]);
   useEffect(() => {
-    axios()
-      .get('/market/supplier')
-      .then(({ data }) => {
-        if (data.response === 200 && data && !data.error) {
-          const supplier = data.result.map(
-            (d: {
-              cnama_supplier: any;
-              cimg_supplier: any;
-              calamat_supplier: any;
-            }) => {
-              return {
-                name: d.cnama_supplier,
-                imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
-                marketName: d.calamat_supplier,
-                block: 'A1 - B2',
-                location: 'Makassar',
-              };
-            },
-          );
-          setSupplier(supplier);
-        }
-      });
-  }, []);
-  return { supplier, setSupplier };
+    if (marketCode) {
+      axios()
+        .post('/market/supplier', {
+          limit: 12,
+          marketId: marketCode,
+        })
+        .then(({ data }) => {
+          if (data.response === 200 && data && !data.error) {
+            const { data: rSupplier } = data.result;
+            const supplier = rSupplier.map(
+              (d: {
+                cnama_supplier: any;
+                cimg_supplier: any;
+                calamat_supplier: any;
+              }) => {
+                return {
+                  name: d.cnama_supplier,
+                  imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
+                  marketName: d.calamat_supplier,
+                  block: 'A1 - B2',
+                  location: 'Makassar',
+                };
+              },
+            );
+            setSupplier(supplier);
+          }
+        });
+    }
+  }, [marketCode]);
+  return { supplier, setSupplier, marketCode };
 };
 
 export const useGetMenu = () => {
@@ -94,29 +100,32 @@ export const useGetMenu = () => {
   return { menu, setMenu };
 };
 
-export const useGetProducts = () => {
+export const useGetProducts = (marketCode: string) => {
   const [products, setProducts] = useState<any[]>([]);
   const [lastProductPage, setLastProductPage] = useState<number>(0);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   useEffect(() => {
-    axios()
-      .post('/market/product', {
-        limit: 12,
-        type: 'all',
-      })
-      .then(({ data }) => {
-        if (
-          data.response === 200 &&
-          data &&
-          !data.error &&
-          data.result.data.length
-        ) {
-          setProducts(newProducts(data.result.data));
-          setLastProductPage(data.result.last_page);
-          setIsProductLoading(false);
-        }
-      });
-  }, []);
+    if (marketCode) {
+      axios()
+        .post('/market/product', {
+          limit: 12,
+          type: 'all',
+          marketId: marketCode,
+        })
+        .then(({ data }) => {
+          if (
+            data.response === 200 &&
+            data &&
+            !data.error &&
+            data.result.data.length
+          ) {
+            setProducts(newProducts(data.result.data));
+            setLastProductPage(data.result.last_page);
+            setIsProductLoading(false);
+          }
+        });
+    }
+  }, [marketCode]);
   return {
     products,
     setProducts,
@@ -127,30 +136,33 @@ export const useGetProducts = () => {
   };
 };
 
-export const useGetPromotedProducts = () => {
+export const useGetPromotedProducts = (marketCode: string) => {
   const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
   useEffect(() => {
-    axios()
-      .post('/market/product', {
-        limit: 12,
-        type: 'promo',
-      })
-      .then(({ data }) => {
-        if (
-          data.response === 200 &&
-          data &&
-          !data.error &&
-          data.result.data.length
-        ) {
-          setPromotedProducts(newProducts(data.result.data));
-        }
-      })
-      .catch(() => {});
-  }, []);
+    if (marketCode) {
+      axios()
+        .post('/market/product', {
+          limit: 12,
+          type: 'promo',
+          marketId: marketCode,
+        })
+        .then(({ data }) => {
+          if (
+            data.response === 200 &&
+            data &&
+            !data.error &&
+            data.result.data.length
+          ) {
+            setPromotedProducts(newProducts(data.result.data));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [marketCode]);
   return { promotedProducts, setPromotedProducts };
 };
 
-export const useGetProductsByCategory = () => {
+export const useGetProductsByCategory = (marketCode: string) => {
   const [productsByCategory, setProductsByCategory] = useState<any[]>([]);
   useEffect(() => {
     axios()
@@ -158,6 +170,7 @@ export const useGetProductsByCategory = () => {
         limit: 12,
         type: 'category',
         subcategory: selectedCatId,
+        marketId: marketCode,
       })
       .then(({ data }) => {
         if (
@@ -170,6 +183,6 @@ export const useGetProductsByCategory = () => {
         }
       })
       .catch(() => {});
-  }, []);
+  }, [marketCode]);
   return { productsByCategory, setProductsByCategory };
 };

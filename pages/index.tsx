@@ -36,15 +36,22 @@ import { rootReducerI } from '../src/redux/reducers';
 export default function Home() {
   const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
+  const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
+    {},
+  );
   const { campaigns } = useGetCampaigns();
-  const { supplier } = useGetSupplier();
+  const { supplier } = useGetSupplier(nearestMarket.ckode_mitra);
   const { menu } = useGetMenu();
-  const { promotedProducts } = useGetPromotedProducts();
+  const { promotedProducts } = useGetPromotedProducts(
+    nearestMarket.ckode_mitra,
+  );
   const [selectedCat] = useState<{ id: number; name: string }>({
     id: selectedCatId,
     name: 'Bumbu dan Bahan Dapur',
   });
-  const { productsByCategory } = useGetProductsByCategory();
+  const { productsByCategory } = useGetProductsByCategory(
+    nearestMarket.ckode_mitra,
+  );
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
   const {
     products,
@@ -52,10 +59,7 @@ export default function Home() {
     lastProductPage,
     isProductLoading,
     setIsProductLoading,
-  } = useGetProducts();
-  const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
-    {},
-  );
+  } = useGetProducts(nearestMarket.ckode_mitra);
   const [addresses, setAddresses] = useState<any>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>({});
 
@@ -67,6 +71,7 @@ export default function Home() {
         .post(`/market/product?page=${nextProductPage}`, {
           limit: 12,
           type: 'all',
+          marketId: nearestMarket.ckode_mitra,
         })
         .then(({ data }) => {
           setProducts(prevProducts => [
