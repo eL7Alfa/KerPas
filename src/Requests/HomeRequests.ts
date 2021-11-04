@@ -28,19 +28,22 @@ export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
       });
   });
 
-export const useGetCampaigns = () => {
+export const useGetCampaigns = (marketCode: string) => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
   useEffect(() => {
-    axios()
-      .post('/market/ads/campaign', {
-        category: 7,
-      })
-      .then(({ data }) => {
-        if (data.response === 200 && data && !data.error) {
-          setCampaigns(data.result);
-        }
-      });
-  }, []);
+    if (marketCode) {
+      axios()
+        .post('/market/ads/campaign', {
+          category: 7,
+          marketId: marketCode,
+        })
+        .then(({ data }) => {
+          if (data.response === 200 && data && !data.error) {
+            setCampaigns(data.result);
+          }
+        });
+    }
+  }, [marketCode]);
   return { campaigns, setCampaigns };
 };
 
