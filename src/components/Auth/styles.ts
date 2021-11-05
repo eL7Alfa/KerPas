@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backdropFilter: 'blur(40px)',
       backgroundColor: 'rgba(0,0,0,0.15)',
       overflowY: 'auto',
+      '& .MuiBackdrop-root': {
+        backgroundColor: 'rgba(0,0,0,0)',
+      },
     },
   }),
 );
