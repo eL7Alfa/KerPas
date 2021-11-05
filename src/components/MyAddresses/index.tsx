@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import { setMyAddressesOpenR } from '../../redux/actions/appRActions';
 
-const MyAdresses = () => {
+const MyAddresses = () => {
   const dispatch = useDispatch();
   const appState = useSelector((state: any) => state.appState);
   const classes = useStyles();
@@ -27,4 +27,4 @@ const MyAdresses = () => {
   );
 };
 
-export default MyAdresses;
+export default MyAddresses;

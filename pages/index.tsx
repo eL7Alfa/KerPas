@@ -32,7 +32,7 @@ import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 import { setSelectedAddressR } from '../src/redux/actions/appRActions';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
-import MyAdresses from '../src/components/MyAdresses';
+import MyAddresses from '../src/components/MyAddresses';
 
 export default function Home() {
   const selector = useSelector((state: rootReducerI) => state);
@@ -207,7 +207,7 @@ export default function Home() {
         </Box>
       </Container>
       <Auth />
-      <MyAdresses />
+      <MyAddresses />
     </Fragment>
   );
 }
