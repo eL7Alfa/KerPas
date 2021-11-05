@@ -25,6 +25,7 @@ import { rootReducerI } from '../../../redux/reducers';
 import authDefStateR from '../../../redux/defaultStateR/authDefStateR';
 import axios from '../../../config/axios';
 import { KeyboardArrowDown, Room } from '@mui/icons-material';
+import { setMyAddressesOpenR } from '../../../redux/actions/appRActions';
 
 const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
@@ -39,6 +40,7 @@ const AppHeader = () => {
     null,
   );
   const profileBtnHovered = Boolean(profileBtnEl);
+  const [selectedAddress, setSelectedAddress] = useState<object>({});
 
   const onSearchFocused = () => {
     setSearchWidth('100%');
@@ -80,7 +82,9 @@ const AppHeader = () => {
     setProfileBtnEl(null);
   };
 
-  const onAddressClicked = () => {};
+  const onSelectAddressClicked = () => {
+    dispatch(setMyAddressesOpenR(true));
+  };
 
   useEffect(() => {
     window.addEventListener('resize', onSearchBlurred);
@@ -161,23 +165,41 @@ const AppHeader = () => {
             <Typography variant={'body2'} className={classes.sBAddressLabel}>
               Dikirim ke:
             </Typography>
-            <Button className={classes.sBAddressBtn} onClick={onAddressClicked}>
-              <Typography variant={'body2'} className={classes.sBAddressName}>
-                Rumah
-              </Typography>
-              <Typography
-                variant={'body2'}
-                className={classes.sBAddressSeparator}>
-                •
-              </Typography>
-              <Typography variant={'body2'} className={classes.sBAddress}>
-                Jl. Pasaran Keke
-              </Typography>
-              <KeyboardArrowDown
-                fontSize={'small'}
-                className={classes.sBAddressKArrowDown}
-              />
-            </Button>
+            {Object.keys(selectedAddress).length ? (
+              <Button
+                className={classes.sBAddressBtn}
+                onClick={onSelectAddressClicked}>
+                <Typography variant={'body2'} className={classes.sBAddressName}>
+                  Rumah
+                </Typography>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBAddressSeparator}>
+                  •
+                </Typography>
+                <Typography variant={'body2'} className={classes.sBAddress}>
+                  Jl. Pasaran Keke
+                </Typography>
+                <KeyboardArrowDown
+                  fontSize={'small'}
+                  className={classes.sBAddressKArrowDown}
+                />
+              </Button>
+            ) : (
+              <Button
+                className={classes.sBAddressBtn}
+                onClick={onSelectAddressClicked}>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSelectAddress}>
+                  Pilih Alamat
+                </Typography>
+                <KeyboardArrowDown
+                  fontSize={'small'}
+                  className={classes.sBAddressKArrowDown}
+                />
+              </Button>
+            )}
           </div>
         </Container>
       </Toolbar>

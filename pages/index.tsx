@@ -32,6 +32,7 @@ import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 import { setSelectedAddressR } from '../src/redux/actions/appRActions';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
+import MyAdresses from '../src/components/MyAdresses';
 
 export default function Home() {
   const selector = useSelector((state: rootReducerI) => state);
@@ -92,8 +93,10 @@ export default function Home() {
       ({ coords }) => {
         const { latitude, longitude, accuracy } = coords;
         if (accuracy <= 50) {
-          axios()
-            .post('/market/nearest', { lat: latitude, lng: longitude })
+          // axios()
+          // .post('/market/nearest', { lat: latitude, lng: longitude })
+          axiosBase
+            .post('/api/nearestMarket', { lat: latitude, lng: longitude })
             .then(({ data: { result, response } }) => {
               if (response === 200) {
                 setNearestMarket(result);
@@ -204,6 +207,7 @@ export default function Home() {
         </Box>
       </Container>
       <Auth />
+      <MyAdresses />
     </Fragment>
   );
 }

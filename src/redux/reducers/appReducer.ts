@@ -1,6 +1,10 @@
 import { AnyAction } from 'redux';
 import { appDefStateR } from '../defaultStateR/appDefStateR';
-import { setNearestMarketT, setSelectedAddressT } from '../Types/AppRTypes';
+import {
+  setMyAddressesOpenT,
+  setNearestMarketT,
+  setSelectedAddressT,
+} from '../Types/AppRTypes';
 
 const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
   switch (type) {
@@ -9,6 +13,9 @@ const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
     }
     case setNearestMarketT: {
       return { ...state, nearestMarket: payload };
+    }
+    case setMyAddressesOpenT: {
+      return { ...state, myAddressesOpen: payload };
     }
     default:
       return state;

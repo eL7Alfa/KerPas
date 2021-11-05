@@ -11,7 +11,6 @@ const Auth = () => {
   const authState = useSelector((state: any) => state.authState);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [modalHeight, setModalHeight] = useState(0);
 
   const onClose = () => {
     dispatch(setAuthModalOpenR(false));
@@ -21,7 +20,7 @@ const Auth = () => {
     setOpen(authState.modalOpen);
   }, [authState.modalOpen]);
   return (
-    <Modal {...{ open, onClose }} className={classes.root} hideBackdrop>
+    <Modal {...{ open, onClose }} className={classes.root}>
       <Fragment>
         <Information />
         <SignIn />

@@ -177,6 +177,14 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 16,
       color: '#000000',
     },
+    sBSelectAddress: {
+      margin: `0 ${theme.spacing(0.5)}`,
+      fontWeight: 800,
+      color: theme.palette.secondary.main,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
   }),
 );
 
