@@ -18,9 +18,11 @@ const MyAddresses = () => {
   }, [appState.myAddressesOpen]);
   return (
     <Modal open={open} onClose={onCloseSelectAddressClicked}>
-      <Box className={classes.root}>
-        <div className={classes.header}>
-          <Typography variant={'h6'}>Pilih Alamat Kamu</Typography>
+      <Box className={classes.box}>
+        <div className={classes.container}>
+          <div className={classes.header}>
+            <Typography variant={'h6'}>Pilih Alamat Kamu</Typography>
+          </div>
         </div>
       </Box>
     </Modal>
