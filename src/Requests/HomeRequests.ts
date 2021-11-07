@@ -41,6 +41,8 @@ export const useGetCampaigns = (marketCode: string) => {
             setCampaigns(data.result);
           }
         });
+    } else {
+      setCampaigns([]);
     }
   }, [marketCode]);
   return { campaigns, setCampaigns };
@@ -76,6 +78,8 @@ export const useGetSupplier = (marketCode: string) => {
             setSupplier(supplier);
           }
         });
+    } else {
+      setSupplier([]);
     }
   }, [marketCode]);
   return { supplier, setSupplier, marketCode };
@@ -107,6 +111,7 @@ export const useGetProducts = (marketCode: string) => {
   const [lastProductPage, setLastProductPage] = useState<number>(0);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   useEffect(() => {
+    setIsProductLoading(true);
     if (marketCode) {
       axios()
         .post('/market/product', {
@@ -123,9 +128,13 @@ export const useGetProducts = (marketCode: string) => {
           ) {
             setProducts(newProducts(data.result.data));
             setLastProductPage(data.result.last_page);
-            setIsProductLoading(false);
           }
-        });
+        })
+        .finally(() => setIsProductLoading(false));
+    } else {
+      setProducts([]);
+      setLastProductPage(0);
+      setIsProductLoading(false);
     }
   }, [marketCode]);
   return {
@@ -159,6 +168,8 @@ export const useGetPromotedProducts = (marketCode: string) => {
           }
         })
         .catch(() => {});
+    } else {
+      setPromotedProducts([]);
     }
   }, [marketCode]);
   return { promotedProducts, setPromotedProducts };

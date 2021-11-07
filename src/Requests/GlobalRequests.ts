@@ -30,6 +30,8 @@ export const useGetProductsByCategory = ({
           }
         })
         .catch(() => {});
+    } else {
+      setProductsByCategory([]);
     }
   }, [marketCode]);
   return { productsByCategory, setProductsByCategory };
