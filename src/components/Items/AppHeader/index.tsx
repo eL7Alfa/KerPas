@@ -44,7 +44,7 @@ const AppHeader = () => {
     null,
   );
   const profileBtnHovered = Boolean(profileBtnEl);
-  const [selectedAddress, setSelectedAddress] = useState<object>({});
+  const [selectedAddress, setSelectedAddress] = useState<any>({});
 
   const onSearchFocused = () => {
     setSearchWidth('100%');
@@ -63,6 +63,10 @@ const AppHeader = () => {
   const onLoginBtnClicked = () => {
     dispatch(setAuthModalOpenR(true));
   };
+
+  useEffect(() => {
+    setSelectedAddress(selector.appState.selectedAddress);
+  }, [selector.appState.selectedAddress]);
 
   const onLogoutClicked = () => {
     window.FB.getLoginStatus((resA: { status: string }) => {
@@ -177,7 +181,7 @@ const AppHeader = () => {
                 className={classes.sBAddressBtn}
                 onClick={onSelectAddressClicked}>
                 <Typography variant={'body2'} className={classes.sBAddressName}>
-                  Rumah
+                  {selectedAddress.cnama_alamat}
                 </Typography>
                 <Typography
                   variant={'body2'}
@@ -185,7 +189,7 @@ const AppHeader = () => {
                   •
                 </Typography>
                 <Typography variant={'body2'} className={classes.sBAddress}>
-                  Jl. Pasaran Keke
+                  {selectedAddress.maddress}
                 </Typography>
                 <KeyboardArrowDown
                   fontSize={'small'}
