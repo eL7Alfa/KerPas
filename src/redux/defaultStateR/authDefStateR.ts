@@ -18,6 +18,7 @@ export type userDataRT = {
 export type authDefStateRT = {
   modalOpen: boolean;
   userData: userDataRT;
+  authCallback: () => void;
 };
 
 const authDefStateR: authDefStateRT = {
@@ -38,6 +39,7 @@ const authDefStateR: authDefStateRT = {
     dmodify: '',
     token: '',
   },
+  authCallback: () => {},
 };
 
 export default authDefStateR;

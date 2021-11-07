@@ -1,4 +1,8 @@
-import { setAuthModalOpenT, setAuthUserDataT } from '../Types/Auth';
+import {
+  setAuthCallbackT,
+  setAuthModalOpenT,
+  setAuthUserDataT,
+} from '../Types/Auth';
 import authDefStateR, { userDataRT } from '../defaultStateR/authDefStateR';
 
 export const setAuthModalOpenR = (payload: boolean) => {
@@ -19,5 +23,12 @@ export const setAuthResetUserDataR = () => {
   return {
     type: setAuthUserDataT,
     payload: authDefStateR.userData,
+  };
+};
+
+export const setAuthCallbackR = (payload: () => void) => {
+  return {
+    type: setAuthCallbackT,
+    payload,
   };
 };
