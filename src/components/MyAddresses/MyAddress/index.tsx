@@ -1,7 +1,10 @@
 import React from 'react';
 import useStyles from './styles';
 import { Button, Typography } from '@mui/material';
-import { setSelectedAddressR } from '../../../redux/actions/appRActions';
+import {
+  setMyAddressesOpenR,
+  setSelectedAddressR,
+} from '../../../redux/actions/appRActions';
 import { useDispatch } from 'react-redux';
 import { CheckCircle } from '@mui/icons-material';
 
@@ -17,6 +20,7 @@ const MyAddress = ({ data, selectedAddress }: MyAddressTypes) => {
   const onSelectAddressClicked = () => {
     localStorage.setItem('selectedAddress', JSON.stringify(data));
     dispatch(setSelectedAddressR(data));
+    dispatch(setMyAddressesOpenR(false));
   };
 
   return (
