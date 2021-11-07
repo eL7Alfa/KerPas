@@ -32,6 +32,7 @@ import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
 import MyAddresses from '../src/components/MyAddresses';
+import { setNearestMarketR } from '../src/redux/actions/appRActions';
 
 export default function Home() {
   const selector = useSelector((state: rootReducerI) => state);
@@ -97,7 +98,7 @@ export default function Home() {
             .post('/api/nearestMarket', { lat: latitude, lng: longitude })
             .then(({ data: { result, response } }) => {
               if (response === 200) {
-                setNearestMarket(result);
+                dispatch(setNearestMarketR(result));
               }
             });
         } else {
@@ -121,10 +122,14 @@ export default function Home() {
       .post('/api/nearestMarket', { lat, lng })
       .then(({ data: { result, response } }) => {
         if (response === 200) {
-          setNearestMarket(result);
+          dispatch(setNearestMarketR(result));
         }
       });
   };
+
+  useEffect(() => {
+    setNearestMarket(selector.appState.nearestMarket);
+  }, [selector.appState.nearestMarket]);
 
   useEffect(() => {
     if (Object.keys(selector.appState.selectedAddress).length !== 0) {

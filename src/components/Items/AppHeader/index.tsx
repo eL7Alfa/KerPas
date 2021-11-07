@@ -27,6 +27,7 @@ import axios from '../../../config/axios';
 import { KeyboardArrowDown, Room } from '@mui/icons-material';
 import {
   setMyAddressesOpenR,
+  setNearestMarketR,
   setSelectedAddressR,
 } from '../../../redux/actions/appRActions';
 
@@ -75,6 +76,7 @@ const AppHeader = () => {
             }
             localStorage.removeItem('userData');
             localStorage.removeItem('selectedAddress');
+            dispatch(setNearestMarketR({}));
             dispatch(setSelectedAddressR({}));
             dispatch(setAuthResetUserDataR());
           }
