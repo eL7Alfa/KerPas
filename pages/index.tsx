@@ -3,7 +3,7 @@ import AppHeader from '../src/components/Items/AppHeader';
 import { Box, Container, CssBaseline, Divider } from '@mui/material';
 import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
-import { Fragment, useCallback, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
@@ -29,7 +29,6 @@ import {
 } from '../src/Requests/HomeRequests';
 import axiosBase from 'axios';
 import { setAuthUserDataR } from '../src/redux/actions/authRActions';
-import { setSelectedAddressR } from '../src/redux/actions/appRActions';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
 import MyAddresses from '../src/components/MyAddresses';
@@ -63,7 +62,6 @@ export default function Home() {
     setIsProductLoading,
   } = useGetProducts(nearestMarket.ckode_mitra);
   const [addresses, setAddresses] = useState<any>([]);
-  const [selectedAddress, setSelectedAddress] = useState<any>({});
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
@@ -128,32 +126,32 @@ export default function Home() {
       });
   };
 
-  const getSelectedAddress = useCallback(() => {
-    const _selectedAddress = localStorage.getItem('selectedAddress');
-    if (_selectedAddress) {
-      const selectedAddress = JSON.parse(_selectedAddress);
-      dispatch(setSelectedAddressR(selectedAddress));
-    }
-  }, [addresses]);
-
   useEffect(() => {
-    if (Object.keys(selectedAddress).length !== 0) {
-      const { dlat: lat, dlng: lng } = selectedAddress;
+    if (Object.keys(selector.appState.selectedAddress).length !== 0) {
+      const { dlat: lat, dlng: lng } = selector.appState.selectedAddress;
       getNearestMarket({ lat, lng });
     } else {
       getNearestMarketByDeviceAddress();
     }
-  }, [selectedAddress]);
+  }, [selector.appState.selectedAddress]);
 
   useEffect(() => {
-    setSelectedAddress(selectedAddress);
-  }, [selector.appState.selectedAddress]);
+    if (!selector.authState.userData.id) {
+      setAddresses([]);
+    } else {
+      getAddresses({
+        token: selector.authState.userData.token,
+        userCode: selector.authState.userData.ckode_user,
+      })
+        .then(addresses => setAddresses(addresses))
+        .catch(e => console.log(e.response));
+    }
+  }, [selector.authState.userData.id]);
 
   useEffect(() => {
     checkUserData()
       .then(userData => {
         if (userData) {
-          getSelectedAddress();
           dispatch(setAuthUserDataR(userData));
           getAddresses({
             token: userData.token,
@@ -207,7 +205,7 @@ export default function Home() {
         </Box>
       </Container>
       <Auth />
-      <MyAddresses />
+      <MyAddresses data={addresses} />
     </Fragment>
   );
 }

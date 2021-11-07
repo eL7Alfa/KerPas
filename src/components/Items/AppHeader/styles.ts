@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingBottom: theme.spacing(0.5),
     },
     title: {
+      fontWeight: 800,
       textOverflow: 'unset',
       color: theme.palette.primary.main,
       [theme.breakpoints.up('lg')]: {

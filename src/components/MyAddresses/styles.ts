@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
     header: {
       padding: `0 ${theme.spacing(2)}`,
     },
+    body: {
+      padding: theme.spacing(2),
+    },
   }),
 );
 

@@ -25,7 +25,10 @@ import { rootReducerI } from '../../../redux/reducers';
 import authDefStateR from '../../../redux/defaultStateR/authDefStateR';
 import axios from '../../../config/axios';
 import { KeyboardArrowDown, Room } from '@mui/icons-material';
-import { setMyAddressesOpenR } from '../../../redux/actions/appRActions';
+import {
+  setMyAddressesOpenR,
+  setSelectedAddressR,
+} from '../../../redux/actions/appRActions';
 
 const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
@@ -71,6 +74,8 @@ const AppHeader = () => {
               localStorage.removeItem('fbAuth');
             }
             localStorage.removeItem('userData');
+            localStorage.removeItem('selectedAddress');
+            dispatch(setSelectedAddressR({}));
             dispatch(setAuthResetUserDataR());
           }
         });
