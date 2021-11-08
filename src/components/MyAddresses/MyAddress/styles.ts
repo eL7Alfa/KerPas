@@ -10,14 +10,14 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
       borderRadius: 4,
+      borderLeftWidth: '2px',
+      borderLeftColor: theme.palette.primary.main,
+      borderLeftStyle: 'solid',
       '&.selected': {
         borderWidth: '1px',
         borderColor: theme.palette.primary.main,
         borderStyle: 'solid',
         backgroundColor: alpha(theme.palette.primary.main, 0.2),
-        // '$selectedCheckbox': {
-        //   color: ''
-        // }
       },
     },
     leftPart: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 800,
     },
     addressName: {
-      fontWeight: 800,
+      fontWeight: 'normal',
     },
     addressDetail: {
       margin: `${theme.spacing(1)} 0`,

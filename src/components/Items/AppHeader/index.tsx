@@ -94,7 +94,11 @@ const AppHeader = () => {
   };
 
   const onSelectAddressClicked = () => {
-    dispatch(setMyAddressesOpenR(true));
+    if (!userData.id) {
+      dispatch(setAuthModalOpenR(true));
+    } else {
+      dispatch(setMyAddressesOpenR(true));
+    }
   };
 
   useEffect(() => {

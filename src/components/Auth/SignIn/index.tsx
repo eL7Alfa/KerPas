@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   ButtonBase,
@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material';
 import theme from '../../../config/theme';
 import useStyles from './styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   setAuthModalOpenR,
   setAuthUserDataR,
@@ -30,10 +30,8 @@ import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useSnackbarConst } from '../../constants';
 import { LoadingButton } from '@mui/lab';
-import { rootReducerI } from '../../../redux/reducers';
 
 const SignIn = () => {
-  const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
   const classes = useStyles();
   const [passIsVisible, setPassIsVisible] = useState(false);
@@ -41,7 +39,6 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
-  const [authCallback, setAuthCallback] = useState<() => void>(() => {});
 
   const onInputChanged =
     (name: string | number) =>
@@ -87,7 +84,6 @@ const SignIn = () => {
             localStorage.setItem('userData', JSON.stringify(result));
             dispatch(setAuthUserDataR(result));
             dispatch(setAuthModalOpenR(false));
-            authCallback();
           } else {
             setSnackPack(prev => [
               ...prev,
@@ -138,7 +134,6 @@ const SignIn = () => {
                     );
                     dispatch(setAuthUserDataR(data.result));
                     dispatch(setAuthModalOpenR(false));
-                    authCallback();
                   }
                 })
                 .finally(() => setIsAuthenticating(false));
@@ -162,10 +157,6 @@ const SignIn = () => {
   const onCloseAuthBtnClicked = () => {
     dispatch(setAuthModalOpenR(false));
   };
-
-  useEffect(() => {
-    setAuthCallback(selector.authState.authCallback);
-  }, [selector.authState.authCallback]);
 
   return (
     <Card className={classes.card}>

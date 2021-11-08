@@ -13,5 +13,8 @@ export const rootReducer = {
   authState: authReducer,
   appState: appReducer,
 };
-const store = configureStore({ reducer: rootReducer });
+const store = configureStore({
+  reducer: rootReducer,
+});
+
 export default store;

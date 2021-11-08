@@ -1,5 +1,5 @@
 export type userDataRT = {
-  id: number;
+  id: number | null;
   ckode_user: string;
   cfb_id: string | null;
   cnama: string;
@@ -18,13 +18,12 @@ export type userDataRT = {
 export type authDefStateRT = {
   modalOpen: boolean;
   userData: userDataRT;
-  authCallback: () => void;
 };
 
 const authDefStateR: authDefStateRT = {
   modalOpen: false,
   userData: {
-    id: 0,
+    id: null,
     ckode_user: '',
     cfb_id: null,
     cnama: '',
@@ -39,7 +38,6 @@ const authDefStateR: authDefStateRT = {
     dmodify: '',
     token: '',
   },
-  authCallback: () => {},
 };
 
 export default authDefStateR;

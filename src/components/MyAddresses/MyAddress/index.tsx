@@ -29,10 +29,10 @@ const MyAddress = ({ data, selectedAddress }: MyAddressTypes) => {
         selectedAddress.id === data.id ? 'selected' : ''
       }`}>
       <div className={classes.leftPart}>
-        <Typography variant={'body2'} className={classes.addressName}>
+        <Typography variant={'body2'} className={classes.addressType}>
           {data.cnama_alamat}
         </Typography>
-        <Typography variant={'body1'} className={classes.addressName}>
+        <Typography variant={'body2'} className={classes.addressName}>
           {data.calamat}
         </Typography>
         <Typography variant={'body2'} className={classes.addressDetail}>
