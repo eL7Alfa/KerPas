@@ -27,6 +27,8 @@ export const useGetProductsByCategory = ({
             data.result.data.length
           ) {
             setProductsByCategory(newProducts(data.result.data));
+          } else {
+            setProductsByCategory([]);
           }
         })
         .catch(() => {});

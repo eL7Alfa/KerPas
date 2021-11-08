@@ -39,8 +39,11 @@ export const useGetCampaigns = (marketCode: string) => {
         .then(({ data }) => {
           if (data.response === 200 && data && !data.error) {
             setCampaigns(data.result);
+          } else {
+            setCampaigns([]);
           }
-        });
+        })
+        .catch(() => {});
     } else {
       setCampaigns([]);
     }
@@ -76,8 +79,11 @@ export const useGetSupplier = (marketCode: string) => {
               },
             );
             setSupplier(supplier);
+          } else {
+            setSupplier([]);
           }
-        });
+        })
+        .catch(() => {});
     } else {
       setSupplier([]);
     }
@@ -101,7 +107,8 @@ export const useGetMenu = () => {
           });
           setMenu(newMenu);
         }
-      });
+      })
+      .catch(() => {});
   }, []);
   return { menu, setMenu };
 };
@@ -128,9 +135,15 @@ export const useGetProducts = (marketCode: string) => {
           ) {
             setProducts(newProducts(data.result.data));
             setLastProductPage(data.result.last_page);
+          } else {
+            setProducts([]);
+            setLastProductPage(0);
           }
         })
-        .finally(() => setIsProductLoading(false));
+        .catch(() => {})
+        .finally(() => {
+          setIsProductLoading(false);
+        });
     } else {
       setProducts([]);
       setLastProductPage(0);
@@ -165,6 +178,8 @@ export const useGetPromotedProducts = (marketCode: string) => {
             data.result.data.length
           ) {
             setPromotedProducts(newProducts(data.result.data));
+          } else {
+            setPromotedProducts([]);
           }
         })
         .catch(() => {});
