@@ -43,7 +43,7 @@ export const useGetCampaigns = (marketCode: string) => {
             setCampaigns([]);
           }
         })
-        .catch(() => {});
+        .catch(() => setCampaigns([]));
     } else {
       setCampaigns([]);
     }
@@ -83,7 +83,7 @@ export const useGetSupplier = (marketCode: string) => {
             setSupplier([]);
           }
         })
-        .catch(() => {});
+        .catch(() => setSupplier([]));
     } else {
       setSupplier([]);
     }
@@ -140,7 +140,10 @@ export const useGetProducts = (marketCode: string) => {
             setLastProductPage(0);
           }
         })
-        .catch(() => {})
+        .catch(() => {
+          setProducts([]);
+          setLastProductPage(0);
+        })
         .finally(() => {
           setIsProductLoading(false);
         });
@@ -182,7 +185,7 @@ export const useGetPromotedProducts = (marketCode: string) => {
             setPromotedProducts([]);
           }
         })
-        .catch(() => {});
+        .catch(() => setPromotedProducts([]));
     } else {
       setPromotedProducts([]);
     }
