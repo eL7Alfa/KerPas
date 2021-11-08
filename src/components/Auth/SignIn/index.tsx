@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import {
   Box,
   ButtonBase,
@@ -55,7 +55,7 @@ const SignIn = () => {
       }
     };
 
-  const onSubmit = (e: { preventDefault: () => void }) => {
+  const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
       setSnackPack(prev => [
@@ -73,10 +73,7 @@ const SignIn = () => {
 
     if (!isAuthenticating) {
       setIsAuthenticating(true);
-      const formData = {
-        email_phone: email,
-        kata_kunci: password,
-      };
+      const formData = new FormData(e.currentTarget);
       axios()
         .post('/user/auth', formData)
         .then(({ data: { error, result } }) => {
@@ -204,7 +201,7 @@ const SignIn = () => {
               className={classes.textField}
               onChange={onInputChanged('email')}
               value={email}
-              name={'email'}
+              name={'email_phone'}
               fullWidth
             />
           </Box>
@@ -220,7 +217,7 @@ const SignIn = () => {
               className={classes.textField}
               onChange={onInputChanged('password')}
               value={password}
-              name={'password'}
+              name={'kata_kunci'}
               fullWidth
               InputProps={{
                 endAdornment: (
