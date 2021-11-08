@@ -18,12 +18,35 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       padding: `${theme.spacing(2)}`,
       borderRadius: 10,
+      overflow: 'hidden',
     },
     header: {
-      padding: `0 ${theme.spacing(2)}`,
+      padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     },
     body: {
-      padding: theme.spacing(2),
+      overflowY: 'auto',
+      maxHeight: 400,
+    },
+    footer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: `${theme.spacing(1)} 0`,
+    },
+    addAddressBtn: {
+      width: '100%',
+      borderColor: theme.palette.primary.main,
+      color: theme.palette.primary.main,
+      borderRadius: 8,
+      fontWeight: 800,
+      '&:hover': {
+        borderColor: theme.palette.primary.main,
+      },
+    },
+    closeBtn: {
+      position: 'absolute',
+      top: theme.spacing(1),
+      right: theme.spacing(1),
     },
   }),
 );

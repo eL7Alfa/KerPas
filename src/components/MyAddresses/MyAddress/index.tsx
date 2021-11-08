@@ -28,28 +28,33 @@ const MyAddress = ({ data, selectedAddress }: MyAddressTypes) => {
       className={`${classes.root} ${
         selectedAddress.id === data.id ? 'selected' : ''
       }`}>
-      <div className={classes.leftPart}>
-        <Typography variant={'body2'} className={classes.addressType}>
-          {data.cnama_alamat}
-        </Typography>
-        <Typography variant={'body2'} className={classes.addressName}>
-          {data.calamat}
-        </Typography>
-        <Typography variant={'body2'} className={classes.addressDetail}>
-          {data.maddress}
-        </Typography>
+      <div className={classes.sectionA}>
+        <div className={classes.leftPart}>
+          <Typography variant={'body2'} className={classes.addressType}>
+            {data.cnama_alamat}
+          </Typography>
+          <Typography variant={'body2'} className={classes.address}>
+            {data.calamat}
+          </Typography>
+          <Typography variant={'body2'} className={classes.addressByGoogle}>
+            {data.maddress}
+          </Typography>
+        </div>
+        <div className={classes.rightPart}>
+          {selectedAddress.id !== data.id ? (
+            <Button
+              variant={'contained'}
+              className={classes.selectBtn}
+              onClick={onSelectAddressClicked}>
+              PILIH
+            </Button>
+          ) : (
+            <CheckCircle className={classes.selectedCheckbox} />
+          )}
+        </div>
       </div>
-      <div className={classes.rightPart}>
-        {selectedAddress.id !== data.id ? (
-          <Button
-            variant={'contained'}
-            className={classes.selectBtn}
-            onClick={onSelectAddressClicked}>
-            PILIH
-          </Button>
-        ) : (
-          <CheckCircle className={classes.selectedCheckbox} />
-        )}
+      <div className={classes.sectionB}>
+        <Button className={classes.editBtn}>UBAH</Button>
       </div>
     </div>
   );

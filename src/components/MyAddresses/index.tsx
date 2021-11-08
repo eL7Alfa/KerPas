@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Button, IconButton, Modal, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import {
@@ -9,6 +9,7 @@ import {
 import MyAddress from './MyAddress';
 import { rootReducerI } from '../../redux/reducers';
 import usePrevious from '../../helper/usePrevious';
+import { Close } from '@mui/icons-material';
 
 export type MyAddressesTypes = {
   data: any[];
@@ -69,7 +70,17 @@ const MyAddresses = ({ data }: MyAddressesTypes) => {
               <MyAddress key={key} data={d} {...{ selectedAddress }} />
             ))}
           </div>
+          <div className={classes.footer}>
+            <Button variant={'outlined'} className={classes.addAddressBtn}>
+              TAMBAH ALAMAT
+            </Button>
+          </div>
         </div>
+        <IconButton
+          className={classes.closeBtn}
+          onClick={onCloseSelectAddressClicked}>
+          <Close />
+        </IconButton>
       </Box>
     </Modal>
   );
