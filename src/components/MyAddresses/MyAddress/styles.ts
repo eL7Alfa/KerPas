@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     selectBtn: {
       backgroundColor: theme.palette.primary.main,
+      borderRadius: 8,
       '&:hover': {
         backgroundColor: theme.palette.primary.main,
       },
