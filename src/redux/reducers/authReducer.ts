@@ -1,7 +1,6 @@
 import authDefStateR from '../defaultStateR/authDefStateR';
 import { AnyAction } from 'redux';
 import {
-  setAuthCallbackT,
   setAuthModalOpenT,
   setAuthResetUserDataT,
   setAuthUserDataT,
@@ -17,9 +16,6 @@ const authReducer = (state = authDefStateR, { type, payload }: AnyAction) => {
     }
     case setAuthResetUserDataT: {
       return { ...state, userData: payload };
-    }
-    case setAuthCallbackT: {
-      return { ...state, authCallback: payload };
     }
     default:
       return state;
