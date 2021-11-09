@@ -117,6 +117,8 @@ export default function Home() {
       .then(({ data: { result, response } }) => {
         if (response === 200) {
           dispatch(setNearestMarketR(result));
+        } else {
+          dispatch(setNearestMarketR({}));
         }
       });
   };
