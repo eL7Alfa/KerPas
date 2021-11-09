@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.main,
     },
     editBtn: {
-      marginLeft: 'auto',
       borderLeftColor: theme.palette.primary.main,
       borderLeftWidth: 2,
       borderRightColor: theme.palette.primary.main,
