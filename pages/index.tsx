@@ -8,7 +8,7 @@ import FeaturedServices from '../src/components/Home/FeaturedServices';
 import Categories from '../src/components/Home/Categories';
 import Stores from '../src/components/Home/Stores';
 import Promo from '../src/components/Home/Promo';
-import Products from '../src/components/Home/Products';
+import Products from '../src/components/Items/Products';
 import { newProducts, useInit } from '../src/components/constants';
 import Auth from '../src/components/Auth';
 import {
@@ -16,7 +16,6 @@ import {
   selectedCatId,
 } from '../src/components/Home/constants';
 import { useSelector } from 'react-redux';
-import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
 import {
