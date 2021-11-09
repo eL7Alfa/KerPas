@@ -50,7 +50,7 @@ const Categories = ({ data }: CategoriesProps) => {
               key={key}
               imageUri={d.imageUri}
               name={d.name}
-              url={d.url}
+              code={d.code}
             />
           ))}
         </div>
