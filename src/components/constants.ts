@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
 import { productImgUrl } from '../config/urls';
 import { AxiosError } from 'axios';
 import { userDataRT } from '../redux/defaultStateR/authDefStateR';
+import { setAuthUserDataR } from '../redux/actions/authRActions';
+import { setNearestMarketR } from '../redux/actions/appRActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { rootReducerI } from '../redux/reducers';
 
 // Google API Key
 export const googleMapsApiKey = 'AIzaSyAtCUe0ZNVf6otms1PhEOIAaB0cW7djbRw';
@@ -118,4 +122,69 @@ export const useSnackbarConst = () => {
   };
 
   return { snackbarState, setSnackPack, onSnackbarClose };
+};
+
+export const useInit = () => {
+  const selector = useSelector((state: rootReducerI) => state);
+  const dispatch = useDispatch();
+
+  let locationRequestCount = 0;
+  const getNearestMarketByDeviceAddress = () => {
+    locationRequestCount++;
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const { latitude, longitude, accuracy } = coords;
+        if (accuracy <= 50) {
+          axios()
+            .post('/market/nearest', { lat: latitude, lng: longitude })
+            .then(({ data: { result, response } }) => {
+              if (response === 200) {
+                dispatch(setNearestMarketR(result));
+              }
+            });
+        } else {
+          if (locationRequestCount <= 6) {
+            getNearestMarketByDeviceAddress();
+          }
+        }
+      },
+      () => {
+        if (locationRequestCount <= 6) {
+          getNearestMarketByDeviceAddress();
+        }
+      },
+      { enableHighAccuracy: true, timeout: 3000 },
+    );
+  };
+
+  const getNearestMarket = ({ lat, lng }: { lat: number; lng: number }) => {
+    axios()
+      .post('/market/nearest', { lat, lng })
+      .then(({ data: { result, response } }) => {
+        if (response === 200) {
+          dispatch(setNearestMarketR(result));
+        } else {
+          dispatch(setNearestMarketR({}));
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (Object.keys(selector.appState.selectedAddress).length !== 0) {
+      const { dlat: lat, dlng: lng } = selector.appState.selectedAddress;
+      getNearestMarket({ lat, lng });
+    } else {
+      getNearestMarketByDeviceAddress();
+    }
+  }, [selector.appState.selectedAddress]);
+
+  useEffect(() => {
+    checkUserData()
+      .then(userData => {
+        if (userData) {
+          dispatch(setAuthUserDataR(userData));
+        }
+      })
+      .catch(() => {});
+  }, []);
 };
