@@ -1,28 +1,15 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import Head from 'next/head';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import { useRouter } from 'next/router';
-import { checkUserData } from '../../src/components/constants';
-import { setAuthUserDataR } from '../../src/redux/actions/authRActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { rootReducerI } from '../../src/redux/reducers';
+import { useInit } from '../../src/components/constants';
 
 const CategorizedProducts = () => {
   const router = useRouter();
-  const selector = useSelector((state: rootReducerI) => state);
-  const dispatch = useDispatch();
   const { categoryCode } = router.query;
 
-  useEffect(() => {
-    checkUserData()
-      .then(userData => {
-        if (userData) {
-          dispatch(setAuthUserDataR(userData));
-        }
-      })
-      .catch(() => {});
-  }, []);
+  useInit();
   return (
     <Fragment>
       <Head>
