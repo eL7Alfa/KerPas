@@ -30,6 +30,7 @@ import {
   setNearestMarketR,
   setSelectedAddressR,
 } from '../../../redux/actions/appRActions';
+import MyAddresses from '../../MyAddresses';
 
 const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
@@ -113,112 +114,117 @@ const AppHeader = () => {
   }, [userDataR]);
 
   return (
-    <AppBar position="fixed" elevation={5} className={classes.root}>
-      <Toolbar color={'primary'} className={classes.sectionAToolbar}>
-        <Typography className={classes.title} variant="h6" noWrap>
-          KERPAS
-        </Typography>
-        <Hidden smDown>
-          <div className={classes.searchW}>
-            <ClickAwayListener onClickAway={onSearchBlurred}>
-              <div
-                className={classes.search}
-                style={{ width: `${searchWidth}` }}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
+    <Fragment>
+      <AppBar position="fixed" elevation={5} className={classes.root}>
+        <Toolbar color={'primary'} className={classes.sectionAToolbar}>
+          <Typography className={classes.title} variant="h6" noWrap>
+            KERPAS
+          </Typography>
+          <Hidden smDown>
+            <div className={classes.searchW}>
+              <ClickAwayListener onClickAway={onSearchBlurred}>
+                <div
+                  className={classes.search}
+                  style={{ width: `${searchWidth}` }}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Cari di kerpas"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    onFocus={onSearchFocused}
+                  />
+                  <Button className={classes.searchBtn}>Cari</Button>
                 </div>
-                <InputBase
-                  placeholder="Cari di kerpas"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ 'aria-label': 'search' }}
-                  onFocus={onSearchFocused}
-                />
-                <Button className={classes.searchBtn}>Cari</Button>
-              </div>
-            </ClickAwayListener>
-          </div>
-        </Hidden>
-        <div className={classes.toolbarItemRight}>
-          <CartButton classes={{ iconButton: classes.cartBtn }} />
-          {userData === authDefStateR.userData ? (
-            <Button
-              className={classes.loginButton}
-              color={'secondary'}
-              onClick={onLoginBtnClicked}>
-              MASUK
-            </Button>
-          ) : (
-            <Fragment>
+              </ClickAwayListener>
+            </div>
+          </Hidden>
+          <div className={classes.toolbarItemRight}>
+            <CartButton classes={{ iconButton: classes.cartBtn }} />
+            {userData === authDefStateR.userData ? (
               <Button
-                className={classes.userProfileBtn}
-                onClick={onProfileBtnClicked}>
-                <Image
-                  src={`${profileUrl}/${userData.cprofile_picture}`}
-                  layout={'fill'}
-                  alt={userData.cprofile_picture}
-                  placeholder={'blur'}
-                  blurDataURL={`${profileUrl}/${userData.cprofile_picture}`}
-                />
-              </Button>
-              <Menu
-                open={profileBtnHovered}
-                anchorEl={profileBtnEl}
-                onClose={onCloseProfileBtnClicked}>
-                <MenuItem onClick={onLogoutClicked}>Logout</MenuItem>
-              </Menu>
-            </Fragment>
-          )}
-        </div>
-      </Toolbar>
-      <Toolbar color={'primary'} className={classes.sectionBToolbar}>
-        <Container maxWidth={'lg'} className={classes.sectionBC}>
-          <div className={classes.sBAddressW}>
-            <Room fontSize={'small'} className={classes.sBAddressIcon} />
-            <Typography variant={'body2'} className={classes.sBAddressLabel}>
-              Dikirim ke:
-            </Typography>
-            {Object.keys(selectedAddress).length ? (
-              <Button
-                className={classes.sBAddressBtn}
-                onClick={onSelectAddressClicked}>
-                <Typography variant={'body2'} className={classes.sBAddressName}>
-                  {selectedAddress.cnama_alamat}
-                </Typography>
-                <Typography
-                  variant={'body2'}
-                  className={classes.sBAddressSeparator}>
-                  •
-                </Typography>
-                <Typography variant={'body2'} className={classes.sBAddress}>
-                  {selectedAddress.maddress}
-                </Typography>
-                <KeyboardArrowDown
-                  fontSize={'small'}
-                  className={classes.sBAddressKArrowDown}
-                />
+                className={classes.loginButton}
+                color={'secondary'}
+                onClick={onLoginBtnClicked}>
+                MASUK
               </Button>
             ) : (
-              <Button
-                className={classes.sBAddressBtn}
-                onClick={onSelectAddressClicked}>
-                <Typography
-                  variant={'body2'}
-                  className={classes.sBSelectAddress}>
-                  Pilih Alamat
-                </Typography>
-                <KeyboardArrowDown
-                  fontSize={'small'}
-                  className={classes.sBAddressKArrowDown}
-                />
-              </Button>
+              <Fragment>
+                <Button
+                  className={classes.userProfileBtn}
+                  onClick={onProfileBtnClicked}>
+                  <Image
+                    src={`${profileUrl}/${userData.cprofile_picture}`}
+                    layout={'fill'}
+                    alt={userData.cprofile_picture}
+                    placeholder={'blur'}
+                    blurDataURL={`${profileUrl}/${userData.cprofile_picture}`}
+                  />
+                </Button>
+                <Menu
+                  open={profileBtnHovered}
+                  anchorEl={profileBtnEl}
+                  onClose={onCloseProfileBtnClicked}>
+                  <MenuItem onClick={onLogoutClicked}>Logout</MenuItem>
+                </Menu>
+              </Fragment>
             )}
           </div>
-        </Container>
-      </Toolbar>
-    </AppBar>
+        </Toolbar>
+        <Toolbar color={'primary'} className={classes.sectionBToolbar}>
+          <Container maxWidth={'lg'} className={classes.sectionBC}>
+            <div className={classes.sBAddressW}>
+              <Room fontSize={'small'} className={classes.sBAddressIcon} />
+              <Typography variant={'body2'} className={classes.sBAddressLabel}>
+                Dikirim ke:
+              </Typography>
+              {Object.keys(selectedAddress).length ? (
+                <Button
+                  className={classes.sBAddressBtn}
+                  onClick={onSelectAddressClicked}>
+                  <Typography
+                    variant={'body2'}
+                    className={classes.sBAddressName}>
+                    {selectedAddress.cnama_alamat}
+                  </Typography>
+                  <Typography
+                    variant={'body2'}
+                    className={classes.sBAddressSeparator}>
+                    •
+                  </Typography>
+                  <Typography variant={'body2'} className={classes.sBAddress}>
+                    {selectedAddress.maddress}
+                  </Typography>
+                  <KeyboardArrowDown
+                    fontSize={'small'}
+                    className={classes.sBAddressKArrowDown}
+                  />
+                </Button>
+              ) : (
+                <Button
+                  className={classes.sBAddressBtn}
+                  onClick={onSelectAddressClicked}>
+                  <Typography
+                    variant={'body2'}
+                    className={classes.sBSelectAddress}>
+                    Pilih Alamat
+                  </Typography>
+                  <KeyboardArrowDown
+                    fontSize={'small'}
+                    className={classes.sBAddressKArrowDown}
+                  />
+                </Button>
+              )}
+            </div>
+          </Container>
+        </Toolbar>
+      </AppBar>
+      <MyAddresses />
+    </Fragment>
   );
 };
 
