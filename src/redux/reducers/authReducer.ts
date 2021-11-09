@@ -4,7 +4,7 @@ import {
   setAuthModalOpenT,
   setAuthResetUserDataT,
   setAuthUserDataT,
-} from '../Types/Auth';
+} from '../Types/AuthRTypes';
 
 const authReducer = (state = authDefStateR, { type, payload }: AnyAction) => {
   switch (type) {
