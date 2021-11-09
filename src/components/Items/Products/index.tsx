@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useStyles from './styles';
-import Product, { ProductProps } from '../../Items/Product';
+import Product, { ProductProps } from '../Product';
 import React, { Fragment } from 'react';
 
 type ProductsProps = {
