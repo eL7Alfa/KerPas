@@ -4,6 +4,7 @@ import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import { useRouter } from 'next/router';
 import { useInit } from '../../src/components/constants';
+import NearestMarket from '../../src/components/Home/NearestMarket';
 
 const CategorizedProducts = () => {
   const router = useRouter();
@@ -18,12 +19,12 @@ const CategorizedProducts = () => {
         <title>KerPas</title>
       </Head>
       <CssBaseline />
+      <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
         <Box py={1} mt={10} mb={8}>
-          {categoryCode}
+          <NearestMarket />
         </Box>
       </Container>
-      <AppHeader />
     </Fragment>
   );
 };
