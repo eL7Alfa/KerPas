@@ -1,29 +1,30 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import useStyles from './styles';
 import Image from 'next/image';
 import { Paper, Typography } from '@mui/material';
 import { Room } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
+import { rootReducerI } from '../../../redux/reducers';
+import { marketImgUrl } from '../../../config/urls';
 
-export type NearestMarketT = {
-  marketId: string;
-  marketCode: string;
-  marketName: string;
-  address: string;
-  distance: { text: string; value: number };
-  location: string;
-  marketImg: string;
-};
-
-const NearestMarket = ({
-  marketId,
-  marketCode,
-  marketName,
-  address,
-  distance,
-  location,
-  marketImg,
-}: NearestMarketT) => {
+const NearestMarket = () => {
   const classes = useStyles();
+  const selector = useSelector((state: rootReducerI) => state);
+  const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
+    {},
+  );
+  const marketId = nearestMarket.id;
+  const marketCode = nearestMarket.ckode_mitra;
+  const marketName = nearestMarket.cnama_mitra;
+  const address = nearestMarket.calamat_toko;
+  const distance = nearestMarket.distance;
+  const location = nearestMarket.ckota;
+  const marketImg = `${marketImgUrl}/${nearestMarket.cfoto}`;
+
+  useEffect(() => {
+    setNearestMarket(selector.appState.nearestMarket);
+  }, [selector.appState.nearestMarket]);
+
   if (!marketId) {
     return <Fragment />;
   }

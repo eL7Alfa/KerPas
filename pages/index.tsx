@@ -99,15 +99,7 @@ export default function Home() {
           <FeaturedServices data={featuredServiceData} />
           <Categories data={categories} />
           <Divider />
-          <NearestMarket
-            marketId={nearestMarket.id}
-            marketCode={nearestMarket.ckode_mitra}
-            marketName={nearestMarket.cnama_mitra}
-            address={nearestMarket.calamat_toko}
-            distance={nearestMarket.distance}
-            location={nearestMarket.ckota}
-            marketImg={`${marketImgUrl}/${nearestMarket.cfoto}`}
-          />
+          <NearestMarket />
           <Divider />
           <Promo data={promotedProducts} />
           <Divider />
