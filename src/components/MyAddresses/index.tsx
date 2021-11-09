@@ -10,7 +10,7 @@ import MyAddress from './MyAddress';
 import { rootReducerI } from '../../redux/reducers';
 import usePrevious from '../../helper/usePrevious';
 import { Close } from '@mui/icons-material';
-import { getAddresses } from '../../Requests/HomeRequests';
+import { getAddresses } from '../../Requests/GlobalRequests';
 
 const MyAddresses = () => {
   const { authState, appState } = useSelector((state: rootReducerI) => state);

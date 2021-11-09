@@ -2,30 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from '../config/axios';
 import { menuImgUrl, supplierImgUrl } from '../config/urls';
 import { newProducts } from '../components/constants';
-import { AxiosError } from 'axios';
-
-type getAddressesPropsT = { token: string; userCode: string };
-
-export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
-  new Promise((resolve, reject) => {
-    axios(token)
-      .get(`/address/get/${userCode}`)
-      .then(
-        ({
-          data: {
-            result: { address },
-            response,
-          },
-        }) => {
-          if (response === 200) {
-            resolve(address);
-          }
-        },
-      )
-      .catch(e => {
-        reject(e as AxiosError);
-      });
-  });
 
 export const useGetCampaigns = (marketCode: string) => {
   const [campaigns, setCampaigns] = useState<any[]>([]);

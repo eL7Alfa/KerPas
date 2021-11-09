@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
 import { newProducts } from '../components/constants';
+import { AxiosError } from 'axios';
 
 export const useGetProductsByCategory = ({
   marketCode,
@@ -38,3 +39,26 @@ export const useGetProductsByCategory = ({
   }, [marketCode]);
   return { productsByCategory, setProductsByCategory };
 };
+
+type getAddressesPropsT = { token: string; userCode: string };
+
+export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
+  new Promise((resolve, reject) => {
+    axios(token)
+      .get(`/address/get/${userCode}`)
+      .then(
+        ({
+          data: {
+            result: { address },
+            response,
+          },
+        }) => {
+          if (response === 200) {
+            resolve(address);
+          }
+        },
+      )
+      .catch(e => {
+        reject(e as AxiosError);
+      });
+  });
