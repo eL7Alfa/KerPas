@@ -29,7 +29,6 @@ import {
 import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
-import MyAddresses from '../src/components/MyAddresses';
 import { setNearestMarketR } from '../src/redux/actions/appRActions';
 
 export default function Home() {
@@ -187,7 +186,6 @@ export default function Home() {
         </Box>
       </Container>
       <Auth />
-      <MyAddresses />
     </Fragment>
   );
 }
