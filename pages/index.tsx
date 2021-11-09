@@ -21,12 +21,14 @@ import NearestMarket from '../src/components/Home/NearestMarket';
 import {
   useGetCampaigns,
   useGetCategories,
-  useGetProducts,
   useGetPromotedProducts,
   useGetSupplier,
 } from '../src/Requests/HomeRequests';
 import { rootReducerI } from '../src/redux/reducers';
-import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
+import {
+  useGetProducts,
+  useGetProductsByCategory,
+} from '../src/Requests/GlobalRequests';
 
 export default function Home() {
   useInit();

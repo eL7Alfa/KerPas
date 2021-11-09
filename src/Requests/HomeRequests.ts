@@ -91,56 +91,6 @@ export const useGetCategories = () => {
   return { categories, setCategories };
 };
 
-export const useGetProducts = (marketCode: string) => {
-  const [products, setProducts] = useState<any[]>([]);
-  const [lastProductPage, setLastProductPage] = useState<number>(0);
-  const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
-  useEffect(() => {
-    setIsProductLoading(true);
-    if (marketCode) {
-      axios()
-        .post('/market/product', {
-          limit: 12,
-          type: 'all',
-          marketId: marketCode,
-        })
-        .then(({ data }) => {
-          if (
-            data.response === 200 &&
-            data &&
-            !data.error &&
-            data.result.data.length
-          ) {
-            setProducts(newProducts(data.result.data));
-            setLastProductPage(data.result.last_page);
-          } else {
-            setProducts([]);
-            setLastProductPage(0);
-          }
-        })
-        .catch(() => {
-          setProducts([]);
-          setLastProductPage(0);
-        })
-        .finally(() => {
-          setIsProductLoading(false);
-        });
-    } else {
-      setProducts([]);
-      setLastProductPage(0);
-      setIsProductLoading(false);
-    }
-  }, [marketCode]);
-  return {
-    products,
-    setProducts,
-    lastProductPage,
-    setLastProductPage,
-    isProductLoading,
-    setIsProductLoading,
-  };
-};
-
 export const useGetPromotedProducts = (marketCode: string) => {
   const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
   useEffect(() => {
