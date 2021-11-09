@@ -29,6 +29,7 @@ import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
 
 export default function Home() {
+  useInit();
   const selector = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
@@ -80,8 +81,6 @@ export default function Home() {
   useEffect(() => {
     setNearestMarket(selector.appState.nearestMarket);
   }, [selector.appState.nearestMarket]);
-
-  useInit();
 
   return (
     <Fragment>

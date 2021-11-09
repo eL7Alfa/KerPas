@@ -7,10 +7,10 @@ import { useInit } from '../../src/components/constants';
 import NearestMarket from '../../src/components/Home/NearestMarket';
 
 const CategorizedProducts = () => {
+  useInit();
   const router = useRouter();
   const { categoryCode } = router.query;
 
-  useInit();
   return (
     <Fragment>
       <Head>
