@@ -20,7 +20,6 @@ import { marketImgUrl } from '../src/config/urls';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
 import {
-  getAddresses,
   useGetCampaigns,
   useGetMenu,
   useGetProducts,
@@ -62,7 +61,6 @@ export default function Home() {
     isProductLoading,
     setIsProductLoading,
   } = useGetProducts(nearestMarket.ckode_mitra);
-  const [addresses, setAddresses] = useState<any>([]);
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
@@ -105,8 +103,7 @@ export default function Home() {
           }
         }
       },
-      e => {
-        console.log(e);
+      () => {
         if (locationRequestCount <= 6) {
           getNearestMarketByDeviceAddress();
         }
@@ -139,29 +136,10 @@ export default function Home() {
   }, [selector.appState.selectedAddress]);
 
   useEffect(() => {
-    if (!selector.authState.userData.id) {
-      setAddresses([]);
-    } else {
-      getAddresses({
-        token: selector.authState.userData.token,
-        userCode: selector.authState.userData.ckode_user,
-      })
-        .then(addresses => setAddresses(addresses))
-        .catch(e => console.log(e.response));
-    }
-  }, [selector.authState.userData.id]);
-
-  useEffect(() => {
     checkUserData()
       .then(userData => {
         if (userData) {
           dispatch(setAuthUserDataR(userData));
-          getAddresses({
-            token: userData.token,
-            userCode: userData.ckode_user,
-          })
-            .then(addresses => setAddresses(addresses))
-            .catch(e => console.log(e.response));
         }
       })
       .catch(e => console.log(e.response));
@@ -208,7 +186,7 @@ export default function Home() {
         </Box>
       </Container>
       <Auth />
-      <MyAddresses data={addresses} />
+      <MyAddresses />
     </Fragment>
   );
 }

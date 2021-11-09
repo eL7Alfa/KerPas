@@ -10,39 +10,36 @@ import MyAddress from './MyAddress';
 import { rootReducerI } from '../../redux/reducers';
 import usePrevious from '../../helper/usePrevious';
 import { Close } from '@mui/icons-material';
+import { getAddresses } from '../../Requests/HomeRequests';
 
-export type MyAddressesTypes = {
-  data: any[];
-};
-
-const MyAddresses = ({ data }: MyAddressesTypes) => {
-  const selector = useSelector((state: rootReducerI) => state.appState);
+const MyAddresses = () => {
+  const { authState, appState } = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
-  const appState = useSelector((state: any) => state.appState);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<any>({});
-  const prevData = usePrevious(data);
+  const [addresses, setAddresses] = useState<any>([]);
+  const prevData = usePrevious(addresses);
 
   const onCloseSelectAddressClicked = () => {
     dispatch(setMyAddressesOpenR(false));
   };
 
   useEffect(() => {
-    setSelectedAddress(selector.selectedAddress);
-  }, [selector.selectedAddress]);
+    setSelectedAddress(appState.selectedAddress);
+  }, [appState.selectedAddress]);
 
   useEffect(() => {
     setOpen(appState.myAddressesOpen);
   }, [appState.myAddressesOpen]);
 
   useEffect(() => {
-    if (prevData !== data) {
+    if (prevData !== addresses) {
       const _selectedAddress = localStorage.getItem('selectedAddress');
       if (_selectedAddress) {
         const selectedAddress = JSON.parse(_selectedAddress);
-        const newSelectedAddress = data.filter(
-          a => a.id === selectedAddress.id,
+        const newSelectedAddress = addresses.filter(
+          (a: { id: any }) => a.id === selectedAddress.id,
         );
         if (newSelectedAddress.length) {
           localStorage.setItem(
@@ -53,7 +50,20 @@ const MyAddresses = ({ data }: MyAddressesTypes) => {
         }
       }
     }
-  }, [data]);
+  }, [addresses]);
+
+  useEffect(() => {
+    if (!authState.userData.id) {
+      setAddresses([]);
+    } else {
+      getAddresses({
+        token: authState.userData.token,
+        userCode: authState.userData.ckode_user,
+      })
+        .then(addresses => setAddresses(addresses))
+        .catch(e => console.log(e.response));
+    }
+  }, [authState.userData.id]);
 
   return (
     <Modal open={open} onClose={onCloseSelectAddressClicked}>
@@ -66,7 +76,7 @@ const MyAddresses = ({ data }: MyAddressesTypes) => {
             </Typography>
           </div>
           <div className={classes.body}>
-            {data.map((d: any, key: number) => (
+            {addresses.map((d: any, key: number) => (
               <MyAddress key={key} data={d} {...{ selectedAddress }} />
             ))}
           </div>
