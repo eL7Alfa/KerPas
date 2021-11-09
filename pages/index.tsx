@@ -21,7 +21,7 @@ import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
 import {
   useGetCampaigns,
-  useGetMenu,
+  useGetCategories,
   useGetProducts,
   useGetPromotedProducts,
   useGetSupplier,
@@ -40,7 +40,7 @@ export default function Home() {
   );
   const { campaigns } = useGetCampaigns(nearestMarket.ckode_mitra);
   const { supplier } = useGetSupplier(nearestMarket.ckode_mitra);
-  const { menu } = useGetMenu();
+  const { categories } = useGetCategories();
   const { promotedProducts } = useGetPromotedProducts(
     nearestMarket.ckode_mitra,
   );
@@ -159,7 +159,7 @@ export default function Home() {
         <Box py={1} mt={10} mb={8}>
           <Campaign data={campaigns} />
           <FeaturedServices data={featuredServiceData} />
-          <Categories data={menu} />
+          <Categories data={categories} />
           <Divider />
           <NearestMarket
             marketId={nearestMarket.id}

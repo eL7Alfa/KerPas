@@ -67,26 +67,28 @@ export const useGetSupplier = (marketCode: string) => {
   return { supplier, setSupplier, marketCode };
 };
 
-export const useGetMenu = () => {
-  const [menu, setMenu] = useState<any[]>([]);
+export const useGetCategories = () => {
+  const [categories, setCategories] = useState<any[]>([]);
   useEffect(() => {
     axios()
       .get('/market/menu')
       .then(({ data }) => {
         if (data.response === 200 && data && !data.error) {
-          const newMenu = data.result.map((d: { ckelas: any; cicon: any }) => {
-            return {
-              name: d.ckelas,
-              imageUri: `${menuImgUrl}/${d.cicon}`,
-              url: '',
-            };
-          });
-          setMenu(newMenu);
+          const newCategories = data.result.map(
+            (d: { ckelas: string; cicon: string; ckode_kelas: string }) => {
+              return {
+                name: d.ckelas,
+                imageUri: `${menuImgUrl}/${d.cicon}`,
+                code: d.ckode_kelas,
+              };
+            },
+          );
+          setCategories(newCategories);
         }
       })
       .catch(() => {});
   }, []);
-  return { menu, setMenu };
+  return { categories, setCategories };
 };
 
 export const useGetProducts = (marketCode: string) => {
