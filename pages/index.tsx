@@ -26,7 +26,6 @@ import {
   useGetPromotedProducts,
   useGetSupplier,
 } from '../src/Requests/HomeRequests';
-import axiosBase from 'axios';
 import { setAuthUserDataR } from '../src/redux/actions/authRActions';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProductsByCategory } from '../src/Requests/GlobalRequests';
@@ -113,8 +112,8 @@ export default function Home() {
   };
 
   const getNearestMarket = ({ lat, lng }: { lat: number; lng: number }) => {
-    axiosBase
-      .post('/api/nearestMarket', { lat, lng })
+    axios()
+      .post('/market/nearest', { lat, lng })
       .then(({ data: { result, response } }) => {
         if (response === 200) {
           dispatch(setNearestMarketR(result));
@@ -142,7 +141,7 @@ export default function Home() {
           dispatch(setAuthUserDataR(userData));
         }
       })
-      .catch(e => console.log(e.response));
+      .catch(() => {});
   }, []);
 
   return (
