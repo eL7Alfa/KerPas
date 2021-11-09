@@ -1,18 +1,25 @@
 import useStyles from './styles';
 import { Button, Paper } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export type CategoryProps = {
   imageUri: string;
-  url: string;
+  code: string;
   name: string;
 };
 
-const Category = ({ imageUri, url, name }: CategoryProps) => {
+const Category = ({ imageUri, code, name }: CategoryProps) => {
   const classes = useStyles();
+  const router = useRouter();
+
+  const onClick = () => {
+    router.push(`/category/${code}`);
+  };
+
   return (
     <div className={classes.root}>
-      <Button>
+      <Button {...{ onClick }}>
         <Paper className={classes.body}>
           <div className={classes.imgW}>
             <div className={classes.imgC}>
