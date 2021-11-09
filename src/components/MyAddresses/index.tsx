@@ -61,7 +61,7 @@ const MyAddresses = () => {
         userCode: authState.userData.ckode_user,
       })
         .then(addresses => setAddresses(addresses))
-        .catch(e => console.log(e.response));
+        .catch(() => {});
     }
   }, [authState.userData.id]);
 
