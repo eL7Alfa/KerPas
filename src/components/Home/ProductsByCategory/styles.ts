@@ -22,13 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
       color: grey[800],
     },
     showMoreBtn: {
-      color: theme.palette.tertiary.main,
+      color: '#000000',
       fontWeight: 800,
       borderRadius: theme.spacing(3),
     },
     showMoreArrowDown: {
       fontSize: 16,
-      color: theme.palette.tertiary.main,
+      color: '#000000',
     },
     itemsW: {
       paddingTop: theme.spacing(2),
