@@ -3,43 +3,6 @@ import axios from '../config/axios';
 import { newProducts } from '../components/constants';
 import { AxiosError } from 'axios';
 
-export const useGetProductsByCategory = ({
-  marketCode,
-  categoryId,
-}: {
-  marketCode: string;
-  categoryId: number;
-}) => {
-  const [productsByCategory, setProductsByCategory] = useState<any[]>([]);
-  useEffect(() => {
-    if (marketCode) {
-      axios()
-        .post('/market/product', {
-          limit: 12,
-          type: 'category',
-          subcategory: categoryId,
-          marketId: marketCode,
-        })
-        .then(({ data }) => {
-          if (
-            data.response === 200 &&
-            data &&
-            !data.error &&
-            data.result.data.length
-          ) {
-            setProductsByCategory(newProducts(data.result.data));
-          } else {
-            setProductsByCategory([]);
-          }
-        })
-        .catch(() => {});
-    } else {
-      setProductsByCategory([]);
-    }
-  }, [marketCode]);
-  return { productsByCategory, setProductsByCategory };
-};
-
 type getAddressesPropsT = { token: string; userCode: string };
 
 export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
@@ -63,19 +26,40 @@ export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
       });
   });
 
-export const useGetProducts = (marketCode: string) => {
+export type useGetProductsTypes = {
+  marketCode: string;
+  productType?: string;
+  limit?: number;
+  categoryId?: number;
+};
+
+export const useGetProducts = ({
+  marketCode,
+  productType,
+  limit,
+  categoryId,
+}: useGetProductsTypes) => {
   const [products, setProducts] = useState<any[]>([]);
   const [lastProductPage, setLastProductPage] = useState<number>(0);
   const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
   useEffect(() => {
     setIsProductLoading(true);
     if (marketCode) {
+      const postData =
+        productType === 'category'
+          ? {
+              limit: limit ?? 12,
+              type: 'category',
+              marketId: marketCode,
+              subcategory: categoryId,
+            }
+          : {
+              limit: limit ?? 12,
+              type: productType ?? 'all',
+              marketId: marketCode,
+            };
       axios()
-        .post('/market/product', {
-          limit: 12,
-          type: 'all',
-          marketId: marketCode,
-        })
+        .post('/market/product', postData)
         .then(({ data }) => {
           if (
             data.response === 200 &&
@@ -102,7 +86,7 @@ export const useGetProducts = (marketCode: string) => {
       setLastProductPage(0);
       setIsProductLoading(false);
     }
-  }, [marketCode]);
+  }, [marketCode, categoryId]);
   return {
     products,
     setProducts,

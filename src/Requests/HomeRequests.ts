@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
 import { menuImgUrl, supplierImgUrl } from '../config/urls';
-import { newProducts } from '../components/constants';
 
 export const useGetCampaigns = (marketCode: string) => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -89,34 +88,4 @@ export const useGetCategories = () => {
       .catch(() => {});
   }, []);
   return { categories, setCategories };
-};
-
-export const useGetPromotedProducts = (marketCode: string) => {
-  const [promotedProducts, setPromotedProducts] = useState<any[]>([]);
-  useEffect(() => {
-    if (marketCode) {
-      axios()
-        .post('/market/product', {
-          limit: 12,
-          type: 'promo',
-          marketId: marketCode,
-        })
-        .then(({ data }) => {
-          if (
-            data.response === 200 &&
-            data &&
-            !data.error &&
-            data.result.data.length
-          ) {
-            setPromotedProducts(newProducts(data.result.data));
-          } else {
-            setPromotedProducts([]);
-          }
-        })
-        .catch(() => setPromotedProducts([]));
-    } else {
-      setPromotedProducts([]);
-    }
-  }, [marketCode]);
-  return { promotedProducts, setPromotedProducts };
 };

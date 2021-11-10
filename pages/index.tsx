@@ -18,17 +18,9 @@ import {
 import { useSelector } from 'react-redux';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Home/NearestMarket';
-import {
-  useGetCampaigns,
-  useGetCategories,
-  useGetPromotedProducts,
-  useGetSupplier,
-} from '../src/Requests/HomeRequests';
+import { useGetCampaigns, useGetSupplier } from '../src/Requests/HomeRequests';
 import { rootReducerI } from '../src/redux/reducers';
-import {
-  useGetProducts,
-  useGetProductsByCategory,
-} from '../src/Requests/GlobalRequests';
+import { useGetProducts } from '../src/Requests/GlobalRequests';
 
 export default function Home() {
   useInit();
@@ -38,16 +30,17 @@ export default function Home() {
   );
   const { campaigns } = useGetCampaigns(nearestMarket.ckode_mitra);
   const { supplier } = useGetSupplier(nearestMarket.ckode_mitra);
-  const { categories } = useGetCategories();
-  const { promotedProducts } = useGetPromotedProducts(
-    nearestMarket.ckode_mitra,
-  );
+  const { products: promotedProducts } = useGetProducts({
+    marketCode: nearestMarket.ckode_mitra,
+    productType: 'promo',
+  });
   const [selectedCat] = useState<{ id: number; name: string }>({
     id: selectedCatId,
     name: 'Bumbu dan Bahan Dapur',
   });
-  const { productsByCategory } = useGetProductsByCategory({
+  const { products: productsByCategory } = useGetProducts({
     marketCode: nearestMarket.ckode_mitra,
+    productType: 'category',
     categoryId: selectedCat.id,
   });
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
@@ -57,7 +50,7 @@ export default function Home() {
     lastProductPage,
     isProductLoading,
     setIsProductLoading,
-  } = useGetProducts(nearestMarket.ckode_mitra);
+  } = useGetProducts({ marketCode: nearestMarket.ckode_mitra });
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
@@ -97,7 +90,7 @@ export default function Home() {
         <Box py={1} mt={10} mb={8}>
           <Campaign data={campaigns} />
           <FeaturedServices data={featuredServiceData} />
-          <Categories data={categories} />
+          <Categories />
           <Divider />
           <NearestMarket />
           <Divider />
@@ -109,6 +102,7 @@ export default function Home() {
           />
           <Stores data={supplier} />
           <Products
+            name={'Jelajah Pasar'}
             data={products}
             onShowMoreBtnClicked={onShowMoreProductBtnClicked}
             isLoading={isProductLoading}
