@@ -11,12 +11,13 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 import { useGetProducts } from '../../src/Requests/GlobalRequests';
 import Categories from '../../src/components/Home/Categories';
+import { useGetCategories } from '../../src/Requests/HomeRequests';
 
 const CategorizedProducts = () => {
   useInit();
   const selector = useSelector((state: rootReducerI) => state);
   const router = useRouter();
-  const { categoryId, name } = router.query;
+  const { categoryId } = router.query;
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
   );
@@ -32,6 +33,10 @@ const CategorizedProducts = () => {
     productType: 'category',
     categoryId: Number(categoryId),
   });
+  const { categories } = useGetCategories();
+  const { name } =
+    categories.length &&
+    categories.filter(c => Number(c.code) === Number(categoryId))[0];
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;

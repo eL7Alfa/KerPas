@@ -15,7 +15,7 @@ const ProductsByCategory = ({ category, data }: ProductsByCategoryProps) => {
   const router = useRouter();
 
   const onShowMoreBtnClicked = () => {
-    router.push(`/category/${category.id}/?name=${category.name}`);
+    router.push(`/category/${category.id}`);
   };
 
   if (data.length === 0) {
