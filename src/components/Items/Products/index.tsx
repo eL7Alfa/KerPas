@@ -5,6 +5,7 @@ import Product, { ProductProps } from '../Product';
 import React, { Fragment } from 'react';
 
 type ProductsProps = {
+  name: string;
   data: ProductProps[];
   onShowMoreBtnClicked: () => void;
   isLoading: boolean;
@@ -12,6 +13,7 @@ type ProductsProps = {
 };
 
 const Products = ({
+  name,
   data,
   onShowMoreBtnClicked,
   isLoading,
@@ -26,7 +28,7 @@ const Products = ({
   return (
     <div className={classes.root}>
       <Typography variant={'h6'} className={classes.title} px={2}>
-        Jelajah Pasar
+        {name}
       </Typography>
       <Grid container className={classes.itemsW} spacing={2} px={1}>
         {data.map((d, key) => (
