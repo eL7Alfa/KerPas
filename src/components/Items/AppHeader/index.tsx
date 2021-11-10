@@ -52,7 +52,7 @@ const AppHeader = () => {
   const [selectedAddress, setSelectedAddress] = useState<any>({});
 
   const onLogoClicked = () => {
-    router.push('/');
+    router.pathname === '/' ? router.reload() : router.push('/');
   };
 
   const onSearchFocused = () => {
