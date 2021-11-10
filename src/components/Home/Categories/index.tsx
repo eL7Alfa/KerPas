@@ -1,20 +1,18 @@
 import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
-import Category, { CategoryProps } from './Category';
+import Category from './Category';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
+import { useGetCategories } from '../../../Requests/HomeRequests';
 
-type CategoriesProps = {
-  data: CategoryProps[];
-};
-
-const Categories = ({ data }: CategoriesProps) => {
+const Categories = () => {
   const theme = useTheme();
+  const { categories } = useGetCategories();
   const classes = useStyles();
   const listW = createRef<HTMLDivElement>();
-  const prevData = usePrevious(data);
+  const prevData = usePrevious(categories);
   const [listLoaded, setListLoaded] = useState<{
     state: boolean;
     height: number;
@@ -25,16 +23,16 @@ const Categories = ({ data }: CategoriesProps) => {
   });
 
   useEffect(() => {
-    if (prevData !== data && listW.current && !listLoaded.state) {
+    if (prevData !== categories && listW.current && !listLoaded.state) {
       setListLoaded({
         state: true,
         height: listW.current.getBoundingClientRect().height,
         hList: listW.current,
       });
     }
-  }, [data, listW, listW.current]);
+  }, [categories, listW, listW.current]);
 
-  if (data.length === 0) {
+  if (categories.length === 0) {
     return <Fragment />;
   }
 
@@ -45,7 +43,7 @@ const Categories = ({ data }: CategoriesProps) => {
       </Typography>
       <div className={classes.hListW}>
         <div className={classes.itemsW} ref={listW}>
-          {data.map((d, key) => (
+          {categories.map((d, key) => (
             <Category
               key={key}
               imageUri={d.imageUri}
