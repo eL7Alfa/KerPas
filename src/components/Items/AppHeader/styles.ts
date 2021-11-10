@@ -17,13 +17,17 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(0.5),
     },
-    title: {
-      fontWeight: 800,
-      textOverflow: 'unset',
-      color: theme.palette.primary.main,
+    titleW: {
       [theme.breakpoints.up('lg')]: {
         minWidth: `calc((100% - 1200px) / 2)`,
       },
+      justifyContent: 'unset',
+    },
+    title: {
+      marginLeft: theme.spacing(1),
+      fontWeight: 800,
+      textOverflow: 'unset',
+      color: theme.palette.primary.main,
     },
     searchW: {
       paddingLeft: theme.spacing(2),

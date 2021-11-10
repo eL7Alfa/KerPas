@@ -5,7 +5,9 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {
+  Avatar,
   Button,
+  ButtonBase,
   ClickAwayListener,
   Container,
   Hidden,
@@ -31,10 +33,12 @@ import {
   setSelectedAddressR,
 } from '../../../redux/actions/appRActions';
 import MyAddresses from '../../MyAddresses';
+import { useRouter } from 'next/router';
 
 const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
+  const router = useRouter();
   const {
     authState: { userData: userDataR },
   } = selector;
@@ -46,6 +50,10 @@ const AppHeader = () => {
   );
   const profileBtnHovered = Boolean(profileBtnEl);
   const [selectedAddress, setSelectedAddress] = useState<any>({});
+
+  const onLogoClicked = () => {
+    router.push('/');
+  };
 
   const onSearchFocused = () => {
     setSearchWidth('100%');
@@ -117,9 +125,18 @@ const AppHeader = () => {
     <Fragment>
       <AppBar position="fixed" elevation={5} className={classes.root}>
         <Toolbar color={'primary'} className={classes.sectionAToolbar}>
-          <Typography className={classes.title} variant="h6" noWrap>
-            KERPAS
-          </Typography>
+          <ButtonBase
+            className={classes.titleW}
+            disableRipple
+            onClick={onLogoClicked}>
+            <Avatar
+              alt={'keranjang-belanja'}
+              src={'/assets/images/keranjang-belanja-logo.png'}
+            />
+            <Typography className={classes.title} variant="h6" noWrap>
+              KERPAS
+            </Typography>
+          </ButtonBase>
           <Hidden smDown>
             <div className={classes.searchW}>
               <ClickAwayListener onClickAway={onSearchBlurred}>
