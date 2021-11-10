@@ -57,7 +57,6 @@ const Stores = ({ data }: StoresProps) => {
             marketName={d.marketName}
             block={d.block}
             location={d.location}
-            url={d.url}
           />
         ))}
       </div>
