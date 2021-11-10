@@ -1,7 +1,7 @@
 import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
-import Store, { StoreProps } from './Store';
+import Store, { StoreProps } from './Supplier';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';

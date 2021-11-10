@@ -5,21 +5,13 @@ import { Room } from '@mui/icons-material';
 
 export type StoreProps = {
   imageUri: string;
-  url: string;
   name: string;
   marketName: string;
   block: string;
   location: string;
 };
 
-const Store = ({
-  imageUri,
-  url,
-  name,
-  marketName,
-  block,
-  location,
-}: StoreProps) => {
+const Store = ({ imageUri, name, marketName, block, location }: StoreProps) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
