@@ -10,7 +10,7 @@ import axios from '../../src/config/axios';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 import { useGetProducts } from '../../src/Requests/GlobalRequests';
-import Categories from '../../src/components/Home/Categories';
+import Categories from '../../src/components/Items/Categories';
 import { useGetCategories } from '../../src/Requests/HomeRequests';
 
 const CategorizedProducts = () => {

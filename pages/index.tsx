@@ -5,7 +5,7 @@ import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
 import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
-import Categories from '../src/components/Home/Categories';
+import Categories from '../src/components/Items/Categories';
 import Suppliers from '../src/components/Home/Suppliers';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Items/Products';
