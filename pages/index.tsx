@@ -6,7 +6,7 @@ import axios from '../src/config/axios';
 import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import Categories from '../src/components/Home/Categories';
-import Stores from '../src/components/Home/Suppliers';
+import Suppliers from '../src/components/Home/Suppliers';
 import Promo from '../src/components/Home/Promo';
 import Products from '../src/components/Items/Products';
 import { newProducts, useInit } from '../src/components/constants';
@@ -100,7 +100,7 @@ export default function Home() {
             category={selectedCat}
             data={productsByCategory}
           />
-          <Stores data={supplier} />
+          <Suppliers data={supplier} />
           <Products
             name={'Jelajah Pasar'}
             data={products}

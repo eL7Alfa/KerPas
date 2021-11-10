@@ -1,16 +1,16 @@
 import { IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
 import { NavigateBefore, NavigateNext } from '@mui/icons-material';
-import Store, { StoreProps } from './Supplier';
+import Supplier, { SupplierProps } from './Supplier';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 
-type StoresProps = {
-  data: StoreProps[];
+type SuppliersProps = {
+  data: SupplierProps[];
 };
 
-const Stores = ({ data }: StoresProps) => {
+const Suppliers = ({ data }: SuppliersProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const listW = createRef<HTMLDivElement>();
@@ -50,7 +50,7 @@ const Stores = ({ data }: StoresProps) => {
       </Typography>
       <div className={classes.itemsW} ref={listW}>
         {data.map((d, key) => (
-          <Store
+          <Supplier
             key={key}
             imageUri={d.imageUri}
             name={d.name}
@@ -92,4 +92,4 @@ const Stores = ({ data }: StoresProps) => {
   );
 };
 
-export default Stores;
+export default Suppliers;

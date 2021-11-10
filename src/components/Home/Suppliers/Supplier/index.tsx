@@ -3,7 +3,7 @@ import { Button, Paper } from '@mui/material';
 import Image from 'next/image';
 import { Room } from '@mui/icons-material';
 
-export type StoreProps = {
+export type SupplierProps = {
   imageUri: string;
   name: string;
   marketName: string;
@@ -11,7 +11,13 @@ export type StoreProps = {
   location: string;
 };
 
-const Store = ({ imageUri, name, marketName, block, location }: StoreProps) => {
+const Supplier = ({
+  imageUri,
+  name,
+  marketName,
+  block,
+  location,
+}: SupplierProps) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -41,4 +47,4 @@ const Store = ({ imageUri, name, marketName, block, location }: StoreProps) => {
   );
 };
 
-export default Store;
+export default Supplier;
