@@ -63,12 +63,6 @@ const CategorizedProducts = () => {
     setNearestMarket(selector.appState.nearestMarket);
   }, [selector.appState.nearestMarket]);
 
-  useEffect(() => {
-    if (!name) {
-      router.back();
-    }
-  }, []);
-
   return (
     <Fragment>
       <Head>
