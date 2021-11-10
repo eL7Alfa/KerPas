@@ -56,6 +56,10 @@ const CategorizedProducts = () => {
   };
 
   useEffect(() => {
+    setCurrentProductPage(1);
+  }, [categoryId]);
+
+  useEffect(() => {
     setNearestMarket(selector.appState.nearestMarket);
   }, [selector.appState.nearestMarket]);
 
