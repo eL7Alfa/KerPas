@@ -19,8 +19,26 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    header: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
     title: {
       color: grey[800],
+    },
+    showMoreBtn: {
+      color: '#424242',
+      fontWeight: 800,
+      borderRadius: theme.spacing(3),
+    },
+    showMoreArrowDown: {
+      fontSize: 16,
+      color: '#424242',
     },
     hListW: {
       display: 'flex',

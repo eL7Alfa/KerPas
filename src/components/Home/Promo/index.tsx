@@ -1,6 +1,10 @@
-import { IconButton, Typography, useTheme } from '@mui/material';
+import { Button, IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
-import { NavigateBefore, NavigateNext } from '@mui/icons-material';
+import {
+  KeyboardArrowDown,
+  NavigateBefore,
+  NavigateNext,
+} from '@mui/icons-material';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import Product, { ProductProps } from '../../Items/Product';
 import { onNext, onPrev } from '../../../helper/sliderNav';
@@ -24,6 +28,8 @@ const Promo = ({ data }: PromoProps) => {
     height: 0,
   });
 
+  const onShowMoreBtnClicked = () => {};
+
   useEffect(() => {
     if (
       prevData !== data &&
@@ -45,9 +51,21 @@ const Promo = ({ data }: PromoProps) => {
 
   return (
     <div className={classes.root}>
-      <Typography variant={'h6'} className={classes.title} px={2}>
-        Promo Pasar
-      </Typography>
+      <div className={classes.header}>
+        <Typography variant={'h6'} className={classes.title}>
+          Promo Pasar
+        </Typography>
+        <Button
+          variant={'text'}
+          onClick={onShowMoreBtnClicked}
+          className={classes.showMoreBtn}>
+          Lihat Semua
+          <KeyboardArrowDown
+            fontSize={'small'}
+            className={classes.showMoreArrowDown}
+          />
+        </Button>
+      </div>
       <div className={classes.hListW}>
         <div className={classes.itemsW} ref={listW}>
           {data.map((d, key) => (
