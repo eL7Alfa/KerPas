@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       position: 'relative',
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(4),
       justifyContent: 'center',
       '&:hover': {
         '& $nextIconBtn': {
