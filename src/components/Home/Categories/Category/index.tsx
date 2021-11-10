@@ -14,7 +14,7 @@ const Category = ({ imageUri, code, name }: CategoryProps) => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push(`/category/${code}`);
+    router.push(`/category/${code}`, undefined, { scroll: false });
   };
 
   return (
