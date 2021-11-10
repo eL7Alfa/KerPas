@@ -30,8 +30,32 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    header: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
     title: {
       color: '#ffffff',
+    },
+    showMoreBtn: {
+      backgroundColor: '#ffffff',
+      color: theme.palette.tertiary.main,
+      fontWeight: 800,
+      borderRadius: theme.spacing(3),
+      boxShadow: '0 10px 10px -5 rgba(0,0,0,0.15)',
+      '&:hover': {
+        backgroundColor: '#ffffff',
+        boxShadow: '0 15px 15px -5 rgba(0,0,0,0.15)',
+      },
+    },
+    showMoreArrowDown: {
+      fontSize: 16,
+      color: theme.palette.tertiary.main,
     },
     itemsW: {
       paddingTop: theme.spacing(2),

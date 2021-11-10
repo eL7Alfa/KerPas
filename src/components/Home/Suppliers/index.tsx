@@ -1,6 +1,10 @@
-import { IconButton, Typography, useTheme } from '@mui/material';
+import { Button, IconButton, Typography, useTheme } from '@mui/material';
 import useStyles from './styles';
-import { NavigateBefore, NavigateNext } from '@mui/icons-material';
+import {
+  KeyboardArrowDown,
+  NavigateBefore,
+  NavigateNext,
+} from '@mui/icons-material';
 import Supplier, { SupplierProps } from './Supplier';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
@@ -45,9 +49,18 @@ const Suppliers = ({ data }: SuppliersProps) => {
 
   return (
     <div className={classes.root}>
-      <Typography variant={'h6'} className={classes.title} px={2}>
-        Kios Pangan Kerpas
-      </Typography>
+      <div className={classes.header}>
+        <Typography variant={'h6'} className={classes.title}>
+          Kios Pangan Kerpas
+        </Typography>
+        <Button variant={'contained'} className={classes.showMoreBtn}>
+          Lihat Semua
+          <KeyboardArrowDown
+            fontSize={'small'}
+            className={classes.showMoreArrowDown}
+          />
+        </Button>
+      </div>
       <div className={classes.itemsW} ref={listW}>
         {data.map((d, key) => (
           <Supplier
