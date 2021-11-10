@@ -9,8 +9,26 @@ const useStyles = makeStyles((theme: Theme) =>
       borderBottom: `1px ${grey[500]}`,
       marginTop: theme.spacing(4),
     },
+    header: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
     title: {
       color: grey[800],
+    },
+    showMoreBtn: {
+      color: theme.palette.tertiary.main,
+      fontWeight: 800,
+      borderRadius: theme.spacing(3),
+    },
+    showMoreArrowDown: {
+      fontSize: 16,
+      color: theme.palette.tertiary.main,
     },
     itemsW: {
       paddingTop: theme.spacing(2),
