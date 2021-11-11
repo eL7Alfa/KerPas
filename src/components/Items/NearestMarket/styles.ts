@@ -17,6 +17,34 @@ const useStyles = makeStyles((theme: Theme) =>
         height: 'auto',
       },
     },
+    header: {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
+    title: {
+      color: '#ffffff',
+    },
+    showMoreBtn: {
+      marginLeft: 'auto',
+      backgroundColor: theme.palette.tertiary.main,
+      color: '#ffffff',
+      fontWeight: 800,
+      borderRadius: theme.spacing(3),
+      boxShadow: '0 5px 5px -2px rgba(0,0,0,0.15)',
+      '&:hover': {
+        backgroundColor: theme.palette.tertiary.main,
+        boxShadow: '0 10px 10px -5px rgba(0,0,0,0.15)',
+      },
+    },
+    showMoreArrowDown: {
+      fontSize: 16,
+      color: '#ffffff',
+    },
     imgBgW: {
       position: 'absolute',
       top: 0,
@@ -33,6 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     itemW: {
       display: 'flex',
+      flexDirection: 'column',
       position: 'relative',
     },
     itemC: {
@@ -40,7 +69,6 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: '55%',
       minWidth: '45%',
       height: 'fit-content',
-      minHeight: 160,
       marginTop: theme.spacing(10),
       marginLeft: theme.spacing(5),
       [theme.breakpoints.down('md')]: {
@@ -55,108 +83,6 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: theme.spacing(4),
         marginLeft: theme.spacing(2),
       },
-      borderRadius: theme.spacing(1),
-      overflow: 'hidden',
-      boxShadow: '0 10px 15px -5px rgba(0,0,0,0.15)',
-    },
-    itemInfoW: {
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'row',
-    },
-    itemImgW: {
-      display: 'flex',
-      position: 'relative',
-      minWidth: 220,
-      width: 220,
-      height: '100%',
-      [theme.breakpoints.down('md')]: {
-        minWidth: 180,
-        width: 180,
-        height: '100%',
-      },
-      [theme.breakpoints.down('sm')]: {
-        minWidth: 160,
-        width: 160,
-        height: '100%',
-      },
-    },
-    itemInfoDetail: {
-      display: 'flex',
-      flexDirection: 'column',
-      padding: theme.spacing(2),
-      [theme.breakpoints.down('md')]: {
-        padding: theme.spacing(1),
-      },
-    },
-    detailMarketName: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      display: '-webkit-box',
-      '-webkit-line-clamp': 2,
-      '-webkit-box-orient': 'vertical',
-      fontWeight: 800,
-      [theme.breakpoints.down('md')]: {
-        fontSize: 26,
-      },
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 20,
-      },
-      color: '#424242',
-    },
-    detailAddress: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      display: '-webkit-box',
-      '-webkit-line-clamp': 2,
-      '-webkit-box-orient': 'vertical',
-      margin: `${theme.spacing(1)} 0`,
-      fontWeight: 800,
-      [theme.breakpoints.down('md')]: {
-        fontSize: 16,
-      },
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 14,
-      },
-      color: '#424242',
-    },
-    detailDistance: {
-      marginTop: 'auto',
-      fontSize: 24,
-      [theme.breakpoints.down('md')]: {
-        fontSize: 18,
-      },
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 14,
-      },
-      fontWeight: 800,
-      color: '#777777',
-    },
-    detailLocationW: {
-      display: 'flex',
-      textAlign: 'left',
-      alignItems: 'center',
-    },
-    locationIcon: {
-      fontSize: 24,
-      [theme.breakpoints.down('md')]: {
-        fontSize: 18,
-      },
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 14,
-      },
-      color: '#62ac42',
-    },
-    detailLocation: {
-      fontWeight: 800,
-      fontSize: 24,
-      [theme.breakpoints.down('md')]: {
-        fontSize: 18,
-      },
-      [theme.breakpoints.down('sm')]: {
-        fontSize: 14,
-      },
-      color: '#777777',
     },
   }),
 );
