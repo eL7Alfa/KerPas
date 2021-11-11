@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
-import { newProducts } from '../components/constants';
+import { newMarkets, newProducts } from '../components/constants';
 import { AxiosError } from 'axios';
 import { supplierImgUrl } from '../config/urls';
 
@@ -161,5 +161,52 @@ export const useGetSuppliers = ({
     isSuppliersLoading,
     setIsSuppliersLoading,
     setLastSuppliersPage,
+  };
+};
+
+export type useGetMarketsTypes = {
+  lat: number;
+  lng: number;
+};
+
+export const useGetMarkets = ({ lat, lng }: useGetMarketsTypes) => {
+  const [markets, setMarkets] = useState<any[]>([]);
+  // const [lastMarketsPage, setLastMarketsPage] = useState<number>(0);
+  const [isMarketsLoading, setIsMarketsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    setIsMarketsLoading(true);
+    axios()
+      .post('/market/get', { lat, lng })
+      // axiosBase
+      //   .post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
+      .then(({ data }) => {
+        if (
+          data.response === 200 &&
+          data &&
+          !data.error &&
+          data.result.length
+        ) {
+          setMarkets(newMarkets(data.result));
+          // setLastMarketsPage(data.result.last_page);
+        } else {
+          setMarkets([]);
+          // setLastMarketsPage(0);
+        }
+      })
+      .catch(() => {
+        setMarkets([]);
+        // setLastMarketsPage(0);
+      })
+      .finally(() => {
+        setIsMarketsLoading(false);
+      });
+  }, [lat, lng]);
+  return {
+    markets,
+    setMarkets,
+    isMarketsLoading,
+    setIsMarketsLoading,
+    // lastMarketsPage,
+    // setLastMarketsPage,
   };
 };
