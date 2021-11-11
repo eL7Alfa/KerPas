@@ -9,6 +9,7 @@ import React, { createRef, Fragment, useEffect, useState } from 'react';
 import Product, { ProductProps } from '../../Items/Product';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
+import { useRouter } from 'next/router';
 
 type PromoProps = {
   data: ProductProps[];
@@ -17,6 +18,7 @@ type PromoProps = {
 const Promo = ({ data }: PromoProps) => {
   const theme = useTheme();
   const classes = useStyles();
+  const router = useRouter();
   const listW = createRef<HTMLDivElement>();
   const prevData = usePrevious(data);
   const [listLoaded, setListLoaded] = useState<{
@@ -28,7 +30,9 @@ const Promo = ({ data }: PromoProps) => {
     height: 0,
   });
 
-  const onShowMoreBtnClicked = () => {};
+  const onShowMoreBtnClicked = () => {
+    router.push('/promos');
+  };
 
   useEffect(() => {
     if (
