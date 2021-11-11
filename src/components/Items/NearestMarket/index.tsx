@@ -1,14 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import useStyles from './styles';
 import Image from 'next/image';
-import { Paper, Typography } from '@mui/material';
-import { Room } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { KeyboardArrowDown } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import { marketImgUrl } from '../../../config/urls';
+import Market from '../Market';
+import { useRouter } from 'next/router';
 
 const NearestMarket = () => {
   const classes = useStyles();
+  const router = useRouter();
   const selector = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
@@ -20,6 +23,10 @@ const NearestMarket = () => {
   const distance = nearestMarket.distance;
   const location = nearestMarket.ckota;
   const marketImg = `${marketImgUrl}/${nearestMarket.cfoto}`;
+
+  const onShowMoreBtnClicked = () => {
+    router.push('/markets');
+  };
 
   useEffect(() => {
     setNearestMarket(selector.appState.nearestMarket);
@@ -42,38 +49,31 @@ const NearestMarket = () => {
         </div>
       </div>
       <div className={classes.itemW}>
-        <Paper className={classes.itemC}>
-          <div className={classes.itemInfoW}>
-            <div className={classes.itemImgW}>
-              <Image
-                alt={marketName}
-                src={marketImg}
-                layout={'fill'}
-                placeholder={'blur'}
-                blurDataURL={marketImg}
-              />
-            </div>
-            <div className={classes.itemInfoDetail}>
-              <Typography variant={'h4'} className={classes.detailMarketName}>
-                {marketName}
-              </Typography>
-              <Typography variant={'h6'} className={classes.detailAddress}>
-                {address}
-              </Typography>
-              <Typography variant={'body1'} className={classes.detailDistance}>
-                {distance.text}
-              </Typography>
-              <div className={classes.detailLocationW}>
-                <Room className={classes.locationIcon} />
-                <Typography
-                  variant={'body1'}
-                  className={classes.detailLocation}>
-                  {location}
-                </Typography>
-              </div>
-            </div>
-          </div>
-        </Paper>
+        <div className={classes.header}>
+          <Button
+            variant={'contained'}
+            onClick={onShowMoreBtnClicked}
+            className={classes.showMoreBtn}>
+            Lihat Semua
+            <KeyboardArrowDown
+              fontSize={'small'}
+              className={classes.showMoreArrowDown}
+            />
+          </Button>
+        </div>
+        <div className={classes.itemC}>
+          <Market
+            {...{
+              marketId,
+              marketName,
+              marketCode,
+              marketImg,
+              distance,
+              location,
+              address,
+            }}
+          />
+        </div>
       </div>
     </div>
   );
