@@ -9,6 +9,7 @@ import Supplier, { SupplierProps } from '../../Items/Supplier';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
+import { useRouter } from 'next/router';
 
 type SuppliersProps = {
   data: SupplierProps[];
@@ -17,6 +18,7 @@ type SuppliersProps = {
 const Suppliers = ({ data }: SuppliersProps) => {
   const classes = useStyles();
   const theme = useTheme();
+  const router = useRouter();
   const listW = createRef<HTMLDivElement>();
   const prevData = usePrevious(data);
   const [listLoaded, setListLoaded] = useState<{
@@ -27,6 +29,10 @@ const Suppliers = ({ data }: SuppliersProps) => {
     state: false,
     height: 0,
   });
+
+  const onShowMoreBtnClicked = () => {
+    router.push('/suppliers');
+  };
 
   useEffect(() => {
     if (
@@ -53,7 +59,10 @@ const Suppliers = ({ data }: SuppliersProps) => {
         <Typography variant={'h6'} className={classes.title}>
           Kios Pangan Kerpas
         </Typography>
-        <Button variant={'contained'} className={classes.showMoreBtn}>
+        <Button
+          variant={'contained'}
+          onClick={onShowMoreBtnClicked}
+          className={classes.showMoreBtn}>
           Lihat Semua
           <KeyboardArrowDown
             fontSize={'small'}
