@@ -3,55 +3,24 @@ import Head from 'next/head';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import NearestMarket from '../../src/components/Items/NearestMarket';
-import { useGetProducts } from '../../src/Requests/GlobalRequests';
-import axios from '../../src/config/axios';
-import { newProducts, useInit } from '../../src/components/constants';
+import { useGetMarkets } from '../../src/Requests/GlobalRequests';
+import { useInit } from '../../src/components/constants';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
-import Products from '../../src/components/Items/Products';
+import Markets from '../../src/components/Items/Markets';
 
-const Promos = () => {
+const Index = () => {
   useInit();
-  const selector = useSelector((state: rootReducerI) => state);
-  const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
-    {},
-  );
-  const [currentProductsPage, setCurrentProductsPage] = useState<number>(1);
-  const {
-    products,
-    setProducts,
-    isProductsLoading,
-    lastProductsPage,
-    setIsProductsLoading,
-  } = useGetProducts({
-    marketCode: nearestMarket.ckode_mitra,
-    productType: 'promo',
+  const { appState } = useSelector((state: rootReducerI) => state);
+  const [selectedAddress, setSelectedAddress] = useState<any>({});
+  const { markets, isMarketsLoading } = useGetMarkets({
+    lat: selectedAddress.dlat,
+    lng: selectedAddress.dlng,
   });
 
-  const onShowMoreBtnClicked = () => {
-    const nextProductPage = currentProductsPage + 1;
-    if (!isProductsLoading && nextProductPage <= lastProductsPage) {
-      setIsProductsLoading(true);
-      axios()
-        .post(`/market/product?page=${nextProductPage}`, {
-          limit: 12,
-          type: 'promo',
-          marketId: nearestMarket.ckode_mitra,
-        })
-        .then(({ data }) => {
-          setProducts(prevProducts => [
-            ...prevProducts,
-            ...newProducts(data.result.data),
-          ]);
-          setCurrentProductsPage(nextProductPage);
-        })
-        .finally(() => setIsProductsLoading(false));
-    }
-  };
-
   useEffect(() => {
-    setNearestMarket(selector.appState.nearestMarket);
-  }, [selector.appState.nearestMarket]);
+    setSelectedAddress(appState.selectedAddress);
+  }, [appState.selectedAddress]);
 
   return (
     <Fragment>
@@ -64,13 +33,11 @@ const Promos = () => {
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
         <Box py={1} mt={7} mb={8}>
-          <NearestMarket />
-          <Products
-            name={'Promo Kerpas'}
-            data={products}
-            onShowMoreBtnClicked={onShowMoreBtnClicked}
-            isLoading={isProductsLoading}
-            isLastProductReached={currentProductsPage + 1 > lastProductsPage}
+          <NearestMarket hideShowMoreBtn />
+          <Markets
+            name={'Pasar Kerpas'}
+            data={markets}
+            isLoading={isMarketsLoading}
           />
         </Box>
       </Container>
@@ -78,4 +45,4 @@ const Promos = () => {
   );
 };
 
-export default Promos;
+export default Index;

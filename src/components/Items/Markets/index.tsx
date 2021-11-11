@@ -1,16 +1,15 @@
 import { Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useStyles from './styles';
-import Market from '../Market';
+import Market, { MarketPropsTypes } from '../Market';
 import React, { Fragment } from 'react';
-import { newMarkets } from '../../constants';
 
-type MarketsProps = {
+type MarketsPropsTypes = {
   name: string;
-  data: any;
-  onShowMoreBtnClicked: () => void;
+  data: MarketPropsTypes[];
+  onShowMoreBtnClicked?: () => void;
   isLoading: boolean;
-  isLastMarketsReached: boolean;
+  isLastMarketsReached?: boolean;
 };
 
 const Markets = ({
@@ -19,10 +18,8 @@ const Markets = ({
   onShowMoreBtnClicked,
   isLoading,
   isLastMarketsReached,
-}: MarketsProps) => {
+}: MarketsPropsTypes) => {
   const classes = useStyles();
-
-  const serializedData = newMarkets(data);
 
   if (data.length === 0) {
     return <Fragment />;
@@ -34,36 +31,13 @@ const Markets = ({
         {name}
       </Typography>
       <Grid container className={classes.itemsW} spacing={2} px={1}>
-        {serializedData.map(
-          (
-            {
-              marketId,
-              marketName,
-              marketCode,
-              marketImg,
-              distance,
-              location,
-              address,
-            },
-            key,
-          ) => (
-            <Grid key={key} item xs={6} sm={3} md={2} lg={2}>
-              <Market
-                {...{
-                  marketId,
-                  marketName,
-                  marketCode,
-                  marketImg,
-                  distance,
-                  location,
-                  address,
-                }}
-              />
-            </Grid>
-          ),
-        )}
+        {data.map((d, key) => (
+          <Grid key={key} item xs={12} sm={12} md={6} lg={6}>
+            <Market {...d} />
+          </Grid>
+        ))}
       </Grid>
-      {!isLastMarketsReached && (
+      {!!onShowMoreBtnClicked && !isLastMarketsReached && (
         <div className={classes.showMoreW}>
           <LoadingButton
             loading={isLoading}
