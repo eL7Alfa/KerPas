@@ -28,9 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.spacing(1),
       height: '100%',
       '&:hover': {
-        '& $imgW': {
-          top: theme.spacing(-6),
-          boxShadow: '0 12px 20px -5px rgb(0 0 0 / 30%)',
+        [theme.breakpoints.up('sm')]: {
+          '& $imgW': {
+            top: theme.spacing(-6),
+            boxShadow: '0 12px 20px -5px rgb(0 0 0 / 30%)',
+          },
         },
       },
       background: `linear-gradient(0deg, ${alpha(
