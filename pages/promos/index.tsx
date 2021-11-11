@@ -9,6 +9,7 @@ import { newProducts, useInit } from '../../src/components/constants';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 import Products from '../../src/components/Items/Products';
+import Auth from '../../src/components/Auth';
 
 const Index = () => {
   useInit();
@@ -74,6 +75,7 @@ const Index = () => {
           />
         </Box>
       </Container>
+      <Auth />
     </Fragment>
   );
 };

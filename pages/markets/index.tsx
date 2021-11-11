@@ -8,6 +8,7 @@ import { useInit } from '../../src/components/constants';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 import Markets from '../../src/components/Items/Markets';
+import Auth from '../../src/components/Auth';
 
 const Index = () => {
   useInit();
@@ -41,6 +42,7 @@ const Index = () => {
           />
         </Box>
       </Container>
+      <Auth />
     </Fragment>
   );
 };
