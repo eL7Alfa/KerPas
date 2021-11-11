@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.tertiary.main,
       fontWeight: 800,
       borderRadius: theme.spacing(3),
-      boxShadow: '0 10px 10px -5 rgba(0,0,0,0.15)',
+      boxShadow: '0 5px 5px -2px rgba(0,0,0,0.15)',
       '&:hover': {
         backgroundColor: '#ffffff',
-        boxShadow: '0 15px 15px -5 rgba(0,0,0,0.15)',
+        boxShadow: '0 10px 10px -5px rgba(0,0,0,0.15)',
       },
     },
     showMoreArrowDown: {
