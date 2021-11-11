@@ -7,7 +7,7 @@ import { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import Categories from '../src/components/Items/Categories';
 import Suppliers from '../src/components/Home/Suppliers';
-import Promo from '../src/components/Home/Promo';
+import Promos from '../src/components/Home/Promos';
 import Products from '../src/components/Items/Products';
 import { newProducts, useInit } from '../src/components/constants';
 import Auth from '../src/components/Auth';
@@ -99,7 +99,7 @@ export default function Home() {
           <Divider />
           <NearestMarket />
           <Divider />
-          <Promo data={promotedProducts} />
+          <Promos data={promotedProducts} />
           <Divider />
           <ProductsByCategory
             category={selectedCat}
