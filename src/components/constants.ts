@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
-import { productImgUrl } from '../config/urls';
+import { marketImgUrl, productImgUrl } from '../config/urls';
 import { AxiosError } from 'axios';
 import { userDataRT } from '../redux/defaultStateR/authDefStateR';
 import { setAuthUserDataR } from '../redux/actions/authRActions';
@@ -54,6 +54,40 @@ export const newProducts = (
         price: nretail_price,
         discount: ndiscount,
         fixedPrice: min_price,
+      };
+    },
+  );
+
+// Serialize New Markets
+export const newMarkets = (
+  data: {
+    id: number;
+    ckode_mitra: string;
+    cnama_mitra: string;
+    calamat_toko: string;
+    distance: { text: string; value: number };
+    ckota: string;
+    cfoto: string;
+  }[],
+) =>
+  data.map(
+    ({
+      id,
+      ckode_mitra,
+      cnama_mitra,
+      calamat_toko,
+      distance,
+      ckota,
+      cfoto,
+    }) => {
+      return {
+        marketId: id,
+        marketCode: ckode_mitra,
+        marketName: cnama_mitra,
+        address: calamat_toko,
+        distance: distance,
+        location: ckota,
+        marketImg: `${marketImgUrl}/${cfoto}`,
       };
     },
   );
