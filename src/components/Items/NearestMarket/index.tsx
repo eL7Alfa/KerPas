@@ -9,7 +9,11 @@ import { marketImgUrl } from '../../../config/urls';
 import Market from '../Market';
 import { useRouter } from 'next/router';
 
-const NearestMarket = () => {
+export type NearestMarketTypes = {
+  hideShowMoreBtn?: boolean;
+};
+
+const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
   const classes = useStyles();
   const router = useRouter();
   const selector = useSelector((state: rootReducerI) => state);
@@ -49,18 +53,20 @@ const NearestMarket = () => {
         </div>
       </div>
       <div className={classes.itemW}>
-        <div className={classes.header}>
-          <Button
-            variant={'contained'}
-            onClick={onShowMoreBtnClicked}
-            className={classes.showMoreBtn}>
-            Lihat Semua
-            <KeyboardArrowDown
-              fontSize={'small'}
-              className={classes.showMoreArrowDown}
-            />
-          </Button>
-        </div>
+        {!hideShowMoreBtn && (
+          <div className={classes.header}>
+            <Button
+              variant={'contained'}
+              onClick={onShowMoreBtnClicked}
+              className={classes.showMoreBtn}>
+              Lihat Semua
+              <KeyboardArrowDown
+                fontSize={'small'}
+                className={classes.showMoreArrowDown}
+              />
+            </Button>
+          </div>
+        )}
         <div className={classes.itemC}>
           <Market
             {...{
