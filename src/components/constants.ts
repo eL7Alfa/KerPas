@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 import { userDataRT } from '../redux/defaultStateR/authDefStateR';
 import { setAuthUserDataR } from '../redux/actions/authRActions';
 import { setNearestMarketR } from '../redux/actions/appRActions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
 
 // Google API Key
@@ -124,7 +124,8 @@ export const useSnackbarConst = () => {
   return { snackbarState, setSnackPack, onSnackbarClose };
 };
 
-export const useInit = (selector: rootReducerI) => {
+export const useInit = () => {
+  const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
 
   let locationRequestCount = 0;

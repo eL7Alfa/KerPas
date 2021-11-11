@@ -14,8 +14,8 @@ import Categories from '../../src/components/Items/Categories';
 import { useGetCategories } from '../../src/Requests/HomeRequests';
 
 const CategorizedProducts = () => {
+  useInit();
   const selector = useSelector((state: rootReducerI) => state);
-  useInit(selector);
   const router = useRouter();
   const { categoryId } = router.query;
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
