@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
-import { menuImgUrl, supplierImgUrl } from '../config/urls';
+import { menuImgUrl } from '../config/urls';
 
 export const useGetCampaigns = (marketCode: string) => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -24,46 +24,6 @@ export const useGetCampaigns = (marketCode: string) => {
     }
   }, [marketCode]);
   return { campaigns, setCampaigns };
-};
-
-export const useGetSupplier = (marketCode: string) => {
-  const [supplier, setSupplier] = useState<any[]>([]);
-  useEffect(() => {
-    if (marketCode) {
-      axios()
-        .post('/market/supplier', {
-          limit: 12,
-          marketId: marketCode,
-        })
-        .then(({ data }) => {
-          if (data.response === 200 && data && !data.error) {
-            const { data: rSupplier } = data.result;
-            const supplier = rSupplier.map(
-              (d: {
-                cnama_supplier: any;
-                cimg_supplier: any;
-                calamat_supplier: any;
-              }) => {
-                return {
-                  name: d.cnama_supplier,
-                  imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
-                  marketName: d.calamat_supplier,
-                  block: 'A1 - B2',
-                  location: 'Makassar',
-                };
-              },
-            );
-            setSupplier(supplier);
-          } else {
-            setSupplier([]);
-          }
-        })
-        .catch(() => setSupplier([]));
-    } else {
-      setSupplier([]);
-    }
-  }, [marketCode]);
-  return { supplier, setSupplier, marketCode };
 };
 
 export const useGetCategories = () => {

@@ -18,9 +18,12 @@ import {
 import { useSelector } from 'react-redux';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
 import NearestMarket from '../src/components/Items/NearestMarket';
-import { useGetCampaigns, useGetSupplier } from '../src/Requests/HomeRequests';
+import { useGetCampaigns } from '../src/Requests/HomeRequests';
 import { rootReducerI } from '../src/redux/reducers';
-import { useGetProducts } from '../src/Requests/GlobalRequests';
+import {
+  useGetProducts,
+  useGetSuppliers,
+} from '../src/Requests/GlobalRequests';
 
 export default function Home() {
   useInit();
@@ -29,7 +32,9 @@ export default function Home() {
     {},
   );
   const { campaigns } = useGetCampaigns(nearestMarket.ckode_mitra);
-  const { supplier } = useGetSupplier(nearestMarket.ckode_mitra);
+  const { suppliers } = useGetSuppliers({
+    marketCode: nearestMarket.ckode_mitra,
+  });
   const { products: promotedProducts } = useGetProducts({
     marketCode: nearestMarket.ckode_mitra,
     productType: 'promo',
@@ -100,7 +105,7 @@ export default function Home() {
             category={selectedCat}
             data={productsByCategory}
           />
-          <Suppliers data={supplier} />
+          <Suppliers data={suppliers} />
           <Products
             name={'Jelajah Pasar'}
             data={products}
