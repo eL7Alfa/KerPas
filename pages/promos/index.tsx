@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 import Products from '../../src/components/Items/Products';
 
-const Promos = () => {
+const Index = () => {
   useInit();
   const selector = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
@@ -78,4 +78,4 @@ const Promos = () => {
   );
 };
 
-export default Promos;
+export default Index;

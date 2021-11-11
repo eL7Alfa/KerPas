@@ -13,7 +13,7 @@ import { useGetProducts } from '../../src/Requests/GlobalRequests';
 import Categories from '../../src/components/Items/Categories';
 import { useGetCategories } from '../../src/Requests/HomeRequests';
 
-const CategorizedProducts = () => {
+const Index = () => {
   useInit();
   const selector = useSelector((state: rootReducerI) => state);
   const router = useRouter();
@@ -94,4 +94,4 @@ const CategorizedProducts = () => {
   );
 };
 
-export default CategorizedProducts;
+export default Index;

@@ -11,7 +11,7 @@ import { supplierImgUrl } from '../../src/config/urls';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 
-const Suppliers = () => {
+const Index = () => {
   useInit();
   const selector = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
@@ -87,4 +87,4 @@ const Suppliers = () => {
   );
 };
 
-export default Suppliers;
+export default Index;
