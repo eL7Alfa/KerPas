@@ -5,7 +5,7 @@ import {
   NavigateBefore,
   NavigateNext,
 } from '@mui/icons-material';
-import Supplier, { SupplierProps } from './Supplier';
+import Supplier, { SupplierProps } from '../../Items/Supplier';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
@@ -63,14 +63,15 @@ const Suppliers = ({ data }: SuppliersProps) => {
       </div>
       <div className={classes.itemsW} ref={listW}>
         {data.map((d, key) => (
-          <Supplier
-            key={key}
-            imageUri={d.imageUri}
-            name={d.name}
-            marketName={d.marketName}
-            block={d.block}
-            location={d.location}
-          />
+          <div key={key} className={classes.supplierW}>
+            <Supplier
+              imageUri={d.imageUri}
+              name={d.name}
+              marketName={d.marketName}
+              block={d.block}
+              location={d.location}
+            />
+          </div>
         ))}
       </div>
       {listLoaded.state && (

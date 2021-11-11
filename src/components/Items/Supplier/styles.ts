@@ -4,14 +4,9 @@ import { Theme } from '@mui/material/styles';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      scrollSnapAlign: 'start',
-      minWidth: `calc(1200px / 6)!important`,
-      maxWidth: `calc(1200px / 6)!important`,
       minHeight: `calc(1200px / 6 - ${theme.spacing(2)})!important`,
       maxHeight: `calc(1200px / 6 - ${theme.spacing(2)})!important`,
       display: 'flex',
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
       position: 'relative',
       transition: 'all 0.3s',
       '& .MuiButton-root': {

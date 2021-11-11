@@ -70,6 +70,13 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    supplierW: {
+      scrollSnapAlign: 'start',
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+      minWidth: `calc(1200px / 6)!important`,
+      maxWidth: `calc(1200px / 6)!important`,
+    },
     gridItem: { display: 'flex' },
     prevIconBtn: {
       [theme.breakpoints.down('sm')]: {
