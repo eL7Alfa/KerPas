@@ -23,8 +23,8 @@ import { rootReducerI } from '../src/redux/reducers';
 import { useGetProducts } from '../src/Requests/GlobalRequests';
 
 export default function Home() {
-  useInit();
   const selector = useSelector((state: rootReducerI) => state);
+  useInit(selector);
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
   );
