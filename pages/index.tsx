@@ -17,7 +17,7 @@ import {
 } from '../src/components/Home/constants';
 import { useSelector } from 'react-redux';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
-import NearestMarket from '../src/components/Home/NearestMarket';
+import NearestMarket from '../src/components/Items/NearestMarket';
 import { useGetCampaigns, useGetSupplier } from '../src/Requests/HomeRequests';
 import { rootReducerI } from '../src/redux/reducers';
 import { useGetProducts } from '../src/Requests/GlobalRequests';

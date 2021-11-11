@@ -4,7 +4,7 @@ import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import { useRouter } from 'next/router';
 import { newProducts, useInit } from '../../src/components/constants';
-import NearestMarket from '../../src/components/Home/NearestMarket';
+import NearestMarket from '../../src/components/Items/NearestMarket';
 import Products from '../../src/components/Items/Products';
 import axios from '../../src/config/axios';
 import { useSelector } from 'react-redux';
