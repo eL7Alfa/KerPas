@@ -41,10 +41,10 @@ export const useGetProducts = ({
   categoryId,
 }: useGetProductsTypes) => {
   const [products, setProducts] = useState<any[]>([]);
-  const [lastProductPage, setLastProductPage] = useState<number>(0);
-  const [isProductLoading, setIsProductLoading] = useState<boolean>(true);
+  const [lastProductsPage, setLastProductsPage] = useState<number>(0);
+  const [isProductsLoading, setIsProductsLoading] = useState<boolean>(true);
   useEffect(() => {
-    setIsProductLoading(true);
+    setIsProductsLoading(true);
     if (marketCode) {
       const postData =
         productType === 'category'
@@ -69,32 +69,32 @@ export const useGetProducts = ({
             data.result.data.length
           ) {
             setProducts(newProducts(data.result.data));
-            setLastProductPage(data.result.last_page);
+            setLastProductsPage(data.result.last_page);
           } else {
             setProducts([]);
-            setLastProductPage(0);
+            setLastProductsPage(0);
           }
         })
         .catch(() => {
           setProducts([]);
-          setLastProductPage(0);
+          setLastProductsPage(0);
         })
         .finally(() => {
-          setIsProductLoading(false);
+          setIsProductsLoading(false);
         });
     } else {
       setProducts([]);
-      setLastProductPage(0);
-      setIsProductLoading(false);
+      setLastProductsPage(0);
+      setIsProductsLoading(false);
     }
   }, [marketCode, categoryId]);
   return {
     products,
     setProducts,
-    lastProductPage,
-    setLastProductPage,
-    isProductLoading,
-    setIsProductLoading,
+    lastProductsPage,
+    setLastProductsPage,
+    isProductsLoading,
+    setIsProductsLoading,
   };
 };
 

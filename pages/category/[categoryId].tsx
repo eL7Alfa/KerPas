@@ -25,9 +25,9 @@ const CategorizedProducts = () => {
   const {
     products,
     setProducts,
-    lastProductPage,
-    isProductLoading,
-    setIsProductLoading,
+    lastProductsPage,
+    isProductsLoading,
+    setIsProductsLoading,
   } = useGetProducts({
     marketCode: nearestMarket.ckode_mitra,
     productType: 'category',
@@ -40,8 +40,8 @@ const CategorizedProducts = () => {
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductPage + 1;
-    if (!isProductLoading && nextProductPage <= lastProductPage) {
-      setIsProductLoading(true);
+    if (!isProductsLoading && nextProductPage <= lastProductsPage) {
+      setIsProductsLoading(true);
       axios()
         .post(`/market/product?page=${nextProductPage}`, {
           limit: 12,
@@ -56,7 +56,7 @@ const CategorizedProducts = () => {
           ]);
           setCurrentProductPage(nextProductPage);
         })
-        .finally(() => setIsProductLoading(false));
+        .finally(() => setIsProductsLoading(false));
     }
   };
 
@@ -85,8 +85,8 @@ const CategorizedProducts = () => {
             name={name as string}
             data={products}
             onShowMoreBtnClicked={onShowMoreProductBtnClicked}
-            isLoading={isProductLoading}
-            isLastProductReached={currentProductPage + 1 > lastProductPage}
+            isLoading={isProductsLoading}
+            isLastProductReached={currentProductPage + 1 > lastProductsPage}
           />
         </Box>
       </Container>

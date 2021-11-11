@@ -48,19 +48,19 @@ export default function Home() {
     productType: 'category',
     categoryId: selectedCat.id,
   });
-  const [currentProductPage, setCurrentProductPage] = useState<number>(1);
+  const [currentProductsPage, setCurrentProductPage] = useState<number>(1);
   const {
     products,
     setProducts,
-    lastProductPage,
-    isProductLoading,
-    setIsProductLoading,
+    lastProductsPage,
+    isProductsLoading,
+    setIsProductsLoading,
   } = useGetProducts({ marketCode: nearestMarket.ckode_mitra });
 
   const onShowMoreProductBtnClicked = () => {
-    const nextProductPage = currentProductPage + 1;
-    if (!isProductLoading && nextProductPage <= lastProductPage) {
-      setIsProductLoading(true);
+    const nextProductPage = currentProductsPage + 1;
+    if (!isProductsLoading && nextProductPage <= lastProductsPage) {
+      setIsProductsLoading(true);
       axios()
         .post(`/market/product?page=${nextProductPage}`, {
           limit: 12,
@@ -74,7 +74,7 @@ export default function Home() {
           ]);
           setCurrentProductPage(nextProductPage);
         })
-        .finally(() => setIsProductLoading(false));
+        .finally(() => setIsProductsLoading(false));
     }
   };
 
@@ -110,8 +110,8 @@ export default function Home() {
             name={'Jelajah Pasar'}
             data={products}
             onShowMoreBtnClicked={onShowMoreProductBtnClicked}
-            isLoading={isProductLoading}
-            isLastProductReached={currentProductPage + 1 > lastProductPage}
+            isLoading={isProductsLoading}
+            isLastProductReached={currentProductsPage + 1 > lastProductsPage}
           />
         </Box>
       </Container>
