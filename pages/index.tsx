@@ -10,7 +10,7 @@ import Suppliers from '../src/components/Home/Suppliers';
 import Promos from '../src/components/Home/Promos';
 import Products from '../src/components/Items/Products';
 import { newProducts, useInit } from '../src/components/constants';
-import Auth from '../src/components/Auth';
+import Auth from '../src/components/Items/Auth';
 import {
   featuredServiceData,
   selectedCatId,

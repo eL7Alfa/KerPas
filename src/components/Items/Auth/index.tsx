@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Modal } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthModalOpenR } from '../../redux/actions/authRActions';
+import { setAuthModalOpenR } from '../../../redux/actions/authRActions';
 import useStyles from './styles';
 import SignIn from './SignIn';
 import Information from './Information';

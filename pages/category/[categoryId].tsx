@@ -12,7 +12,7 @@ import { rootReducerI } from '../../src/redux/reducers';
 import { useGetProducts } from '../../src/Requests/GlobalRequests';
 import Categories from '../../src/components/Items/Categories';
 import { useGetCategories } from '../../src/Requests/HomeRequests';
-import Auth from '../../src/components/Auth';
+import Auth from '../../src/components/Items/Auth';
 
 const Index = () => {
   useInit();

@@ -19,16 +19,16 @@ import {
   VisibilityOff,
   VpnKey,
 } from '@mui/icons-material';
-import theme from '../../../config/theme';
+import theme from '../../../../config/theme';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import {
   setAuthModalOpenR,
   setAuthUserDataR,
-} from '../../../redux/actions/authRActions';
-import axios from '../../../config/axios';
-import Snackbar from '../../../smallComponents/Snackbar';
-import { useSnackbarConst } from '../../constants';
+} from '../../../../redux/actions/authRActions';
+import axios from '../../../../config/axios';
+import Snackbar from '../../../../smallComponents/Snackbar';
+import { useSnackbarConst } from '../../../constants';
 import { LoadingButton } from '@mui/lab';
 
 const SignIn = () => {
