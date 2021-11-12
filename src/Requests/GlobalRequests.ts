@@ -172,12 +172,11 @@ export const useGetMarkets = () => {
   const [isMarketsLoading, setIsMarketsLoading] = useState<boolean>(true);
   useEffect(() => {
     setIsMarketsLoading(true);
-    if (Object.keys(appState.selectedAddress).length) {
+    if (Object.keys(appState.selectedAddress).length > 0) {
       const { dlat: lat, dlng: lng } = appState.selectedAddress;
+      // axiosBase.post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
       axios()
         .post('/market/get', { lat, lng })
-        // axiosBase
-        //   .post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
         .then(({ data }) => {
           if (
             data.response === 200 &&
@@ -203,10 +202,9 @@ export const useGetMarkets = () => {
         navigator.geolocation.getCurrentPosition(({ coords }) => {
           const { latitude: lat, longitude: lng, accuracy } = coords;
           if (accuracy <= 50) {
+            // axiosBase.post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
             axios()
               .post('/market/get', { lat, lng })
-              // axiosBase
-              //   .post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
               .then(({ data }) => {
                 if (
                   data.response === 200 &&
@@ -233,11 +231,13 @@ export const useGetMarkets = () => {
             if (locationRequestCount <= 6) {
               getMarketsByDeviceAddress();
             } else {
+              setMarkets([]);
               setIsMarketsLoading(false);
             }
           }
         });
       };
+      getMarketsByDeviceAddress();
     }
   }, [appState.selectedAddress]);
   return {
