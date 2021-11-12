@@ -13,7 +13,7 @@ import { newProducts, useInit } from '../src/components/constants';
 import Auth from '../src/components/Items/Auth';
 import {
   featuredServiceData,
-  selectedCatId,
+  useGetSelectedCat,
 } from '../src/components/Home/constants';
 import { useSelector } from 'react-redux';
 import ProductsByCategory from '../src/components/Home/ProductsByCategory';
@@ -39,14 +39,11 @@ export default function Home() {
     marketCode: nearestMarket.ckode_mitra,
     productType: 'promo',
   });
-  const [selectedCat] = useState<{ id: number; name: string }>({
-    id: selectedCatId,
-    name: 'Bumbu dan Bahan Dapur',
-  });
+  const { selectedCat } = useGetSelectedCat();
   const { products: productsByCategory } = useGetProducts({
     marketCode: nearestMarket.ckode_mitra,
     productType: 'category',
-    categoryId: selectedCat.id,
+    categoryId: Number(selectedCat.id),
   });
   const [currentProductsPage, setCurrentProductPage] = useState<number>(1);
   const {

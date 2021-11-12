@@ -1,4 +1,6 @@
 import { AutoFixHigh } from '@mui/icons-material';
+import { useGetCategories } from '../../Requests/HomeRequests';
+import { useEffect, useState } from 'react';
 
 export const featuredServiceData = [
   {
@@ -31,4 +33,18 @@ export const featuredServiceData = [
   },
 ];
 
-export const selectedCatId = 177;
+export const useGetSelectedCat = () => {
+  const { categories } = useGetCategories();
+  const [selectedCat, setSelectedCat] = useState<{
+    id: number;
+    name: string;
+  }>({ id: 0, name: '' });
+  useEffect(() => {
+    if (categories.length) {
+      const { code: id, name } =
+        categories[Math.floor(Math.random() * categories.length)];
+      setSelectedCat({ id: Number(id), name });
+    }
+  }, [categories]);
+  return { selectedCat };
+};
