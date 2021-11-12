@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { Room } from '@mui/icons-material';
 import React from 'react';
 import useStyles from './styles';
+import { useDispatch } from 'react-redux';
+import { setMarketDetailsModalR } from '../../../redux/actions/appRActions';
 
 export type MarketPropsTypes = {
   marketId: number;
@@ -24,8 +26,14 @@ const Market = ({
   marketImg,
 }: MarketPropsTypes) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const onMarketClicked = () => {
+    dispatch(setMarketDetailsModalR({ open: true }));
+  };
+
   return (
-    <ButtonBase className={classes.root}>
+    <ButtonBase className={classes.root} onClick={onMarketClicked}>
       <div className={classes.itemInfoW}>
         <div className={classes.itemImgW}>
           <Image
