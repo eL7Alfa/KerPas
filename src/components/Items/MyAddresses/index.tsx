@@ -5,12 +5,12 @@ import useStyles from './styles';
 import {
   setMyAddressesOpenR,
   setSelectedAddressR,
-} from '../../redux/actions/appRActions';
+} from '../../../redux/actions/appRActions';
 import MyAddress from './MyAddress';
-import { rootReducerI } from '../../redux/reducers';
-import usePrevious from '../../helper/usePrevious';
+import { rootReducerI } from '../../../redux/reducers';
+import usePrevious from '../../../helper/usePrevious';
 import { Close } from '@mui/icons-material';
-import { getAddresses } from '../../Requests/GlobalRequests';
+import { getAddresses } from '../../../Requests/GlobalRequests';
 
 const MyAddresses = () => {
   const { authState, appState } = useSelector((state: rootReducerI) => state);

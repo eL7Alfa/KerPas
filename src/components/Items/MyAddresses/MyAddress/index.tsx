@@ -4,10 +4,10 @@ import { Button, Typography } from '@mui/material';
 import {
   setMyAddressesOpenR,
   setSelectedAddressR,
-} from '../../../redux/actions/appRActions';
+} from '../../../../redux/actions/appRActions';
 import { useDispatch } from 'react-redux';
 import { CheckCircle } from '@mui/icons-material';
-import { appDefStateRT } from '../../../redux/defaultStateR/appDefStateR';
+import { appDefStateRT } from '../../../../redux/defaultStateR/appDefStateR';
 
 export type MyAddressTypes = {
   data: appDefStateRT['selectedAddress'];

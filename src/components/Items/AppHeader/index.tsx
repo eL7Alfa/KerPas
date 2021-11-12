@@ -32,7 +32,7 @@ import {
   setNearestMarketR,
   setSelectedAddressR,
 } from '../../../redux/actions/appRActions';
-import MyAddresses from '../../MyAddresses';
+import MyAddresses from '../MyAddresses';
 import { useRouter } from 'next/router';
 
 const AppHeader = () => {
