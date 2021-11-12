@@ -3,6 +3,8 @@ import axios from '../config/axios';
 import { newMarkets, newProducts } from '../components/constants';
 import { AxiosError } from 'axios';
 import { supplierImgUrl } from '../config/urls';
+import { useSelector } from 'react-redux';
+import { rootReducerI } from '../redux/reducers';
 
 type getAddressesPropsT = { token: string; userCode: string };
 
@@ -164,49 +166,84 @@ export const useGetSuppliers = ({
   };
 };
 
-export type useGetMarketsTypes = {
-  lat: number;
-  lng: number;
-};
-
-export const useGetMarkets = ({ lat, lng }: useGetMarketsTypes) => {
+export const useGetMarkets = () => {
+  const { appState } = useSelector((state: rootReducerI) => state);
   const [markets, setMarkets] = useState<any[]>([]);
-  // const [lastMarketsPage, setLastMarketsPage] = useState<number>(0);
   const [isMarketsLoading, setIsMarketsLoading] = useState<boolean>(true);
   useEffect(() => {
     setIsMarketsLoading(true);
-    axios()
-      .post('/market/get', { lat, lng })
-      // axiosBase
-      //   .post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
-      .then(({ data }) => {
-        if (
-          data.response === 200 &&
-          data &&
-          !data.error &&
-          data.result.length
-        ) {
-          setMarkets(newMarkets(data.result));
-          // setLastMarketsPage(data.result.last_page);
-        } else {
+    if (Object.keys(appState.selectedAddress).length) {
+      const { dlat: lat, dlng: lng } = appState.selectedAddress;
+      axios()
+        .post('/market/get', { lat, lng })
+        // axiosBase
+        //   .post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
+        .then(({ data }) => {
+          if (
+            data.response === 200 &&
+            data &&
+            !data.error &&
+            data.result.length
+          ) {
+            setMarkets(newMarkets(data.result));
+          } else {
+            setMarkets([]);
+          }
+        })
+        .catch(() => {
           setMarkets([]);
-          // setLastMarketsPage(0);
-        }
-      })
-      .catch(() => {
-        setMarkets([]);
-        // setLastMarketsPage(0);
-      })
-      .finally(() => {
-        setIsMarketsLoading(false);
-      });
-  }, [lat, lng]);
+        })
+        .finally(() => {
+          setIsMarketsLoading(false);
+        });
+    } else {
+      let locationRequestCount = 0;
+      const getMarketsByDeviceAddress = () => {
+        locationRequestCount++;
+        navigator.geolocation.getCurrentPosition(({ coords }) => {
+          const { latitude: lat, longitude: lng, accuracy } = coords;
+          if (accuracy <= 50) {
+            axios()
+              .post('/market/get', { lat, lng })
+              // axiosBase
+              //   .post('http://localhost/kbiapi/public/v1/market/get', { lat, lng })
+              .then(({ data }) => {
+                if (
+                  data.response === 200 &&
+                  data &&
+                  !data.error &&
+                  data.result.length
+                ) {
+                  setMarkets(newMarkets(data.result));
+                } else {
+                  setMarkets([]);
+                }
+              })
+              .catch(() => {
+                if (locationRequestCount <= 6) {
+                  getMarketsByDeviceAddress();
+                } else {
+                  setMarkets([]);
+                }
+              })
+              .finally(() => {
+                setIsMarketsLoading(false);
+              });
+          } else {
+            if (locationRequestCount <= 6) {
+              getMarketsByDeviceAddress();
+            } else {
+              setIsMarketsLoading(false);
+            }
+          }
+        });
+      };
+    }
+  }, [appState.selectedAddress]);
   return {
     markets,
     setMarkets,
     isMarketsLoading,
     setIsMarketsLoading,
-    // lastMarketsPage,
-    // setLastMarketsPage,
   };
 };

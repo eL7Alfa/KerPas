@@ -1,27 +1,16 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import Head from 'next/head';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import NearestMarket from '../../src/components/Items/NearestMarket';
 import { useGetMarkets } from '../../src/Requests/GlobalRequests';
 import { useInit } from '../../src/components/constants';
-import { useSelector } from 'react-redux';
-import { rootReducerI } from '../../src/redux/reducers';
 import Markets from '../../src/components/Items/Markets';
 import Auth from '../../src/components/Items/Auth';
 
 const Index = () => {
   useInit();
-  const { appState } = useSelector((state: rootReducerI) => state);
-  const [selectedAddress, setSelectedAddress] = useState<any>({});
-  const { markets, isMarketsLoading } = useGetMarkets({
-    lat: selectedAddress.dlat,
-    lng: selectedAddress.dlng,
-  });
-
-  useEffect(() => {
-    setSelectedAddress(appState.selectedAddress);
-  }, [appState.selectedAddress]);
+  const { markets, isMarketsLoading } = useGetMarkets();
 
   return (
     <Fragment>
