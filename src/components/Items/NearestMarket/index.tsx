@@ -27,6 +27,7 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
   const distance = nearestMarket.distance;
   const location = nearestMarket.ckota;
   const marketImg = `${marketImgUrl}/${nearestMarket.cfoto}`;
+  const description = nearestMarket.cdeskripsi;
 
   const onShowMoreBtnClicked = () => {
     router.push('/markets');
@@ -77,6 +78,7 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
               distance,
               location,
               address,
+              description,
             }}
           />
         </div>
