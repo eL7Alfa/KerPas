@@ -7,9 +7,10 @@ import {
 } from '../../../redux/actions/appRActions';
 import { useDispatch } from 'react-redux';
 import { CheckCircle } from '@mui/icons-material';
+import { appDefStateRT } from '../../../redux/defaultStateR/appDefStateR';
 
 export type MyAddressTypes = {
-  data: any;
+  data: appDefStateRT['selectedAddress'];
   selectedAddress: any;
 };
 
