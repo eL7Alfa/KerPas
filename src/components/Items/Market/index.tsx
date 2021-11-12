@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@mui/material';
+import { ButtonBase, Typography } from '@mui/material';
 import Image from 'next/image';
 import { Room } from '@mui/icons-material';
 import React from 'react';
@@ -25,7 +25,7 @@ const Market = ({
 }: MarketPropsTypes) => {
   const classes = useStyles();
   return (
-    <Paper className={classes.root}>
+    <ButtonBase className={classes.root}>
       <div className={classes.itemInfoW}>
         <div className={classes.itemImgW}>
           <Image
@@ -54,7 +54,7 @@ const Market = ({
           </div>
         </div>
       </div>
-    </Paper>
+    </ButtonBase>
   );
 };
 

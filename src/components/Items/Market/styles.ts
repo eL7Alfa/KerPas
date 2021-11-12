@@ -7,6 +7,13 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.spacing(1),
       overflow: 'hidden',
       boxShadow: '0 10px 15px -5px rgba(0,0,0,0.15)',
+      backgroundColor: '#ffffff',
+      padding: 0,
+      textAlign: 'unset',
+      width: '100%',
+      '&:hover': {
+        backgroundColor: '#ffffff',
+      },
     },
     itemInfoW: {
       width: '100%',
