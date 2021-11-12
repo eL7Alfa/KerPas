@@ -14,6 +14,7 @@ export type MarketPropsTypes = {
   distance: { text: string; value: number };
   location: string;
   marketImg: string;
+  description: string;
 };
 
 const Market = ({
@@ -24,12 +25,23 @@ const Market = ({
   distance,
   location,
   marketImg,
+  description,
 }: MarketPropsTypes) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const onMarketClicked = () => {
-    dispatch(setMarketDetailsModalR({ open: true }));
+    dispatch(
+      setMarketDetailsModalR({
+        open: true,
+        marketImg,
+        marketName,
+        address,
+        distance,
+        location,
+        description,
+      }),
+    );
   };
 
   return (
