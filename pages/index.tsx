@@ -27,7 +27,7 @@ import {
 
 export default function Home() {
   useInit();
-  const selector = useSelector((state: rootReducerI) => state);
+  const { appState } = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
     {},
   );
@@ -79,8 +79,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setNearestMarket(selector.appState.nearestMarket);
-  }, [selector.appState.nearestMarket]);
+    setNearestMarket(appState.nearestMarket);
+  }, [appState.nearestMarket]);
 
   return (
     <Fragment>
