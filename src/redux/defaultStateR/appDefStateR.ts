@@ -1,6 +1,6 @@
 export type appDefStateRT = {
-  selectedAddress: any;
-  nearestMarket: any;
+  selectedAddress: { [key: string]: any };
+  nearestMarket: { [key: string]: any };
   myAddressesOpen: boolean;
 };
 
