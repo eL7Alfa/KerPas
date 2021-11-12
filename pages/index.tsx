@@ -24,6 +24,7 @@ import {
   useGetProducts,
   useGetSuppliers,
 } from '../src/Requests/GlobalRequests';
+import MarketDetails from '../src/components/Items/MarketDetails';
 
 export default function Home() {
   useInit();
@@ -113,6 +114,7 @@ export default function Home() {
         </Box>
       </Container>
       <Auth />
+      <MarketDetails />
     </Fragment>
   );
 }
