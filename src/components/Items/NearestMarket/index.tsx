@@ -53,8 +53,8 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
         </div>
       </div>
       <div className={classes.itemW}>
-        {!hideShowMoreBtn && (
-          <div className={classes.header}>
+        <div className={classes.header}>
+          {!hideShowMoreBtn && (
             <Button
               variant={'contained'}
               onClick={onShowMoreBtnClicked}
@@ -65,8 +65,8 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
                 className={classes.showMoreArrowDown}
               />
             </Button>
-          </div>
-        )}
+          )}
+        </div>
         <div className={classes.itemC}>
           <Market
             {...{

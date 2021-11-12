@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2),
+      minHeight: theme.spacing(5),
     },
     title: {
       color: '#ffffff',
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: '55%',
       minWidth: '45%',
       height: 'fit-content',
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(5),
       marginLeft: theme.spacing(5),
       [theme.breakpoints.down('md')]: {
         maxWidth: '70%',
