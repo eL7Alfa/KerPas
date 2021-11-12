@@ -1,5 +1,5 @@
 import {
-  setMarketDetailsModalOpenT,
+  setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
   setSelectedAddressT,
@@ -31,11 +31,11 @@ export const setMyAddressesOpenR = (
   };
 };
 
-export const setMarketDetailsModalOpenR = (
-  payload: appDefStateRT['marketDetailsModalOpen'],
+export const setMarketDetailsModalR = (
+  payload: appDefStateRT['marketDetailsModal'],
 ) => {
   return {
-    type: setMarketDetailsModalOpenT,
+    type: setMarketDetailsModalT,
     payload,
   };
 };

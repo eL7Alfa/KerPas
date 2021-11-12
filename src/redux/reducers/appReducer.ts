@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { appDefStateR } from '../defaultStateR/appDefStateR';
 import {
-  setMarketDetailsModalOpenT,
+  setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
   setSelectedAddressT,
@@ -18,8 +18,8 @@ const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
     case setMyAddressesOpenT: {
       return { ...state, myAddressesOpen: payload };
     }
-    case setMarketDetailsModalOpenT: {
-      return { ...state, marketDetailsModalOpen: payload };
+    case setMarketDetailsModalT: {
+      return { ...state, marketDetailsModal: payload };
     }
     default:
       return state;
