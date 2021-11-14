@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Room } from '@mui/icons-material';
 import { useRouter } from 'next/router';
 
-export type SupplierProps = {
+export type SupplierPropsTypes = {
   supplierId: number;
   imageUri: string;
   name: string;
@@ -20,7 +20,7 @@ const Supplier = ({
   marketName,
   block,
   location,
-}: SupplierProps) => {
+}: SupplierPropsTypes) => {
   const classes = useStyles();
   const router = useRouter();
 
