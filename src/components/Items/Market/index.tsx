@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setMarketDetailsModalR } from '../../../redux/actions/appRActions';
 
 export type MarketPropsTypes = {
-  marketId: number;
+  marketId?: number;
   marketCode: string;
   marketName: string;
   address: string;
