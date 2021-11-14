@@ -40,6 +40,7 @@ const Suppliers = ({
               marketName={d.marketName}
               block={d.block}
               location={d.location}
+              categories={d.categories}
             />
           </Grid>
         ))}
