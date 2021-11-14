@@ -2,11 +2,11 @@ import { Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useStyles from './styles';
 import React, { Fragment } from 'react';
-import Supplier, { SupplierProps } from '../Supplier';
+import Supplier, { SupplierPropsTypes } from '../Supplier';
 
 type SuppliersProps = {
   name: string;
-  data: SupplierProps[];
+  data: SupplierPropsTypes[];
   onShowMoreBtnClicked: () => void;
   isLoading: boolean;
   isLastPageReached: boolean;
