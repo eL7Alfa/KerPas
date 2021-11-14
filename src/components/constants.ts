@@ -103,6 +103,7 @@ export type SupplierParamsTypes = {
   calamat_supplier: string;
   ckontak_supplier: string;
   mitra: MarketsParamsTypes;
+  ccategory_supplier: any[];
 };
 
 export const newSuppliers = (data: SupplierParamsTypes[]) =>
@@ -115,6 +116,7 @@ export const newSuppliers = (data: SupplierParamsTypes[]) =>
       calamat_supplier,
       ckontak_supplier,
       mitra,
+      ccategory_supplier,
     }) => {
       return {
         supplierId: id,
@@ -123,6 +125,7 @@ export const newSuppliers = (data: SupplierParamsTypes[]) =>
         marketName: mitra.cnama_mitra,
         block: '',
         location: mitra.ckota,
+        categories: ccategory_supplier,
       };
     },
   );
