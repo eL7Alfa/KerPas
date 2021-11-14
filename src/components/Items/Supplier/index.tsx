@@ -11,6 +11,7 @@ export type SupplierPropsTypes = {
   marketName: string;
   block: string;
   location: string;
+  categories: any[];
 };
 
 const Supplier = ({
