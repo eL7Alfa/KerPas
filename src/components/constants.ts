@@ -8,6 +8,7 @@ import { setAuthUserDataR } from '../redux/actions/authRActions';
 import { setNearestMarketR } from '../redux/actions/appRActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
+import { MarketTypes } from '../redux/defaultStateR/appDefStateR';
 
 // Google API Key
 export const googleMapsApiKey = 'AIzaSyAtCUe0ZNVf6otms1PhEOIAaB0cW7djbRw';
@@ -60,18 +61,7 @@ export const newProducts = (
 
 // Serialize New Markets
 
-export type newMarketsTypes = {
-  id: number;
-  ckode_mitra: string;
-  cnama_mitra: string;
-  calamat_toko: string;
-  distance: { text: string; value: number };
-  ckota: string;
-  cfoto: string;
-  cdeskripsi: string;
-};
-
-export const newMarkets = (data: newMarketsTypes[]) =>
+export const newMarkets = (data: MarketTypes[]) =>
   data.map(
     ({
       id,
@@ -202,7 +192,17 @@ export const useInit = () => {
         if (response === 200) {
           dispatch(setNearestMarketR(result));
         } else {
-          dispatch(setNearestMarketR({}));
+          dispatch(
+            setNearestMarketR({
+              calamat_toko: '',
+              cdeskripsi: '',
+              cfoto: '',
+              ckode_mitra: '',
+              ckota: '',
+              cnama_mitra: '',
+              distance: { text: '', value: 0 },
+            }),
+          );
         }
       });
   };

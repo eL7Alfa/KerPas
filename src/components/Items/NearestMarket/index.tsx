@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import Market from '../Market';
 import { useRouter } from 'next/router';
-import { newMarkets, newMarketsTypes } from '../../constants';
+import { newMarkets } from '../../constants';
+import { MarketTypes } from '../../../redux/defaultStateR/appDefStateR';
 
 export type NearestMarketTypes = {
   hideShowMoreBtn?: boolean;
@@ -17,7 +18,7 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
   const classes = useStyles();
   const router = useRouter();
   const selector = useSelector((state: rootReducerI) => state);
-  const [nearestMarket, setNearestMarket] = useState<newMarketsTypes>({
+  const [nearestMarket, setNearestMarket] = useState<MarketTypes>({
     calamat_toko: '',
     cdeskripsi: '',
     cfoto: '',
@@ -25,7 +26,7 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
     ckota: '',
     cnama_mitra: '',
     distance: { text: '', value: 0 },
-    id: 0,
+    id: undefined,
   });
 
   const {
