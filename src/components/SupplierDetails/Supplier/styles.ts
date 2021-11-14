@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     wrapper: {
       display: 'flex',
-      width: 'fit-content',
+      width: 300,
       flexDirection: 'column',
       boxShadow: '0 20px 25px -10px rgba(0,0,0,0.15)',
       borderRadius: 8,
