@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
-import { newMarkets, newProducts } from '../components/constants';
+import { newMarkets, newProducts, newSuppliers } from '../components/constants';
 import { AxiosError } from 'axios';
-import { supplierImgUrl } from '../config/urls';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
+import { SupplierPropsTypes } from '../components/Items/Supplier';
+import { MarketPropsTypes } from '../components/Items/Market';
 
 type getAddressesPropsT = { token: string; userCode: string };
 
@@ -122,25 +123,7 @@ export const useGetSuppliers = ({
         .then(({ data }) => {
           if (data.response === 200 && data && !data.error) {
             const { data: rSuppliers } = data.result;
-            const suppliers = rSuppliers.map(
-              (d: {
-                id: number;
-                cnama_supplier: string;
-                cimg_supplier: string;
-                calamat_supplier: string;
-                mitra: { ckota: string };
-              }) => {
-                return {
-                  supplierId: d.id,
-                  name: d.cnama_supplier,
-                  imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
-                  marketName: d.calamat_supplier,
-                  block: '',
-                  location: d.mitra.ckota,
-                };
-              },
-            );
-            setSuppliers(suppliers);
+            setSuppliers(newSuppliers(rSuppliers));
           } else {
             setLastSuppliersPage(0);
             setSuppliers([]);
@@ -249,4 +232,46 @@ export const useGetMarkets = () => {
     isMarketsLoading,
     setIsMarketsLoading,
   };
+};
+
+export const useGetSpecificSupplier = (supplierId?: number) => {
+  const initialSupplier: SupplierPropsTypes = {
+    block: '',
+    imageUri: '',
+    location: '',
+    marketName: '',
+    name: '',
+    supplierId: 0,
+  };
+
+  const initialMarket: MarketPropsTypes = {
+    marketId: undefined,
+    address: '',
+    description: '',
+    distance: { text: '', value: 0 },
+    location: '',
+    marketCode: '',
+    marketImg: '',
+    marketName: '',
+  };
+
+  const [supplier, setSupplier] = useState(initialSupplier);
+  const [market, setMarket] = useState(initialMarket);
+  useEffect(() => {
+    if (supplierId) {
+      axios()
+        .get(`/market/supplier/${supplierId}`)
+        .then(({ data }) => {
+          if (data.response === 200) {
+            setSupplier(newSuppliers([data.result])[0]);
+            setMarket(newMarkets([data.result.mitra])[0]);
+          }
+        })
+        .catch(() => {
+          setSupplier(initialSupplier);
+          setMarket(initialMarket);
+        });
+    }
+  }, [supplierId]);
+  return { supplier, setSupplier, market, setMarket };
 };
