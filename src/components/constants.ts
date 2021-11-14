@@ -59,18 +59,19 @@ export const newProducts = (
   );
 
 // Serialize New Markets
-export const newMarkets = (
-  data: {
-    id: number;
-    ckode_mitra: string;
-    cnama_mitra: string;
-    calamat_toko: string;
-    distance: { text: string; value: number };
-    ckota: string;
-    cfoto: string;
-    cdeskripsi: string;
-  }[],
-) =>
+
+export type newMarketsTypes = {
+  id: number;
+  ckode_mitra: string;
+  cnama_mitra: string;
+  calamat_toko: string;
+  distance: { text: string; value: number };
+  ckota: string;
+  cfoto: string;
+  cdeskripsi: string;
+};
+
+export const newMarkets = (data: newMarketsTypes[]) =>
   data.map(
     ({
       id,

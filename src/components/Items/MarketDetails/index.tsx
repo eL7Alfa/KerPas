@@ -54,7 +54,7 @@ const MarketDetails = () => {
         </div>
         <div
           className={classes.body}
-          dangerouslySetInnerHTML={{ __html: `<div>${data.description}</div>` }}
+          dangerouslySetInnerHTML={{ __html: data.description }}
         />
         <IconButton className={classes.closeBtn} onClick={onClose}>
           <Close />

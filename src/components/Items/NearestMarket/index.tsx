@@ -5,9 +5,9 @@ import { Button } from '@mui/material';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
-import { marketImgUrl } from '../../../config/urls';
 import Market from '../Market';
 import { useRouter } from 'next/router';
+import { newMarkets, newMarketsTypes } from '../../constants';
 
 export type NearestMarketTypes = {
   hideShowMoreBtn?: boolean;
@@ -17,17 +17,27 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
   const classes = useStyles();
   const router = useRouter();
   const selector = useSelector((state: rootReducerI) => state);
-  const [nearestMarket, setNearestMarket] = useState<{ [key: string]: any }>(
-    {},
-  );
-  const marketId = nearestMarket.id;
-  const marketCode = nearestMarket.ckode_mitra;
-  const marketName = nearestMarket.cnama_mitra;
-  const address = nearestMarket.calamat_toko;
-  const distance = nearestMarket.distance;
-  const location = nearestMarket.ckota;
-  const marketImg = `${marketImgUrl}/${nearestMarket.cfoto}`;
-  const description = nearestMarket.cdeskripsi;
+  const [nearestMarket, setNearestMarket] = useState<newMarketsTypes>({
+    calamat_toko: '',
+    cdeskripsi: '',
+    cfoto: '',
+    ckode_mitra: '',
+    ckota: '',
+    cnama_mitra: '',
+    distance: { text: '', value: 0 },
+    id: 0,
+  });
+
+  const {
+    marketCode,
+    marketName,
+    marketId,
+    marketImg,
+    description,
+    distance,
+    location,
+    address,
+  } = newMarkets([nearestMarket])[0];
 
   const onShowMoreBtnClicked = () => {
     router.push('/markets');
