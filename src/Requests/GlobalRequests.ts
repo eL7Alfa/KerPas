@@ -124,12 +124,14 @@ export const useGetSuppliers = ({
             const { data: rSuppliers } = data.result;
             const suppliers = rSuppliers.map(
               (d: {
+                id: number;
                 cnama_supplier: string;
                 cimg_supplier: string;
                 calamat_supplier: string;
                 mitra: { ckota: string };
               }) => {
                 return {
+                  supplierId: d.id,
                   name: d.cnama_supplier,
                   imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
                   marketName: d.calamat_supplier,

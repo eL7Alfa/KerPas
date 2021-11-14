@@ -2,8 +2,10 @@ import useStyles from './styles';
 import { Button, Paper } from '@mui/material';
 import Image from 'next/image';
 import { Room } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 export type SupplierProps = {
+  supplierId: number;
   imageUri: string;
   name: string;
   marketName: string;
@@ -12,6 +14,7 @@ export type SupplierProps = {
 };
 
 const Supplier = ({
+  supplierId,
   imageUri,
   name,
   marketName,
@@ -19,9 +22,15 @@ const Supplier = ({
   location,
 }: SupplierProps) => {
   const classes = useStyles();
+  const router = useRouter();
+
+  const onClick = () => {
+    router.push(`/supplier/${supplierId}`);
+  };
+
   return (
     <div className={classes.root}>
-      <Button>
+      <Button onClick={onClick}>
         <Paper className={classes.body}>
           <div className={classes.imgW}>
             <Image

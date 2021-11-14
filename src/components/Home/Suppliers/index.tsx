@@ -79,6 +79,7 @@ const Suppliers = ({ data }: SuppliersProps) => {
               marketName={d.marketName}
               block={d.block}
               location={d.location}
+              supplierId={d.supplierId}
             />
           </div>
         ))}
