@@ -12,12 +12,13 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       position: 'relative',
       width: `calc(100% - ${theme.spacing(2)})`,
+      maxHeight: `calc(100% - ${theme.spacing(4)})`,
       [theme.breakpoints.up('sm')]: {
         width: 600,
       },
       backgroundColor: '#ffffff',
       borderRadius: theme.spacing(2),
-      overflow: 'hidden',
+      overflow: 'auto',
     },
     header: {
       position: 'relative',
