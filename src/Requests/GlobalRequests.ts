@@ -124,16 +124,17 @@ export const useGetSuppliers = ({
             const { data: rSuppliers } = data.result;
             const suppliers = rSuppliers.map(
               (d: {
-                cnama_supplier: any;
-                cimg_supplier: any;
-                calamat_supplier: any;
+                cnama_supplier: string;
+                cimg_supplier: string;
+                calamat_supplier: string;
+                mitra: { ckota: string };
               }) => {
                 return {
                   name: d.cnama_supplier,
                   imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
                   marketName: d.calamat_supplier,
-                  block: 'A1 - B2',
-                  location: 'Makassar',
+                  block: '',
+                  location: d.mitra.ckota,
                 };
               },
             );
