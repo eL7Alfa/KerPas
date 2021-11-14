@@ -50,7 +50,7 @@ export const useGetProducts = ({
     setIsProductsLoading(true);
     if (marketCode) {
       const postData =
-        productType === 'category'
+        productType === 'category' && categoryId
           ? {
               limit: limit ?? 12,
               type: 'category',
@@ -242,6 +242,7 @@ export const useGetSpecificSupplier = (supplierId?: number) => {
     marketName: '',
     name: '',
     supplierId: 0,
+    categories: [],
   };
 
   const initialMarket: MarketPropsTypes = {
