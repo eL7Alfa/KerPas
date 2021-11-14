@@ -68,6 +68,7 @@ export const newMarkets = (
     distance: { text: string; value: number };
     ckota: string;
     cfoto: string;
+    cdeskripsi: string;
   }[],
 ) =>
   data.map(
@@ -79,6 +80,7 @@ export const newMarkets = (
       distance,
       ckota,
       cfoto,
+      cdeskripsi,
     }) => {
       return {
         marketId: id,
@@ -88,6 +90,7 @@ export const newMarkets = (
         distance: distance,
         location: ckota,
         marketImg: `${marketImgUrl}/${cfoto}`,
+        description: `<div>${cdeskripsi}</div>`,
       };
     },
   );

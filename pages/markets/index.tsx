@@ -7,6 +7,7 @@ import { useGetMarkets } from '../../src/Requests/GlobalRequests';
 import { useInit } from '../../src/components/constants';
 import Markets from '../../src/components/Items/Markets';
 import Auth from '../../src/components/Items/Auth';
+import MarketDetails from '../../src/components/Items/MarketDetails';
 
 const Index = () => {
   useInit();
@@ -32,6 +33,7 @@ const Index = () => {
         </Box>
       </Container>
       <Auth />
+      <MarketDetails />
     </Fragment>
   );
 };
