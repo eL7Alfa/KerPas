@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SnackbarOrigin } from '@mui/material';
 import axios from '../config/axios';
-import { marketImgUrl, productImgUrl } from '../config/urls';
+import { marketImgUrl, productImgUrl, supplierImgUrl } from '../config/urls';
 import { AxiosError } from 'axios';
 import { userDataRT } from '../redux/defaultStateR/authDefStateR';
 import { setAuthUserDataR } from '../redux/actions/authRActions';
 import { setNearestMarketR } from '../redux/actions/appRActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
-import { MarketTypes } from '../redux/defaultStateR/appDefStateR';
 
 // Google API Key
 export const googleMapsApiKey = 'AIzaSyAtCUe0ZNVf6otms1PhEOIAaB0cW7djbRw';
@@ -60,8 +59,18 @@ export const newProducts = (
   );
 
 // Serialize New Markets
+export type MarketsParamsTypes = {
+  id?: number;
+  ckode_mitra: string;
+  cnama_mitra: string;
+  calamat_toko: string;
+  distance: { text: string; value: number };
+  ckota: string;
+  cfoto: string;
+  cdeskripsi: string;
+};
 
-export const newMarkets = (data: MarketTypes[]) =>
+export const newMarkets = (data: MarketsParamsTypes[]) =>
   data.map(
     ({
       id,
@@ -82,6 +91,38 @@ export const newMarkets = (data: MarketTypes[]) =>
         location: ckota,
         marketImg: `${marketImgUrl}/${cfoto}`,
         description: `<div>${cdeskripsi}</div>`,
+      };
+    },
+  );
+
+export type SupplierParamsTypes = {
+  id: number;
+  ckode_supplier: string;
+  cnama_supplier: string;
+  cimg_supplier: string;
+  calamat_supplier: string;
+  ckontak_supplier: string;
+  mitra: MarketsParamsTypes;
+};
+
+export const newSuppliers = (data: SupplierParamsTypes[]) =>
+  data.map(
+    ({
+      id,
+      ckode_supplier,
+      cnama_supplier,
+      cimg_supplier,
+      calamat_supplier,
+      ckontak_supplier,
+      mitra,
+    }) => {
+      return {
+        supplierId: id,
+        imageUri: `${supplierImgUrl}/${cimg_supplier}`,
+        name: cnama_supplier,
+        marketName: mitra.cnama_mitra,
+        block: '',
+        location: mitra.ckota,
       };
     },
   );
