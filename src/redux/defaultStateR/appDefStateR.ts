@@ -1,4 +1,4 @@
-export type MarketTypes = {
+export type NearestMarketTypes = {
   id?: number;
   ckode_mitra: string;
   cnama_mitra: string;
@@ -11,7 +11,7 @@ export type MarketTypes = {
 
 export type appDefStateRT = {
   selectedAddress: { [key: string]: any };
-  nearestMarket: MarketTypes;
+  nearestMarket: NearestMarketTypes;
   myAddressesOpen: boolean;
   marketDetailsModal: {
     open: boolean;
