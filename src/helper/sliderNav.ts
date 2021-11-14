@@ -2,13 +2,14 @@ type args = {
   hList?: HTMLDivElement;
   breakpoint: number;
   length?: number;
+  windowWidth?: number;
 };
 
 export const onPrev =
-  ({ hList, breakpoint, length = 6 }: args) =>
+  ({ hList, breakpoint, length = 6, windowWidth = window.innerWidth }: args) =>
   () => {
     if (hList) {
-      if (window.innerWidth > breakpoint) {
+      if (windowWidth > breakpoint) {
         hList.scrollTo({
           left: hList.scrollLeft - breakpoint,
           behavior: 'smooth',
@@ -17,7 +18,7 @@ export const onPrev =
         hList.scrollTo({
           left:
             hList.scrollLeft -
-            Math.floor(window.innerWidth / (breakpoint / length)) *
+            Math.floor(windowWidth / (breakpoint / length)) *
               (breakpoint / length),
           behavior: 'smooth',
         });
@@ -26,10 +27,10 @@ export const onPrev =
   };
 
 export const onNext =
-  ({ hList, breakpoint, length = 6 }: args) =>
+  ({ hList, breakpoint, length = 6, windowWidth = window.innerWidth }: args) =>
   () => {
     if (hList) {
-      if (window.innerWidth > breakpoint) {
+      if (windowWidth > breakpoint) {
         hList.scrollTo({
           left: hList.scrollLeft + breakpoint,
           behavior: 'smooth',
@@ -38,7 +39,7 @@ export const onNext =
         hList.scrollTo({
           left:
             hList.scrollLeft +
-            Math.floor(window.innerWidth / (breakpoint / length)) *
+            Math.floor(windowWidth / (breakpoint / length)) *
               (breakpoint / length),
           behavior: 'smooth',
         });
