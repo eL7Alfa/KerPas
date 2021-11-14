@@ -80,6 +80,7 @@ const Suppliers = ({ data }: SuppliersProps) => {
               block={d.block}
               location={d.location}
               supplierId={d.supplierId}
+              categories={d.categories}
             />
           </div>
         ))}
