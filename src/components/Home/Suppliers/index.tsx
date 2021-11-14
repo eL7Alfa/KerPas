@@ -5,14 +5,14 @@ import {
   NavigateBefore,
   NavigateNext,
 } from '@mui/icons-material';
-import Supplier, { SupplierProps } from '../../Items/Supplier';
+import Supplier, { SupplierPropsTypes } from '../../Items/Supplier';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 import { useRouter } from 'next/router';
 
 type SuppliersProps = {
-  data: SupplierProps[];
+  data: SupplierPropsTypes[];
 };
 
 const Suppliers = ({ data }: SuppliersProps) => {
