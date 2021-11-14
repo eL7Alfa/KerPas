@@ -89,7 +89,17 @@ const AppHeader = () => {
             }
             localStorage.removeItem('userData');
             localStorage.removeItem('selectedAddress');
-            dispatch(setNearestMarketR({}));
+            dispatch(
+              setNearestMarketR({
+                calamat_toko: '',
+                cdeskripsi: '',
+                cfoto: '',
+                ckode_mitra: '',
+                ckota: '',
+                cnama_mitra: '',
+                distance: { text: '', value: 0 },
+              }),
+            );
             dispatch(setSelectedAddressR({}));
             dispatch(setAuthResetUserDataR());
           }
