@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
     sectionA: {
       display: 'flex',
       flexDirection: 'row',
+      paddingLeft: theme.spacing(1),
     },
     catW: {
       display: 'block',

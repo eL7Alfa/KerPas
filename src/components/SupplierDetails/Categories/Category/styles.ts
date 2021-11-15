@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       scrollSnapAlign: 'start',
-      minWidth: `calc((1200px - 300px) / 4)!important`,
-      maxWidth: `calc((1200px - 300px) / 4)!important`,
+      minWidth: `calc((1200px - (300px + ${theme.spacing(1)})) / 4)!important`,
+      maxWidth: `calc((1200px - (300px + ${theme.spacing(1)})) / 4)!important`,
       display: 'flex',
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
