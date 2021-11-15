@@ -62,9 +62,9 @@ const Categories = ({
             tabIndex={1}
             onClick={onPrev({
               hList: listLoaded.hList,
-              breakpoint: theme.breakpoints.values.lg - 300,
+              breakpoint: theme.breakpoints.values.lg - (300 + 8),
               length: 4,
-              windowWidth: window.innerWidth - 300,
+              widthOffset: -(300 + 8),
             })}
             className={classes.prevIconBtn}
             style={{ marginBottom: 16 }}>
@@ -76,9 +76,9 @@ const Categories = ({
             tabIndex={1}
             onClick={onNext({
               hList: listLoaded.hList,
-              breakpoint: theme.breakpoints.values.lg - 300,
+              breakpoint: theme.breakpoints.values.lg - (300 + 8),
               length: 4,
-              windowWidth: window.innerWidth - 300,
+              widthOffset: -(300 + 8),
             })}
             className={classes.nextIconBtn}
             style={{ marginBottom: 16 }}>

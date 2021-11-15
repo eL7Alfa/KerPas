@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Supplier from './Supplier';
 import {
   useGetProducts,
@@ -87,6 +87,10 @@ const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
       });
     }
   }, [supplier]);
+
+  if (!nearestMarket.id) {
+    return <Fragment />;
+  }
 
   return (
     <div className={classes.root}>
