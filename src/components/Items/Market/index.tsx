@@ -52,6 +52,7 @@ const Market = ({
             alt={marketName}
             src={marketImg}
             layout={'fill'}
+            objectFit={'cover'}
             placeholder={'blur'}
             blurDataURL={marketImg}
           />
