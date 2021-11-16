@@ -31,16 +31,29 @@ export const getDistanceMatrix = async ({
 };
 
 // Serialize New Product
-export const newProducts = (
-  data: {
-    cnama_produk: string;
-    cimg_top: string;
-    nretail_price: number;
-    ndiscount: number;
-    min_price: number;
-    cslug: string;
-  }[],
-) =>
+export type ProductParamsTypes = {
+  cnama_produk: string;
+  cimg_top: string;
+  nretail_price: number;
+  ndiscount: number;
+  min_price: number;
+  cslug: string;
+};
+
+export type ProductTypes = {
+  name: string;
+  imageUri: string;
+  price: number;
+  discount: number;
+  fixedPrice: number;
+  slug: string;
+};
+
+export interface newProductsTypes<T = ProductParamsTypes[]> {
+  (data: T): ProductTypes[];
+}
+
+export const newProducts: newProductsTypes = data =>
   data.map(
     ({
       cnama_produk = '',
@@ -62,7 +75,7 @@ export const newProducts = (
   );
 
 // Serialize New Markets
-export type MarketsParamsTypes = {
+export type MarketParamsTypes = {
   id?: number;
   ckode_mitra: string;
   cnama_mitra: string;
@@ -73,7 +86,22 @@ export type MarketsParamsTypes = {
   cdeskripsi: string;
 };
 
-export const newMarkets = (data: MarketsParamsTypes[]) =>
+export type MarketTypes = {
+  marketId?: number;
+  marketCode: string;
+  marketName: string;
+  address: string;
+  distance: { text: string; value: number };
+  location: string;
+  marketImg: string;
+  description: string;
+};
+
+export interface newMarketsTypes<T = MarketParamsTypes[]> {
+  (data: T): MarketTypes[];
+}
+
+export const newMarkets: newMarketsTypes = data =>
   data.map(
     ({
       id,
@@ -105,11 +133,28 @@ export type SupplierParamsTypes = {
   cimg_supplier: string;
   calamat_supplier: string;
   ckontak_supplier: string;
-  mitra: MarketsParamsTypes;
+  mitra: MarketParamsTypes;
   ccategory_supplier: any[];
 };
 
-export const newSuppliers = (data: SupplierParamsTypes[]) =>
+export type SupplierTypes = {
+  supplierId: number;
+  supplierCode: string;
+  imageUri: string;
+  address: string;
+  contact: string;
+  name: string;
+  marketName: string;
+  block: string;
+  location: string;
+  categories: any[];
+};
+
+export interface nweSuppliersTypes<T = SupplierParamsTypes[]> {
+  (data: T): SupplierTypes[];
+}
+
+export const newSuppliers: nweSuppliersTypes = data =>
   data.map(
     ({
       id,
@@ -123,7 +168,10 @@ export const newSuppliers = (data: SupplierParamsTypes[]) =>
     }) => {
       return {
         supplierId: id,
+        supplierCode: ckode_supplier,
         imageUri: `${supplierImgUrl}/${cimg_supplier}`,
+        address: calamat_supplier,
+        contact: ckontak_supplier,
         name: cnama_supplier,
         marketName: mitra.cnama_mitra,
         block: '',

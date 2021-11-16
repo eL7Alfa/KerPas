@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
-import { newMarkets, newProducts, newSuppliers } from '../components/constants';
+import {
+  newMarkets,
+  newProducts,
+  newSuppliers,
+  ProductTypes,
+  SupplierTypes,
+} from '../components/constants';
 import { AxiosError } from 'axios';
 import { useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
@@ -30,6 +36,35 @@ export const getAddresses = ({ token, userCode }: getAddressesPropsT) =>
       });
   });
 
+export type useGetProductParamTypes = {
+  slug: string;
+};
+
+export const useGetProduct = ({ slug }: useGetProductParamTypes) => {
+  const [product, setProduct] = useState<ProductTypes>({
+    discount: 0,
+    fixedPrice: 0,
+    imageUri: '',
+    name: '',
+    price: 0,
+    slug: '',
+  });
+  const [isGetProductLoading, setIsGetProductLoading] = useState(false);
+
+  useEffect(() => {
+    axios()
+      .get(`/product/${slug}`)
+      .then(({ data: { response, result } }) => {
+        if (response === 200 && result.length) {
+          setProduct(result[0]);
+        }
+      })
+      .finally(() => setIsGetProductLoading(false));
+  }, [slug]);
+
+  return { product, setProduct, isGetProductLoading, setIsGetProductLoading };
+};
+
 export type useGetProductsTypes = {
   marketCode: string;
   productType?: string;
@@ -43,7 +78,7 @@ export const useGetProducts = ({
   limit,
   categoryId,
 }: useGetProductsTypes) => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductTypes[]>([]);
   const [lastProductsPage, setLastProductsPage] = useState<number>(0);
   const [isProductsLoading, setIsProductsLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -110,7 +145,7 @@ export const useGetSuppliers = ({
   marketCode,
   limit,
 }: useGetSuppliersTypes) => {
-  const [suppliers, setSuppliers] = useState<any[]>([]);
+  const [suppliers, setSuppliers] = useState<SupplierTypes[]>([]);
   const [lastSuppliersPage, setLastSuppliersPage] = useState<number>(0);
   const [isSuppliersLoading, setIsSuppliersLoading] = useState<boolean>(true);
   useEffect(() => {
