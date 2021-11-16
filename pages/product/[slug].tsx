@@ -5,11 +5,14 @@ import AppHeader from '../../src/components/Items/AppHeader';
 import { useInit } from '../../src/components/constants';
 import Auth from '../../src/components/Items/Auth';
 import { useRouter } from 'next/router';
+import { useGetProduct } from '../../src/Requests/GlobalRequests';
+import ProductDetails from '../../src/components/ProductDetails';
 
 const Index = () => {
   useInit();
   const route = useRouter();
   const { slug } = route.query;
+  const { product } = useGetProduct({ slug: slug as string });
 
   return (
     <Fragment>
@@ -21,7 +24,9 @@ const Index = () => {
       <CssBaseline />
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important' }}>
-        <Box py={1} mt={12} mb={8}></Box>
+        <Box py={1} mt={12} mb={8}>
+          <ProductDetails {...{ product }} />
+        </Box>
       </Container>
       <Auth />
     </Fragment>
