@@ -38,6 +38,7 @@ export const newProducts = (
     nretail_price: number;
     ndiscount: number;
     min_price: number;
+    cslug: string;
   }[],
 ) =>
   data.map(
@@ -47,6 +48,7 @@ export const newProducts = (
       nretail_price = 0,
       ndiscount = 0,
       min_price = 0,
+      cslug,
     }) => {
       return {
         name: cnama_produk,
@@ -54,6 +56,7 @@ export const newProducts = (
         price: nretail_price,
         discount: ndiscount,
         fixedPrice: min_price,
+        slug: cslug,
       };
     },
   );

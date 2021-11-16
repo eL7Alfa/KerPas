@@ -11,11 +11,11 @@ import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 import { useRouter } from 'next/router';
 
-type PromoProps = {
+type PromoPropsTypes = {
   data: ProductProps[];
 };
 
-const Promo = ({ data }: PromoProps) => {
+const Promo = ({ data }: PromoPropsTypes) => {
   const theme = useTheme();
   const classes = useStyles();
   const router = useRouter();
@@ -74,14 +74,7 @@ const Promo = ({ data }: PromoProps) => {
         <div className={classes.itemsW} ref={listW}>
           {data.map((d, key) => (
             <div key={key} className={classes.productW}>
-              <Product
-                imageUri={d.imageUri}
-                name={d.name}
-                price={d.price}
-                discount={d.discount}
-                fixedPrice={d.fixedPrice}
-                url={d.url}
-              />
+              <Product {...d} />
             </div>
           ))}
         </div>

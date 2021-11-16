@@ -3,36 +3,39 @@ import { Button, Fade, IconButton } from '@mui/material';
 import Image from 'next/image';
 import toRupiah from '../../../modules/toRupiah';
 import { AddShoppingCart } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 export type ProductProps = {
   imageUri: string;
-  url: string;
   name: string;
   price: number;
   discount: number;
   fixedPrice: number;
-  onClick?: () => void;
-  onCartClick?: () => void;
+  slug: string;
 };
 
 const Product = ({
   imageUri,
-  url,
   name,
   price,
   discount,
   fixedPrice,
-  onClick = () => {},
-  onCartClick = () => {},
+  slug,
 }: ProductProps) => {
   const classes = useStyles();
+  const router = useRouter();
+
+  const onItemClick = () => {
+    router.push(`/product/${slug}`);
+  };
+
   return (
     <Fade in>
       <div className={classes.root}>
         <IconButton className={classes.addToCartBtn}>
           <AddShoppingCart />
         </IconButton>
-        <Button classes={{ root: classes.body }}>
+        <Button classes={{ root: classes.body }} onClick={onItemClick}>
           <div className={classes.imgW}>
             <Image
               src={imageUri}

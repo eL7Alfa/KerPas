@@ -4,7 +4,7 @@ import useStyles from './styles';
 import Product, { ProductProps } from '../Product';
 import React, { Fragment } from 'react';
 
-type ProductsProps = {
+type ProductsPropsTypes = {
   name: string;
   data: ProductProps[];
   onShowMoreBtnClicked: () => void;
@@ -18,7 +18,7 @@ const Products = ({
   onShowMoreBtnClicked,
   isLoading,
   isLastProductReached,
-}: ProductsProps) => {
+}: ProductsPropsTypes) => {
   const classes = useStyles();
 
   if (data.length === 0) {
@@ -33,14 +33,7 @@ const Products = ({
       <Grid container className={classes.itemsW} spacing={2} px={1}>
         {data.map((d, key) => (
           <Grid key={key} item xs={6} sm={3} md={2} lg={2}>
-            <Product
-              imageUri={d.imageUri}
-              name={d.name}
-              price={d.price}
-              discount={d.discount}
-              fixedPrice={d.fixedPrice}
-              url={d.url}
-            />
+            <Product {...d} />
           </Grid>
         ))}
       </Grid>
