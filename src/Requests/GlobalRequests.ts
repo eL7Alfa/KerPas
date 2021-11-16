@@ -41,25 +41,32 @@ export type useGetProductParamTypes = {
 };
 
 export const useGetProduct = ({ slug }: useGetProductParamTypes) => {
-  const [product, setProduct] = useState<ProductTypes>({
+  const initialProduct = {
     discount: 0,
     fixedPrice: 0,
     imageUri: '',
     name: '',
     price: 0,
     slug: '',
-  });
+  };
+  const [product, setProduct] = useState<ProductTypes>(initialProduct);
   const [isGetProductLoading, setIsGetProductLoading] = useState(false);
 
   useEffect(() => {
-    axios()
-      .get(`/product/${slug}`)
-      .then(({ data: { response, result } }) => {
-        if (response === 200 && result.length) {
-          setProduct(result[0]);
-        }
-      })
-      .finally(() => setIsGetProductLoading(false));
+    if (slug) {
+      axios()
+        .get(`/product/${slug}`)
+        .then(({ data: { response, result } }) => {
+          if (response === 200 && result.length) {
+            setProduct(newProducts(result)[0]);
+          }
+        })
+        .catch(() => setProduct(initialProduct))
+        .finally(() => setIsGetProductLoading(false));
+    } else {
+      setProduct(initialProduct);
+      setIsGetProductLoading(false);
+    }
   }, [slug]);
 
   return { product, setProduct, isGetProductLoading, setIsGetProductLoading };
