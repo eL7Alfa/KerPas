@@ -167,7 +167,7 @@ export const useGetSuppliers = ({
   const [isSuppliersLoading, setIsSuppliersLoading] = useState<boolean>(true);
   useEffect(() => {
     if (marketCode) {
-      let data: { limit?: number; marketId: string; subCategory?: string } = {
+      let data: { limit?: number; marketId: string; subcategory?: string } = {
         limit: limit ?? 12,
         marketId: marketCode,
       };
@@ -177,7 +177,7 @@ export const useGetSuppliers = ({
         data = {
           limit: limit ?? 12,
           marketId: marketCode,
-          subCategory,
+          subcategory: subCategory,
         };
       }
       axios()
