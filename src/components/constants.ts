@@ -38,6 +38,15 @@ export type ProductParamsTypes = {
   ndiscount: number;
   min_price: number;
   cslug: string;
+  mitra?: any;
+  csku?: string;
+  cnama_kategori?: string;
+  ckelas?: string;
+  cnama_kelas?: string;
+  nberat?: number;
+  cdeskripsi?: string;
+  csatuan?: string;
+  cmerk?: string;
 };
 
 export type ProductTypes = {
@@ -47,6 +56,15 @@ export type ProductTypes = {
   discount: number;
   fixedPrice: number;
   slug: string;
+  market?: any;
+  sku?: string;
+  category?: string;
+  classCode?: string;
+  class?: string;
+  weight?: number;
+  description?: string;
+  unit?: string;
+  brand?: string;
 };
 
 export interface newProductsTypes<T = ProductParamsTypes[]> {
@@ -62,6 +80,15 @@ export const newProducts: newProductsTypes = data =>
       ndiscount = 0,
       min_price = 0,
       cslug,
+      mitra,
+      csku,
+      cnama_kategori,
+      ckelas,
+      cnama_kelas,
+      nberat,
+      cdeskripsi,
+      csatuan,
+      cmerk,
     }) => {
       return {
         name: cnama_produk,
@@ -70,6 +97,15 @@ export const newProducts: newProductsTypes = data =>
         discount: ndiscount,
         fixedPrice: min_price,
         slug: cslug,
+        market: mitra,
+        sku: csku,
+        category: cnama_kategori,
+        class: cnama_kelas,
+        classCode: ckelas,
+        weight: nberat,
+        description: `<div>${cdeskripsi}</div>`,
+        unit: csatuan,
+        brand: cmerk,
       };
     },
   );
