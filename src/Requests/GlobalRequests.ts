@@ -41,15 +41,23 @@ export type useGetProductParamTypes = {
 };
 
 export const useGetProduct = ({ slug }: useGetProductParamTypes) => {
-  const initialProduct = {
+  const initialProduct: ProductTypes = {
     discount: 0,
     fixedPrice: 0,
     imageUri: '',
     name: '',
     price: 0,
     slug: '',
+    market: {},
+    sku: '',
+    category: '',
+    class: '',
+    weight: 0,
+    description: '',
+    unit: '',
+    brand: '',
   };
-  const [product, setProduct] = useState<ProductTypes>(initialProduct);
+  const [product, setProduct] = useState(initialProduct);
   const [isGetProductLoading, setIsGetProductLoading] = useState(false);
 
   useEffect(() => {
@@ -146,22 +154,34 @@ export const useGetProducts = ({
 export type useGetSuppliersTypes = {
   marketCode: string;
   limit?: number;
+  subCategory?: string;
 };
 
 export const useGetSuppliers = ({
   marketCode,
   limit,
+  subCategory,
 }: useGetSuppliersTypes) => {
   const [suppliers, setSuppliers] = useState<SupplierTypes[]>([]);
   const [lastSuppliersPage, setLastSuppliersPage] = useState<number>(0);
   const [isSuppliersLoading, setIsSuppliersLoading] = useState<boolean>(true);
   useEffect(() => {
     if (marketCode) {
-      axios()
-        .post('/market/supplier', {
+      let data: { limit?: number; marketId: string; subCategory?: string } = {
+        limit: limit ?? 12,
+        marketId: marketCode,
+      };
+      let path = '/market/supplier';
+      if (subCategory) {
+        path = '/market/supplier/class';
+        data = {
           limit: limit ?? 12,
           marketId: marketCode,
-        })
+          subCategory,
+        };
+      }
+      axios()
+        .post(path, data)
         .then(({ data }) => {
           if (data.response === 200 && data && !data.error) {
             const { data: rSuppliers } = data.result;
@@ -183,7 +203,7 @@ export const useGetSuppliers = ({
       setLastSuppliersPage(0);
       setIsSuppliersLoading(false);
     }
-  }, [marketCode]);
+  }, [marketCode, subCategory]);
   return {
     suppliers,
     setSuppliers,
