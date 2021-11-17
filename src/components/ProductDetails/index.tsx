@@ -112,6 +112,10 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     setNearestMarket(appState.nearestMarket);
   }, [appState.nearestMarket]);
 
+  if (!nearestMarket.id) {
+    return <Fragment />;
+  }
+
   return (
     <Fragment>
       <div className={classes.detailsW}>
