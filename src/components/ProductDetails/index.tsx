@@ -16,8 +16,10 @@ import MarketDetails from '../Items/MarketDetails';
 import {
   setAddToCartModalR,
   setMarketDetailsModalR,
+  setMyAddressesOpenR,
 } from '../../redux/actions/appRActions';
 import AddToCart from '../Items/AddToCart';
+import { setAuthModalOpenR } from '../../redux/actions/authRActions';
 
 export type ProductDetailsPropsTypes = {
   product: ProductTypes;
@@ -26,7 +28,7 @@ export type ProductDetailsPropsTypes = {
 const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { appState } = useSelector((state: rootReducerI) => state);
+  const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<NearestMarketTypes>({
     calamat_toko: '',
     cdeskripsi: '',
@@ -92,7 +94,16 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
   };
 
   const onAddToCartBtnClicked = () => {
+    if (!authState.userData.id) {
+      dispatch(setAuthModalOpenR(true));
+      return;
+    }
+    if (!Object.keys(appState.selectedAddress).length) {
+      dispatch(setMyAddressesOpenR(true));
+      return;
+    }
     dispatch(setAddToCartModalR({ open: true, ...product }));
+    return;
   };
 
   useEffect(() => {
