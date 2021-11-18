@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../redux/reducers';
 import { NearestMarketTypes } from '../../redux/defaultStateR/appDefStateR';
 import Products from '../Items/Products';
+import toRupiah from '../../modules/toRupiah';
 
 export type ProductDetailsPropsTypes = {
   product: ProductTypes;
@@ -151,6 +152,31 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                   {product.market.cnama_mitra}
                 </Typography>
               </ButtonBase>
+            </div>
+            <Divider />
+            <div className={classes.sBPriceW}>
+              <Typography
+                variant={'h6'}
+                fontWeight={800}
+                className={classes.sBPFixedPrice}>
+                {toRupiah(product.fixedPrice)}
+              </Typography>
+              {product.discount > 0 && (
+                <div className={classes.sBProductDiscountW}>
+                  <Typography
+                    variant={'h6'}
+                    fontWeight={500}
+                    className={classes.sBPrice}>
+                    {toRupiah(product.price)}
+                  </Typography>
+                  <Typography
+                    variant={'h6'}
+                    fontWeight={500}
+                    className={classes.sBDiscount}>
+                    {`${product.discount}%`}
+                  </Typography>
+                </div>
+              )}
             </div>
             <Divider />
             <div className={classes.sBBody}>

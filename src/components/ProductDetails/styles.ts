@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
+import { red } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,6 +61,42 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     sBMarketName: {
       color: '#424242',
+    },
+    sBPriceW: {
+      display: 'flex',
+      flexDirection: 'row',
+      padding: `${theme.spacing(1)} 0`,
+      marginTop: theme.spacing(2),
+    },
+    sBPFixedPrice: {
+      color: '#424242',
+      padding: `0 ${theme.spacing(2)}`,
+      backgroundColor: 'rgba(0,0,0,0.05)',
+      width: 'fit-content',
+      borderRadius: theme.spacing(2),
+    },
+    sBProductDiscountW: {
+      color: '#424242',
+      marginLeft: theme.spacing(1),
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    sBPrice: {
+      color: '#424242',
+      fontWeight: 'normal',
+      fontSize: 14,
+      textDecorationLine: 'line-through',
+    },
+    sBDiscount: {
+      marginLeft: theme.spacing(1),
+      color: red[500],
+      backgroundColor: 'rgba(255,0,0,0.1)',
+      borderRadius: theme.spacing(1),
+      padding: `0 ${theme.spacing(1)}`,
+      fontWeight: 800,
+      fontSize: 14,
+      height: 'fit-content',
+      width: 'fit-content',
     },
     sBBody: {
       padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
