@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center',
-      backgroundColor: 'rgba(0,0,0,0.1)',
+      backgroundColor: alpha(theme.palette.primary.main, 0.15),
       padding: theme.spacing(4),
       borderRadius: theme.spacing(2),
       marginLeft: theme.spacing(1),
@@ -154,6 +155,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.primary.main,
       borderRadius: theme.spacing(1),
       boxShadow: '0 5px 5px -2px rgba(0,0,0,0.15)',
+      fontWeight: 800,
       '&:hover': {
         backgroundColor: theme.palette.primary.main,
         boxShadow: '0 10px 15px -5px rgba(0,0,0,0.3)',
