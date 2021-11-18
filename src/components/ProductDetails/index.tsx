@@ -13,7 +13,11 @@ import { NearestMarketTypes } from '../../redux/defaultStateR/appDefStateR';
 import Products from '../Items/Products';
 import toRupiah from '../../modules/toRupiah';
 import MarketDetails from '../Items/MarketDetails';
-import { setMarketDetailsModalR } from '../../redux/actions/appRActions';
+import {
+  setAddToCartModalR,
+  setMarketDetailsModalR,
+} from '../../redux/actions/appRActions';
+import AddToCart from '../Items/AddToCart';
 
 export type ProductDetailsPropsTypes = {
   product: ProductTypes;
@@ -87,6 +91,10 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     );
   };
 
+  const onAddToCartBtnClicked = () => {
+    dispatch(setAddToCartModalR({ open: true, ...product }));
+  };
+
   useEffect(() => {
     setNearestMarket(appState.nearestMarket);
   }, [appState.nearestMarket]);
@@ -143,22 +151,23 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                 className={classes.sBPFixedPrice}>
                 {toRupiah(product.fixedPrice)}
               </Typography>
-              {product.discount > 0 && (
-                <div className={classes.sBProductDiscountW}>
-                  <Typography
-                    variant={'h6'}
-                    fontWeight={500}
-                    className={classes.sBPrice}>
-                    {toRupiah(product.price)}
-                  </Typography>
-                  <Typography
-                    variant={'h6'}
-                    fontWeight={500}
-                    className={classes.sBDiscount}>
-                    {`${product.discount}%`}
-                  </Typography>
-                </div>
-              )}
+              {product.variants?.length &&
+                product.variants[0].data[0].ndiscount > 0 && (
+                  <div className={classes.sBProductDiscountW}>
+                    <Typography
+                      variant={'h6'}
+                      fontWeight={500}
+                      className={classes.sBPrice}>
+                      {toRupiah(product.variants[0].data[0].nretail_price)}
+                    </Typography>
+                    <Typography
+                      variant={'h6'}
+                      fontWeight={500}
+                      className={classes.sBDiscount}>
+                      {`${product.variants[0].data[0].ndiscount}%`}
+                    </Typography>
+                  </div>
+                )}
             </div>
             <Divider />
             <div className={classes.sBBody}>
@@ -197,7 +206,10 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
               />
             </div>
             <div className={classes.sBFooter}>
-              <Button variant={'outlined'} className={classes.sBAddToCartBtn}>
+              <Button
+                variant={'outlined'}
+                className={classes.sBAddToCartBtn}
+                onClick={onAddToCartBtnClicked}>
                 TAMBAH <AddShoppingCart />
               </Button>
               <Button variant={'contained'} className={classes.sBBuyNowBtn}>
@@ -215,6 +227,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
         isLastProductReached={currentProductsPage + 1 > lastProductsPage}
       />
       <MarketDetails />
+      <AddToCart />
     </Fragment>
   );
 };

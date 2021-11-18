@@ -48,6 +48,7 @@ export type ProductParamsTypes = {
   cdeskripsi?: string;
   csatuan?: string;
   cmerk?: string;
+  variasi?: any[];
 };
 
 export type ProductTypes = {
@@ -67,6 +68,7 @@ export type ProductTypes = {
   description?: string;
   unit?: string;
   brand?: string;
+  variants?: any[];
 };
 
 export interface newProductsTypes<T = ProductParamsTypes[]> {
@@ -92,6 +94,7 @@ export const newProducts: newProductsTypes = data =>
       cdeskripsi,
       csatuan,
       cmerk,
+      variasi,
     }) => {
       return {
         name: cnama_produk,
@@ -110,6 +113,7 @@ export const newProducts: newProductsTypes = data =>
         description: `<div>${cdeskripsi}</div>`,
         unit: csatuan,
         brand: cmerk,
+        variants: variasi,
       };
     },
   );

@@ -1,4 +1,5 @@
 import {
+  setAddToCartModalT,
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
@@ -36,6 +37,15 @@ export const setMarketDetailsModalR = (
 ) => {
   return {
     type: setMarketDetailsModalT,
+    payload,
+  };
+};
+
+export const setAddToCartModalR = (
+  payload: appDefStateRT['addToCartModal'],
+) => {
+  return {
+    type: setAddToCartModalT,
     payload,
   };
 };

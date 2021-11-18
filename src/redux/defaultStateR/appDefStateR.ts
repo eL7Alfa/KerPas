@@ -1,3 +1,5 @@
+import { ProductTypes } from '../../components/constants';
+
 export type NearestMarketTypes = {
   id?: number;
   ckode_mitra: string;
@@ -8,6 +10,10 @@ export type NearestMarketTypes = {
   cfoto: string;
   cdeskripsi: string;
 };
+
+export interface addToCartModal extends ProductTypes {
+  open: boolean;
+}
 
 export type appDefStateRT = {
   selectedAddress: { [key: string]: any };
@@ -22,6 +28,7 @@ export type appDefStateRT = {
     location: string;
     description: string;
   };
+  addToCartModal: addToCartModal;
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -45,5 +52,24 @@ export const appDefStateR: appDefStateRT = {
     marketImg: '',
     marketName: '',
     description: '',
+  },
+  addToCartModal: {
+    open: false,
+    discount: 0,
+    classCode: '',
+    class: '',
+    market: {},
+    name: '',
+    price: 0,
+    fixedPrice: 0,
+    unit: '',
+    weight: 0,
+    category: '',
+    imageUri: '',
+    imagesUri: [],
+    description: '',
+    sku: '',
+    brand: '',
+    slug: '',
   },
 };

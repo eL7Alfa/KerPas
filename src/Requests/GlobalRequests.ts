@@ -58,6 +58,7 @@ export const useGetProduct = ({ slug }: useGetProductParamTypes) => {
     description: '',
     unit: '',
     brand: '',
+    classCode: '',
   };
   const [product, setProduct] = useState(initialProduct);
   const [isGetProductLoading, setIsGetProductLoading] = useState(false);
@@ -335,6 +336,7 @@ export const useGetSpecificSupplier = (supplierId?: number) => {
     marketName: '',
     name: '',
     supplierId: 0,
+    supplierCode: '',
     categories: [],
   };
 
