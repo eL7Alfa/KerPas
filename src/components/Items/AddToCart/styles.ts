@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: 'hidden',
       width: 100,
       height: 100,
+      boxShadow: '0 10px 10px -5px rgba(0,0,0,0.15)',
     },
     productInfoDetails: {
       paddingLeft: theme.spacing(1),
@@ -119,6 +121,42 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     dVPWItemsW: {
       padding: `0 ${theme.spacing(2)}`,
+    },
+    qtyOptionsW: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: theme.spacing(1),
+      padding: `0 ${theme.spacing(4)}`,
+    },
+    totalPrice: {
+      marginLeft: 'auto',
+      fontSize: 18,
+      fontWeight: 800,
+      padding: `0 ${theme.spacing(1)}`,
+    },
+    qtyOptionsC: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: 'fit-content',
+      borderRadius: theme.spacing(5),
+      backgroundColor: alpha(theme.palette.tertiary.main, 0.3),
+      padding: theme.spacing(0.8),
+    },
+    qtyOptionsText: {
+      fontWeight: 800,
+      padding: `0 ${theme.spacing(2)}`,
+      fontSize: 18,
+      color: '#424242',
+    },
+    qtyOptionsBtn: {
+      color: '#ffffff',
+      padding: theme.spacing(0.5),
+      backgroundColor: theme.palette.tertiary.main,
+      '&:hover': {
+        backgroundColor: theme.palette.tertiary.main,
+      },
     },
     footer: {
       display: 'flex',

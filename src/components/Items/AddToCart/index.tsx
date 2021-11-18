@@ -24,7 +24,7 @@ import { useGetSuppliers } from '../../../Requests/GlobalRequests';
 import { SupplierPropsTypes } from '../Supplier';
 import Image from 'next/image';
 import toRupiah from '../../../modules/toRupiah';
-import { AddShoppingCart, Close } from '@mui/icons-material';
+import { Add, AddShoppingCart, Close, Remove } from '@mui/icons-material';
 import { setAuthModalOpenR } from '../../../redux/actions/authRActions';
 import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
@@ -63,6 +63,17 @@ const AddToCart = () => {
     setFixedPrice(variant.ndiscount_price);
     setPrice(variant.nretail_price);
     setDiscount(variant.ndiscount);
+  };
+
+  const onQtyOptionsBtnClick = (mode: string) => () => {
+    switch (mode) {
+      case 'reduce': {
+        qty > 1 && setQty(prevQty => prevQty - 1);
+        break;
+      }
+      default:
+        qty < 5 && setQty(prevQty => prevQty + 1);
+    }
   };
 
   const onAddToCartBtnClicked = () => {
@@ -150,6 +161,20 @@ const AddToCart = () => {
                 key: new Date().getTime(),
               },
             ]);
+            setTimeout(() => {
+              onSnackbarClose();
+              dispatch(
+                setAddToCartModalR({
+                  discount: 0,
+                  fixedPrice: 0,
+                  imageUri: '',
+                  name: '',
+                  price: 0,
+                  slug: '',
+                  open: false,
+                }),
+              );
+            }, 1500);
           })
           .finally(() => setIsAddingToCart(false));
       })
@@ -157,6 +182,7 @@ const AddToCart = () => {
   };
 
   const onClose = () => {
+    onSnackbarClose();
     dispatch(
       setAddToCartModalR({
         open: false,
@@ -176,6 +202,7 @@ const AddToCart = () => {
     setProduct(product);
     setSelectedVariant(null);
     setActiveSupplierCode('');
+    setQty(1);
   }, [appState.addToCartModal.open]);
 
   useEffect(() => {
@@ -313,6 +340,28 @@ const AddToCart = () => {
             ) : (
               <Fragment />
             )}
+            <div className={classes.qtyOptionsW}>
+              <Typography variant={'body1'} className={classes.totalPrice}>
+                {toRupiah(fixedPrice * qty)}
+              </Typography>
+              <div className={classes.qtyOptionsC}>
+                <IconButton
+                  className={classes.qtyOptionsBtn}
+                  onClick={onQtyOptionsBtnClick('reduce')}>
+                  <Remove />
+                </IconButton>
+                <Typography
+                  variant={'body1'}
+                  className={classes.qtyOptionsText}>
+                  {qty}
+                </Typography>
+                <IconButton
+                  className={classes.qtyOptionsBtn}
+                  onClick={onQtyOptionsBtnClick('add')}>
+                  <Add />
+                </IconButton>
+              </div>
+            </div>
           </div>
           <div className={classes.footer}>
             <LoadingButton
