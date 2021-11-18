@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: '0 40px 25px -20px rgba(0,0,0,0.15)',
       padding: theme.spacing(2),
       minWidth: 500,
+      [theme.breakpoints.up('lg')]: {
+        maxWidth: 500,
+      },
       borderRadius: theme.spacing(2),
       minHeight: 550,
     },
@@ -97,7 +100,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(1),
       color: red[500],
       backgroundColor: 'rgba(255,0,0,0.1)',
-      borderRadius: theme.spacing(0.5),
       padding: `0 ${theme.spacing(1)}`,
       fontWeight: 800,
       fontSize: 14,
