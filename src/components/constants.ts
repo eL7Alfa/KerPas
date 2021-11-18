@@ -34,6 +34,7 @@ export const getDistanceMatrix = async ({
 export type ProductParamsTypes = {
   cnama_produk: string;
   cimg_top: string;
+  cimg?: string[];
   nretail_price: number;
   ndiscount: number;
   min_price: number;
@@ -52,6 +53,7 @@ export type ProductParamsTypes = {
 export type ProductTypes = {
   name: string;
   imageUri: string;
+  imagesUri?: string[];
   price: number;
   discount: number;
   fixedPrice: number;
@@ -76,6 +78,7 @@ export const newProducts: newProductsTypes = data =>
     ({
       cnama_produk = '',
       cimg_top = '',
+      cimg,
       nretail_price = 0,
       ndiscount = 0,
       min_price = 0,
@@ -93,6 +96,7 @@ export const newProducts: newProductsTypes = data =>
       return {
         name: cnama_produk,
         imageUri: `${productImgUrl}/${cimg_top}`,
+        imagesUri: cimg?.map(ci => `${productImgUrl}/${ci}`),
         price: nretail_price,
         discount: ndiscount,
         fixedPrice: min_price,

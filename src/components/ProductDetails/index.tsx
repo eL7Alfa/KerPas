@@ -120,10 +120,10 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     <Fragment>
       <div className={classes.detailsW}>
         <div className={classes.sectionA}>
-          {product.imageUri && (
+          {product.imagesUri?.length && (
             <div className={classes.imgC}>
               <Image
-                src={product.imageUri}
+                src={product.imagesUri[0]}
                 placeholder={'blur'}
                 blurDataURL={product.imageUri}
                 alt={product.name}

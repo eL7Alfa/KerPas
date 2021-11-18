@@ -45,6 +45,7 @@ export const useGetProduct = ({ slug }: useGetProductParamTypes) => {
     discount: 0,
     fixedPrice: 0,
     imageUri: '',
+    imagesUri: [],
     name: '',
     price: 0,
     slug: '',
