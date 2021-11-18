@@ -73,15 +73,7 @@ const Suppliers = ({ data }: SuppliersProps) => {
       <div className={classes.itemsW} ref={listW}>
         {data.map((d, key) => (
           <div key={key} className={classes.supplierW}>
-            <Supplier
-              imageUri={d.imageUri}
-              name={d.name}
-              marketName={d.marketName}
-              block={d.block}
-              location={d.location}
-              supplierId={d.supplierId}
-              categories={d.categories}
-            />
+            <Supplier {...d} />
           </div>
         ))}
       </div>
