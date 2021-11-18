@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import {
   Box,
-  Button,
   Divider,
   FormControlLabel,
   Grid,
+  IconButton,
   Modal,
   Paper,
   Radio,
@@ -14,34 +14,44 @@ import {
 import useStyles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
-import { setAddToCartModalR } from '../../../redux/actions/appRActions';
+import {
+  setAddToCartModalR,
+  setMyAddressesOpenR,
+} from '../../../redux/actions/appRActions';
 import SelectSupplier from '../SelectSupplier';
-import { ProductTypes } from '../../constants';
+import { ProductTypes, useSnackbarConst } from '../../constants';
 import { useGetSuppliers } from '../../../Requests/GlobalRequests';
 import { SupplierPropsTypes } from '../Supplier';
 import Image from 'next/image';
 import toRupiah from '../../../modules/toRupiah';
-import { AddShoppingCart } from '@mui/icons-material';
+import { AddShoppingCart, Close } from '@mui/icons-material';
+import { setAuthModalOpenR } from '../../../redux/actions/authRActions';
+import axios from '../../../config/axios';
+import Snackbar from '../../../smallComponents/Snackbar';
+import { LoadingButton } from '@mui/lab';
 
 const AddToCart = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { appState } = useSelector((state: rootReducerI) => state);
+  const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [open, setOpen] = useState(false);
   const [activeSupplierCode, setActiveSupplierCode] = useState('');
-  const [data, setData] = useState<ProductTypes | null>();
+  const [product, setProduct] = useState<ProductTypes | null>();
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [selectedDetailVariant, setSelectedDetailVariant] = useState<any>(null);
   const [fixedPrice, setFixedPrice] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
+  const [qty, setQty] = useState<number>(1);
   const { suppliers } = useGetSuppliers({
-    marketCode: data?.market?.ckode_user,
-    category: data?.classCode,
+    marketCode: product?.market?.ckode_user,
+    category: product?.classCode,
   });
+  const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
 
-  const onSelectSupplierChange = (data: SupplierPropsTypes) => () => {
-    setActiveSupplierCode(data.supplierCode);
+  const onSelectSupplierChange = (supplier: SupplierPropsTypes) => () => {
+    setActiveSupplierCode(supplier.supplierCode);
   };
 
   const onVariantChanged = (variant: any) => () => {
@@ -53,6 +63,97 @@ const AddToCart = () => {
     setFixedPrice(variant.ndiscount_price);
     setPrice(variant.nretail_price);
     setDiscount(variant.ndiscount);
+  };
+
+  const onAddToCartBtnClicked = () => {
+    if (!authState.userData.token) {
+      dispatch(setAuthModalOpenR(true));
+      return;
+    }
+    if (!Object.keys(appState.selectedAddress).length) {
+      dispatch(setMyAddressesOpenR(true));
+      return;
+    }
+    if (!selectedVariant || !selectedDetailVariant) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih variasi terlebih dahulu.',
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
+    if (!activeSupplierCode) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih kios pangan terlebih dahulu.',
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
+    setIsAddingToCart(true);
+    axios(authState.userData.token)
+      .post('/market/cart/check', { kode_user: authState.userData.ckode_user })
+      .then(({ data }) => {
+        if (data.response === 200) {
+          if (product?.market?.ckode_user !== data.result[0]) {
+            setSnackPack(prev => [
+              ...prev,
+              {
+                ...snackbarState,
+                open: true,
+                severity: 'error',
+                msg: 'Pasar berbeda.',
+                key: new Date().getTime(),
+              },
+            ]);
+            return;
+          }
+        }
+        const formData = {
+          kode_user: authState.userData.ckode_user,
+          id_produk: product?.productId?.toString(),
+          sku_produk: product?.productCode,
+          nama_produk: product?.name,
+          qty,
+          hrg_produk: price,
+          berat_produk: product?.weight,
+          cstore: product?.market.ckode_user,
+          cloc: product?.market.cloc,
+          disc_member: 0,
+          disc_produk: selectedDetailVariant.ndiscount,
+          img: product?.imageTop,
+          csupplier: activeSupplierCode,
+          id_variasi: selectedVariant.id_variasi,
+          variasi: selectedVariant.cnama_variasi,
+          id_ukuran: selectedDetailVariant.id_ukuran,
+        };
+        axios(authState.userData.token)
+          .post('/market/cart/add', formData)
+          .then(({ data }) => {
+            setSnackPack(prev => [
+              ...prev,
+              {
+                ...snackbarState,
+                open: true,
+                severity: data.error ? 'error' : 'success',
+                msg: data.result,
+                key: new Date().getTime(),
+              },
+            ]);
+          })
+          .finally(() => setIsAddingToCart(false));
+      })
+      .catch(() => setIsAddingToCart(false));
   };
 
   const onClose = () => {
@@ -70,30 +171,32 @@ const AddToCart = () => {
   };
 
   useEffect(() => {
-    const { open: modalOpen, ...data } = appState.addToCartModal;
+    const { open: modalOpen, ...product } = appState.addToCartModal;
     setOpen(modalOpen);
-    setData(data);
+    setProduct(product);
     setSelectedVariant(null);
     setActiveSupplierCode('');
   }, [appState.addToCartModal.open]);
 
   useEffect(() => {
     if (
-      data &&
-      data.variants?.length &&
-      data.variants[0].cnama_variasi.toUpperCase() === 'NONE'
+      product &&
+      product.variants?.length &&
+      product.variants[0].cnama_variasi.toUpperCase() === 'NONE'
     ) {
-      setFixedPrice(data.variants[0].data[0].ndiscount_price);
-      setPrice(data.variants[0].data[0].nretail_price);
-      setDiscount(data.variants[0].data[0].ndiscount);
+      setFixedPrice(product.variants[0].data[0].ndiscount_price);
+      setPrice(product.variants[0].data[0].nretail_price);
+      setDiscount(product.variants[0].data[0].ndiscount);
+      setSelectedVariant(product.variants[0]);
+      setSelectedDetailVariant(product.variants[0].data[0]);
     } else {
       setFixedPrice(0);
       setPrice(0);
       setDiscount(0);
     }
-  }, [data]);
+  }, [product]);
 
-  if (!data) {
+  if (!product) {
     return <Fragment />;
   }
 
@@ -117,17 +220,17 @@ const AddToCart = () => {
             <div className={classes.productInfoW}>
               <div className={classes.productImgW}>
                 <Image
-                  src={data.imageUri}
-                  alt={data.name}
+                  src={product.imageUri}
+                  alt={product.name}
                   placeholder={'blur'}
                   layout={'fill'}
-                  blurDataURL={data?.imageUri}
+                  blurDataURL={product?.imageUri}
                   objectFit={'cover'}
                 />
               </div>
               <div className={classes.productInfoDetails}>
                 <Typography variant={'body1'} className={classes.pIDName}>
-                  {data.name}
+                  {product.name}
                 </Typography>
                 <div className={classes.pIDPriceW}>
                   <Typography variant={'h6'} className={classes.pIDFixedPrice}>
@@ -152,8 +255,8 @@ const AddToCart = () => {
                 </div>
               </div>
             </div>
-            {data.variants?.length &&
-            data.variants[0].cnama_variasi.toUpperCase() !== 'NONE' ? (
+            {product.variants?.length &&
+            product.variants[0].cnama_variasi.toUpperCase() !== 'NONE' ? (
               <Fragment>
                 <div className={classes.variantPickerW}>
                   <Typography variant={'h6'} className={classes.variantTitle}>
@@ -161,7 +264,7 @@ const AddToCart = () => {
                   </Typography>
                   <div className={classes.vPWItemsW}>
                     <Grid container>
-                      {data.variants?.map((v, key) => (
+                      {product.variants?.map((v, key) => (
                         <Grid key={key} item xs={4}>
                           <RadioGroup
                             row
@@ -212,14 +315,28 @@ const AddToCart = () => {
             )}
           </div>
           <div className={classes.footer}>
-            <Button
+            <LoadingButton
+              loading={isAddingToCart}
               variant={'contained'}
               className={classes.addToCartBtn}
-              onClick={() => {}}>
+              onClick={onAddToCartBtnClicked}>
               TAMBAH KE KERANJANG
               <AddShoppingCart />
-            </Button>
+            </LoadingButton>
           </div>
+          <Snackbar
+            key={snackbarState.key}
+            open={snackbarState.open}
+            msg={snackbarState.msg}
+            severity={snackbarState.severity}
+            onClose={onSnackbarClose}
+            anchorOrigin={snackbarState.anchorOrigin}
+            className={classes.snackbar}
+            autoHideDuration={snackbarState.timeout}
+          />
+          <IconButton className={classes.closeBtn} onClick={onClose}>
+            <Close />
+          </IconButton>
         </Paper>
       </Box>
     </Modal>

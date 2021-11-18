@@ -139,6 +139,16 @@ const useStyles = makeStyles((theme: Theme) =>
         boxShadow: '0 10px 15px -5px rgba(0,0,0,0.3)',
       },
     },
+    snackbar: {
+      position: 'absolute',
+      top: theme.spacing(1),
+      width: '95%',
+    },
+    closeBtn: {
+      position: 'absolute',
+      top: theme.spacing(1),
+      right: theme.spacing(1),
+    },
   }),
 );
 
