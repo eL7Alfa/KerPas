@@ -32,6 +32,8 @@ export const getDistanceMatrix = async ({
 
 // Serialize New Product
 export type ProductParamsTypes = {
+  id?: number;
+  ckode_produk?: string;
   cnama_produk: string;
   cimg_top: string;
   cimg?: string[];
@@ -52,7 +54,10 @@ export type ProductParamsTypes = {
 };
 
 export type ProductTypes = {
+  productId?: number;
+  productCode?: string;
   name: string;
+  imageTop?: string;
   imageUri: string;
   imagesUri?: string[];
   price: number;
@@ -78,6 +83,8 @@ export interface newProductsTypes<T = ProductParamsTypes[]> {
 export const newProducts: newProductsTypes = data =>
   data.map(
     ({
+      id,
+      ckode_produk,
       cnama_produk = '',
       cimg_top = '',
       cimg,
@@ -97,7 +104,10 @@ export const newProducts: newProductsTypes = data =>
       variasi,
     }) => {
       return {
+        productId: id,
+        productCode: ckode_produk,
         name: cnama_produk,
+        imageTop: cimg_top,
         imageUri: `${productImgUrl}/${cimg_top}`,
         imagesUri: cimg?.map(ci => `${productImgUrl}/${ci}`),
         price: nretail_price,
