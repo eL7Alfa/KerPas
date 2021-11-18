@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
 import { SupplierPropsTypes } from '../components/Items/Supplier';
 import { MarketPropsTypes } from '../components/Items/Market';
+import { supplierImgUrl } from '../config/urls';
 
 type getAddressesPropsT = { token: string; userCode: string };
 
@@ -155,13 +156,13 @@ export const useGetProducts = ({
 export type useGetSuppliersTypes = {
   marketCode: string;
   limit?: number;
-  subCategory?: string;
+  category?: string;
 };
 
 export const useGetSuppliers = ({
   marketCode,
   limit,
-  subCategory,
+  category,
 }: useGetSuppliersTypes) => {
   const [suppliers, setSuppliers] = useState<SupplierTypes[]>([]);
   const [lastSuppliersPage, setLastSuppliersPage] = useState<number>(0);
@@ -173,20 +174,49 @@ export const useGetSuppliers = ({
         marketId: marketCode,
       };
       let path = '/market/supplier';
-      if (subCategory) {
+      if (category) {
         path = '/market/supplier/class';
         data = {
-          limit: limit ?? 12,
-          marketId: marketCode,
-          subcategory: subCategory,
+          ...data,
+          subcategory: category,
         };
       }
       axios()
         .post(path, data)
         .then(({ data }) => {
           if (data.response === 200 && data && !data.error) {
-            const { data: rSuppliers } = data.result;
-            setSuppliers(newSuppliers(rSuppliers));
+            if (category) {
+              const { result: rSuppliers } = data;
+              setSuppliers(
+                rSuppliers.map(
+                  (rS: {
+                    id: any;
+                    ckode_supplier: any;
+                    cimg_supplier: any;
+                    calamat_supplier: any;
+                    ckontak_supplier: any;
+                    cnama_supplier: any;
+                    ccategory_supplier: any;
+                  }) => {
+                    return {
+                      supplierId: rS.id,
+                      supplierCode: rS.ckode_supplier,
+                      imageUri: `${supplierImgUrl}/${rS.cimg_supplier}`,
+                      address: rS.calamat_supplier,
+                      contact: rS.ckontak_supplier,
+                      name: rS.cnama_supplier,
+                      marketName: '',
+                      block: '',
+                      location: '',
+                      categories: rS.ccategory_supplier,
+                    };
+                  },
+                ),
+              );
+            } else {
+              const { data: rSuppliers } = data.result;
+              setSuppliers(newSuppliers(rSuppliers));
+            }
           } else {
             setLastSuppliersPage(0);
             setSuppliers([]);
@@ -204,7 +234,7 @@ export const useGetSuppliers = ({
       setLastSuppliersPage(0);
       setIsSuppliersLoading(false);
     }
-  }, [marketCode, subCategory]);
+  }, [marketCode, category]);
   return {
     suppliers,
     setSuppliers,
