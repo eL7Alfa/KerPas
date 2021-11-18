@@ -74,6 +74,7 @@ const AddToCart = () => {
     setOpen(modalOpen);
     setData(data);
     setSelectedVariant(null);
+    setActiveSupplierCode('');
   }, [appState.addToCartModal.open]);
 
   useEffect(() => {
