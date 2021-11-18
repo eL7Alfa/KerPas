@@ -4,21 +4,23 @@ import useStyles from './styles';
 import Image from 'next/image';
 import { Button, ButtonBase, Divider, Paper, Typography } from '@mui/material';
 import { AddShoppingCart, Store } from '@mui/icons-material';
-import SuppliersC from '../Items/Suppliers';
-import { useGetProducts, useGetSuppliers } from '../../Requests/GlobalRequests';
+import { useGetProducts } from '../../Requests/GlobalRequests';
 import axios from '../../config/axios';
-import { supplierImgUrl } from '../../config/urls';
-import { useSelector } from 'react-redux';
+import { marketImgUrl } from '../../config/urls';
+import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../redux/reducers';
 import { NearestMarketTypes } from '../../redux/defaultStateR/appDefStateR';
 import Products from '../Items/Products';
 import toRupiah from '../../modules/toRupiah';
+import MarketDetails from '../Items/MarketDetails';
+import { setMarketDetailsModalR } from '../../redux/actions/appRActions';
 
 export type ProductDetailsPropsTypes = {
   product: ProductTypes;
 };
 
 const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { appState } = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<NearestMarketTypes>({
@@ -30,17 +32,6 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     cnama_mitra: '',
     distance: { text: '', value: 0 },
     id: 0,
-  });
-  const [currentSuppliersPage, setCurrentSuppliersPage] = useState<number>(1);
-  const {
-    suppliers,
-    setSuppliers,
-    isSuppliersLoading,
-    lastSuppliersPage,
-    setIsSuppliersLoading,
-  } = useGetSuppliers({
-    marketCode: nearestMarket.ckode_mitra,
-    subCategory: product.classCode,
   });
   const [currentProductsPage, setCurrentProductsPage] = useState<number>(1);
   const {
@@ -54,38 +45,6 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     productType: 'category',
     categoryId: Number(product.classCode),
   });
-
-  const onShowMoreSuppliersBtnClicked = () => {
-    const nextSuppliersPage = currentSuppliersPage + 1;
-    if (!isSuppliersLoading && nextSuppliersPage <= lastSuppliersPage) {
-      setIsSuppliersLoading(true);
-      axios()
-        .post(`/market/supplier?page=${nextSuppliersPage}`, {
-          limit: 12,
-          marketId: nearestMarket.ckode_mitra,
-        })
-        .then(({ data }) => {
-          const suppliers = data.map(
-            (d: {
-              cnama_supplier: any;
-              cimg_supplier: any;
-              calamat_supplier: any;
-            }) => {
-              return {
-                name: d.cnama_supplier,
-                imageUri: `${supplierImgUrl}/${d.cimg_supplier}`,
-                marketName: d.calamat_supplier,
-                block: 'A1 - B2',
-                location: 'Makassar',
-              };
-            },
-          );
-          setSuppliers(prevSuppliers => [...prevSuppliers, ...suppliers]);
-          setCurrentSuppliersPage(nextSuppliersPage);
-        })
-        .finally(() => setIsSuppliersLoading(false));
-    }
-  };
 
   const onShowMoreProductBtnClicked = () => {
     const nextProductPage = currentProductsPage + 1;
@@ -107,6 +66,25 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
         })
         .finally(() => setIsProductsLoading(false));
     }
+  };
+
+  const onMarketClicked = () => {
+    axios()
+      .get(`/market/get/${product.market.ckode_user}`)
+      .then(({ data }) => {
+        console.log(data);
+      });
+    dispatch(
+      setMarketDetailsModalR({
+        open: true,
+        marketImg: `${marketImgUrl}/${product.market.cfoto}`,
+        marketName: product.market.cnama_mitra,
+        address: '',
+        distance: { text: '', value: 0 },
+        location: product.market.ckota,
+        description: product.market.description,
+      }),
+    );
   };
 
   useEffect(() => {
@@ -143,7 +121,9 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                 className={classes.sBProductName}>
                 {product.name}
               </Typography>
-              <ButtonBase className={classes.sBMarketNameW}>
+              <ButtonBase
+                className={classes.sBMarketNameW}
+                onClick={onMarketClicked}>
                 <Store className={classes.sBMarketIcon} />
                 <Typography
                   variant={'h6'}
@@ -225,13 +205,6 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
           </Paper>
         </div>
       </div>
-      <SuppliersC
-        name={`Kios Pangan ${product.class}`}
-        data={suppliers}
-        onShowMoreBtnClicked={onShowMoreSuppliersBtnClicked}
-        isLoading={isSuppliersLoading}
-        isLastPageReached={currentSuppliersPage + 1 > lastSuppliersPage}
-      />
       <Products
         name={`${product.class} Lainnya`}
         data={products}
@@ -239,6 +212,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
         isLoading={isProductsLoading}
         isLastProductReached={currentProductsPage + 1 > lastProductsPage}
       />
+      <MarketDetails />
     </Fragment>
   );
 };
