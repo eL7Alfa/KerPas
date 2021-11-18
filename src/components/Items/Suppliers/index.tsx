@@ -33,15 +33,7 @@ const Suppliers = ({
       <Grid container className={classes.itemsW} spacing={2} px={1}>
         {data.map((d, key) => (
           <Grid key={key} item xs={6} sm={3} md={2} lg={2}>
-            <Supplier
-              supplierId={d.supplierId}
-              imageUri={d.imageUri}
-              name={d.name}
-              marketName={d.marketName}
-              block={d.block}
-              location={d.location}
-              categories={d.categories}
-            />
+            <Supplier {...d} />
           </Grid>
         ))}
       </Grid>
