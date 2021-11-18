@@ -91,7 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(1),
       color: red[500],
       backgroundColor: 'rgba(255,0,0,0.1)',
-      borderRadius: theme.spacing(1),
+      borderRadius: theme.spacing(0.5),
       padding: `0 ${theme.spacing(1)}`,
       fontWeight: 800,
       fontSize: 14,
