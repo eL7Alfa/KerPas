@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     sBProductName: {
       color: '#424242',
+      fontSize: theme.typography.body1.fontSize,
     },
     sBMarketNameW: {
       display: 'flex',
@@ -57,27 +58,31 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     sBMarketIcon: {
       color: theme.palette.primary.main,
-      fontSize: 30,
+      fontSize: theme.typography.h6.fontSize,
     },
     sBMarketName: {
       color: '#424242',
+      fontSize: theme.typography.body1.fontSize,
     },
     sBPriceW: {
       display: 'flex',
       flexDirection: 'row',
       padding: `${theme.spacing(1)} 0`,
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(1),
     },
     sBPFixedPrice: {
       color: '#424242',
-      padding: `0 ${theme.spacing(2)}`,
-      backgroundColor: 'rgba(0,0,0,0.05)',
       width: 'fit-content',
-      borderRadius: theme.spacing(2),
     },
     sBProductDiscountW: {
+      backgroundColor: 'rgba(0,0,0,0.05)',
+      paddingLeft: `${theme.spacing(2)}`,
+      height: 'fit-content',
+      borderRadius: theme.spacing(2),
+      marginTop: theme.spacing(-0.5),
       color: '#424242',
       marginLeft: theme.spacing(1),
+      overflow: 'hidden',
       display: 'flex',
       flexDirection: 'row',
     },

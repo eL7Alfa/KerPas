@@ -156,7 +156,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
             <Divider />
             <div className={classes.sBPriceW}>
               <Typography
-                variant={'h6'}
+                variant={'h5'}
                 fontWeight={800}
                 className={classes.sBPFixedPrice}>
                 {toRupiah(product.fixedPrice)}
