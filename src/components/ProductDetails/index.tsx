@@ -99,7 +99,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     <Fragment>
       <div className={classes.detailsW}>
         <div className={classes.sectionA}>
-          {product.imagesUri?.length && (
+          {product.imagesUri?.length ? (
             <div className={classes.imgC}>
               <Image
                 src={product.imagesUri[0]}
@@ -110,6 +110,8 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                 objectFit={'cover'}
               />
             </div>
+          ) : (
+            <Fragment />
           )}
         </div>
         <div className={classes.sectionB}>
