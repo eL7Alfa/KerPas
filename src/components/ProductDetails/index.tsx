@@ -3,7 +3,7 @@ import { newProducts, ProductTypes } from '../constants';
 import useStyles from './styles';
 import Image from 'next/image';
 import { Button, ButtonBase, Divider, Paper, Typography } from '@mui/material';
-import { Store } from '@mui/icons-material';
+import { AddShoppingCart, Store } from '@mui/icons-material';
 import SuppliersC from '../Items/Suppliers';
 import { useGetProducts, useGetSuppliers } from '../../Requests/GlobalRequests';
 import axios from '../../config/axios';
@@ -189,8 +189,11 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
               />
             </div>
             <div className={classes.sBFooter}>
-              <Button variant={'contained'} className={classes.sBAddToCartBtn}>
-                TAMBAH KE KERANJANG
+              <Button variant={'outlined'} className={classes.sBAddToCartBtn}>
+                TAMBAH <AddShoppingCart />
+              </Button>
+              <Button variant={'contained'} className={classes.sBBuyNowBtn}>
+                BELI SEKARANG
               </Button>
             </div>
           </Paper>
