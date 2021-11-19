@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../src/redux/reducers';
 import Products from '../../src/components/Items/Products';
 import Auth from '../../src/components/Items/Auth';
+import AddToCart from '../../src/components/Items/AddToCart';
 
 const Index = () => {
   useInit();
@@ -76,6 +77,7 @@ const Index = () => {
         </Box>
       </Container>
       <Auth />
+      <AddToCart />
     </Fragment>
   );
 };

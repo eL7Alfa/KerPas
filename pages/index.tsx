@@ -3,7 +3,7 @@ import AppHeader from '../src/components/Items/AppHeader';
 import { Box, Container, CssBaseline, Divider } from '@mui/material';
 import Campaign from '../src/components/Home/Campaign';
 import axios from '../src/config/axios';
-import { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import FeaturedServices from '../src/components/Home/FeaturedServices';
 import Categories from '../src/components/Items/Categories';
 import Suppliers from '../src/components/Home/Suppliers';
@@ -25,6 +25,7 @@ import {
   useGetSuppliers,
 } from '../src/Requests/GlobalRequests';
 import MarketDetails from '../src/components/Items/MarketDetails';
+import AddToCart from '../src/components/Items/AddToCart';
 
 export default function Home() {
   useInit();
@@ -115,6 +116,7 @@ export default function Home() {
       </Container>
       <Auth />
       <MarketDetails />
+      <AddToCart />
     </Fragment>
   );
 }

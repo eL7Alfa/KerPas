@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import NearestMarket from '../../src/components/Items/NearestMarket';
-import SuppliersC from '../../src/components/Items/Suppliers';
+import Suppliers from '../../src/components/Items/Suppliers';
 import { useGetSuppliers } from '../../src/Requests/GlobalRequests';
 import axios from '../../src/config/axios';
 import { useInit } from '../../src/components/constants';
@@ -75,7 +75,7 @@ const Index = () => {
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
         <Box py={1} mt={7} mb={8}>
           <NearestMarket />
-          <SuppliersC
+          <Suppliers
             name={'Kios Pangan Kerpas'}
             data={suppliers}
             onShowMoreBtnClicked={onShowMoreBtnClicked}
