@@ -61,7 +61,7 @@ const AddToCart = () => {
       .get('/market/setting')
       .then(({ data }) => {
         const { result } = data;
-        setMaxQty(result.nmargin_item);
+        setMaxQty(result[0].nmargin_item);
       });
   };
 
