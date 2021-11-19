@@ -50,7 +50,7 @@ export type ProductParamsTypes = {
   cdeskripsi?: string;
   csatuan?: string;
   cmerk?: string;
-  variasi?: any[];
+  variasi: any[];
 };
 
 export type ProductTypes = {
@@ -73,7 +73,7 @@ export type ProductTypes = {
   description?: string;
   unit?: string;
   brand?: string;
-  variants?: any[];
+  variants: any[];
 };
 
 export interface newProductsTypes<T = ProductParamsTypes[]> {
@@ -90,7 +90,6 @@ export const newProducts: newProductsTypes = data =>
       cimg,
       nretail_price = 0,
       ndiscount = 0,
-      min_price = 0,
       cslug,
       mitra,
       csku,
@@ -112,7 +111,9 @@ export const newProducts: newProductsTypes = data =>
         imagesUri: cimg?.map(ci => `${productImgUrl}/${ci}`),
         price: nretail_price,
         discount: ndiscount,
-        fixedPrice: min_price,
+        fixedPrice: Math.round(
+          nretail_price - nretail_price * (ndiscount / 100),
+        ),
         slug: cslug,
         market: mitra,
         sku: csku,
@@ -402,6 +403,7 @@ export type CartProductTypes = {
   imageTop?: string;
   imageUri: string;
   price: number;
+  fixedPrice: number;
   discount: number;
   slug: string;
   market?: any;
@@ -444,8 +446,8 @@ export const newCartProducts: newCartProductsTypes = data =>
         imageTop: cimg,
         imageUri: `${productImgUrl}/${cimg}`,
         price: nprice,
+        fixedPrice: Math.round(nprice - nprice * (ndiscount / 100)),
         discount: ndiscount,
-        fixedPrice: nprice * (ndiscount / 100),
         slug: cslug,
         market: mitra,
         sku: csku,
