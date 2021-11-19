@@ -17,6 +17,7 @@ import { rootReducerI } from '../../../redux/reducers';
 import {
   setAddToCartModalR,
   setMyAddressesOpenR,
+  triggerCartUpdateR,
 } from '../../../redux/actions/appRActions';
 import SelectSupplier from '../SelectSupplier';
 import { ProductTypes, useSnackbarConst } from '../../constants';
@@ -181,11 +182,13 @@ const AddToCart = () => {
               },
             ]);
             if (!data.error) {
+              dispatch(triggerCartUpdateR());
               setTimeout(() => {
                 onSnackbarClose();
                 dispatch(
                   setAddToCartModalR({
                     discount: 0,
+                    variants: [],
                     fixedPrice: 0,
                     imageUri: '',
                     name: '',
@@ -206,6 +209,7 @@ const AddToCart = () => {
     onSnackbarClose();
     dispatch(
       setAddToCartModalR({
+        variants: [],
         open: false,
         discount: 0,
         fixedPrice: 0,
