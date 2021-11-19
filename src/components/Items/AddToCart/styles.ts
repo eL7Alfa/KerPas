@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -98,6 +98,10 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 14,
       height: 'fit-content',
       width: 'fit-content',
+    },
+    pIDMaxQty: {
+      fontWeight: 800,
+      color: green[600],
     },
     variantPickerW: {
       display: 'flex',

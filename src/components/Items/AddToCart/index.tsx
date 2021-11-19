@@ -38,11 +38,11 @@ const AddToCart = () => {
   const [activeSupplierCode, setActiveSupplierCode] = useState('');
   const [product, setProduct] = useState<ProductTypes | null>();
   const [selectedVariant, setSelectedVariant] = useState<any>({
-    id_variasi: 0,
+    id_variasi: null,
     data: [],
   });
   const [selectedDetailVariant, setSelectedDetailVariant] = useState<any>({
-    id_ukuran: 0,
+    id_ukuran: null,
   });
   const [fixedPrice, setFixedPrice] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -71,6 +71,10 @@ const AddToCart = () => {
 
   const onVariantChanged = (variant: any) => () => {
     setSelectedVariant(variant);
+    setPrice(0);
+    setFixedPrice(0);
+    setDiscount(0);
+    setSelectedDetailVariant({ id_ukuran: null });
   };
 
   const onDetailVariantChanged = (variant: any) => () => {
@@ -218,11 +222,11 @@ const AddToCart = () => {
     setOpen(modalOpen);
     setProduct(product);
     setSelectedVariant({
-      id_variasi: 0,
+      id_variasi: null,
       data: [],
     });
     setSelectedDetailVariant({
-      id_ukuran: 0,
+      id_ukuran: null,
     });
     setActiveSupplierCode('');
     setQty(1);
@@ -307,6 +311,9 @@ const AddToCart = () => {
                     </div>
                   )}
                 </div>
+                <Typography variant={'body1'} className={classes.pIDMaxQty}>
+                  {`Maximum jumlah pesanan ${maxQty}`}
+                </Typography>
               </div>
             </div>
             {product.variants?.length &&
