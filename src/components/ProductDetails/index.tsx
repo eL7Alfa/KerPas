@@ -160,25 +160,30 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                 variant={'h5'}
                 fontWeight={800}
                 className={classes.sBPFixedPrice}>
-                {toRupiah(product.fixedPrice)}
-              </Typography>
-              {product.variants?.length &&
-                product.variants[0].data[0].ndiscount > 0 && (
-                  <div className={classes.sBProductDiscountW}>
-                    <Typography
-                      variant={'h6'}
-                      fontWeight={500}
-                      className={classes.sBPrice}>
-                      {toRupiah(product.variants[0].data[0].nretail_price)}
-                    </Typography>
-                    <Typography
-                      variant={'h6'}
-                      fontWeight={500}
-                      className={classes.sBDiscount}>
-                      {`${product.variants[0].data[0].ndiscount}%`}
-                    </Typography>
-                  </div>
+                {toRupiah(
+                  Math.round(
+                    product.variants[0].data[0].nretail_price -
+                      product.variants[0].data[0].nretail_price *
+                        (product.variants[0].data[0].ndiscount / 100),
+                  ),
                 )}
+              </Typography>
+              {product.variants[0].data[0].ndiscount > 0 && (
+                <div className={classes.sBProductDiscountW}>
+                  <Typography
+                    variant={'h6'}
+                    fontWeight={500}
+                    className={classes.sBPrice}>
+                    {toRupiah(product.variants[0].data[0].nretail_price)}
+                  </Typography>
+                  <Typography
+                    variant={'h6'}
+                    fontWeight={500}
+                    className={classes.sBDiscount}>
+                    {`${product.variants[0].data[0].ndiscount}%`}
+                  </Typography>
+                </div>
+              )}
             </div>
             <Divider />
             <div className={classes.sBBody}>
@@ -202,9 +207,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
               <div className={classes.sBSubItem}>
                 <Typography variant={'body2'}>Berat</Typography>
                 <Typography
-                  variant={
-                    'body2'
-                  }>{`${product.weight} ${product.unit}`}</Typography>
+                  variant={'body2'}>{`${product.weight}gr`}</Typography>
               </div>
               <Typography variant={'body1'} className={classes.sBSubtitle}>
                 Deskripsi
