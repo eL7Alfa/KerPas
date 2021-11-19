@@ -1,13 +1,14 @@
 import { Button, Grid, Typography } from '@mui/material';
 import useStyles from './styles';
-import Product, { ProductProps } from '../../Items/Product';
+import Product from '../../Items/Product';
 import React, { Fragment } from 'react';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { ProductTypes } from '../../constants';
 
 type ProductsByCategoryProps = {
   category: { id: number; name: string };
-  data: ProductProps[];
+  data: ProductTypes[];
 };
 
 const ProductsByCategory = ({ category, data }: ProductsByCategoryProps) => {

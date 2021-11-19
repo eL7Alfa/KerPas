@@ -6,13 +6,14 @@ import {
   NavigateNext,
 } from '@mui/icons-material';
 import React, { createRef, Fragment, useEffect, useState } from 'react';
-import Product, { ProductProps } from '../../Items/Product';
+import Product from '../../Items/Product';
 import { onNext, onPrev } from '../../../helper/sliderNav';
 import usePrevious from '../../../helper/usePrevious';
 import { useRouter } from 'next/router';
+import { ProductTypes } from '../../constants';
 
 type PromoPropsTypes = {
-  data: ProductProps[];
+  data: ProductTypes[];
 };
 
 const Promo = ({ data }: PromoPropsTypes) => {
