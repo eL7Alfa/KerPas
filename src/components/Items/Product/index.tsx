@@ -4,26 +4,40 @@ import Image from 'next/image';
 import toRupiah from '../../../modules/toRupiah';
 import { AddShoppingCart } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import { setAuthModalOpenR } from '../../../redux/actions/authRActions';
+import {
+  setAddToCartModalR,
+  setMyAddressesOpenR,
+} from '../../../redux/actions/appRActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { rootReducerI } from '../../../redux/reducers';
+import { newProducts, ProductTypes } from '../../constants';
+import axios from '../../../config/axios';
 
-export type ProductProps = {
-  imageUri: string;
-  name: string;
-  price: number;
-  discount: number;
-  fixedPrice: number;
-  slug: string;
-};
-
-const Product = ({
-  imageUri,
-  name,
-  price,
-  discount,
-  fixedPrice,
-  slug,
-}: ProductProps) => {
+const Product = (product: ProductTypes) => {
+  const { imageUri, name, price, discount, fixedPrice, slug } = product;
   const classes = useStyles();
+  const { appState, authState } = useSelector((state: rootReducerI) => state);
+  const dispatch = useDispatch();
   const router = useRouter();
+
+  const onAddToCartBtnClicked = () => {
+    if (!authState.userData.id) {
+      dispatch(setAuthModalOpenR(true));
+      return;
+    }
+    if (!Object.keys(appState.selectedAddress).length) {
+      dispatch(setMyAddressesOpenR(true));
+      return;
+    }
+    axios()
+      .get(`/product/${product.productId}`)
+      .then(({ data }) => {
+        dispatch(
+          setAddToCartModalR({ open: true, ...newProducts(data.result)[0] }),
+        );
+      });
+  };
 
   const onItemClick = () => {
     router.push(`/product/${slug}`);
@@ -32,7 +46,9 @@ const Product = ({
   return (
     <Fade in>
       <div className={classes.root}>
-        <IconButton className={classes.addToCartBtn}>
+        <IconButton
+          className={classes.addToCartBtn}
+          onClick={onAddToCartBtnClicked}>
           <AddShoppingCart />
         </IconButton>
         <Button classes={{ root: classes.body }} onClick={onItemClick}>

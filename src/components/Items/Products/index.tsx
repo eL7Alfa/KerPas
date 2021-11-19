@@ -1,12 +1,13 @@
 import { Grid, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import useStyles from './styles';
-import Product, { ProductProps } from '../Product';
+import Product from '../Product';
 import React, { Fragment } from 'react';
+import { ProductTypes } from '../../constants';
 
 type ProductsPropsTypes = {
   name: string;
-  data: ProductProps[];
+  data: ProductTypes[];
   onShowMoreBtnClicked: () => void;
   isLoading: boolean;
   isLastProductReached: boolean;
