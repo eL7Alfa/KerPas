@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from '../config/axios';
 import {
+  CartProductTypes,
+  newCartProducts,
   newMarkets,
   newProducts,
   newSuppliers,
@@ -41,25 +43,26 @@ export type useGetProductParamTypes = {
   slug: string;
 };
 
+export const initialProduct: ProductTypes = {
+  discount: 0,
+  fixedPrice: 0,
+  imageUri: '',
+  imagesUri: [],
+  name: '',
+  price: 0,
+  slug: '',
+  market: {},
+  sku: '',
+  category: '',
+  class: '',
+  weight: 0,
+  description: '',
+  unit: '',
+  brand: '',
+  classCode: '',
+};
+
 export const useGetProduct = ({ slug }: useGetProductParamTypes) => {
-  const initialProduct: ProductTypes = {
-    discount: 0,
-    fixedPrice: 0,
-    imageUri: '',
-    imagesUri: [],
-    name: '',
-    price: 0,
-    slug: '',
-    market: {},
-    sku: '',
-    category: '',
-    class: '',
-    weight: 0,
-    description: '',
-    unit: '',
-    brand: '',
-    classCode: '',
-  };
   const [product, setProduct] = useState(initialProduct);
   const [isGetProductLoading, setIsGetProductLoading] = useState(false);
 
@@ -370,4 +373,41 @@ export const useGetSpecificSupplier = (supplierId?: number) => {
     }
   }, [supplierId]);
   return { supplier, setSupplier, market, setMarket };
+};
+
+export const useGetCartProducts = () => {
+  const { appState, authState } = useSelector((state: rootReducerI) => state);
+  const [cartProducts, setCartProducts] = useState<CartProductTypes[]>([]);
+  const [isCartProductLoading, setIsCartProductLoading] =
+    useState<boolean>(false);
+  useEffect(() => {
+    setIsCartProductLoading(true);
+    if (authState.userData.token) {
+      axios(authState.userData.token)
+        .post('/market/cart/get', {
+          kode_user: authState.userData.ckode_user,
+        })
+        .then(({ data }) => {
+          if (data.response === 200) {
+            setCartProducts(newCartProducts(data.result));
+          } else {
+            setCartProducts([]);
+          }
+        })
+        .catch(() => {
+          setCartProducts([]);
+        })
+        .finally(() => setIsCartProductLoading(false));
+    } else {
+      setCartProducts([]);
+      setIsCartProductLoading(false);
+    }
+  }, [appState.cartUpdateId, authState.userData.token]);
+
+  return {
+    cartProducts,
+    setCartProducts,
+    isCartProductLoading,
+    setIsCartProductLoading,
+  };
 };

@@ -375,3 +375,86 @@ export const useInit = () => {
       .catch(() => {});
   }, []);
 };
+
+// Serialize New Product
+export type CartProductParamsTypes = {
+  _id?: number;
+  ckode_produk?: string;
+  cnama_produk: string;
+  cimg: string;
+  nprice: number;
+  ndiscount: number;
+  cslug: string;
+  mitra?: any;
+  csku?: string;
+  nberat?: number;
+  csatuan?: string;
+  id_variasi?: number;
+  variasi?: string;
+  id_ukuran?: number;
+  ukuran?: string;
+};
+
+export type CartProductTypes = {
+  cartId?: number;
+  cartCode?: string;
+  name: string;
+  imageTop?: string;
+  imageUri: string;
+  price: number;
+  discount: number;
+  slug: string;
+  market?: any;
+  sku?: string;
+  weight?: number;
+  unit?: string;
+  variantId?: number;
+  variantName?: string;
+  sizeId?: number;
+  size?: string;
+};
+
+export interface newCartProductsTypes<T = CartProductParamsTypes[]> {
+  (data: T): CartProductTypes[];
+}
+
+export const newCartProducts: newCartProductsTypes = data =>
+  data.map(
+    ({
+      _id,
+      ckode_produk,
+      cnama_produk = '',
+      nprice,
+      cimg = '',
+      ndiscount = 0,
+      cslug,
+      mitra,
+      csku,
+      nberat,
+      csatuan,
+      id_variasi,
+      variasi,
+      id_ukuran,
+      ukuran,
+    }) => {
+      return {
+        cartId: _id,
+        cartCode: ckode_produk,
+        name: cnama_produk,
+        imageTop: cimg,
+        imageUri: `${productImgUrl}/${cimg}`,
+        price: nprice,
+        discount: ndiscount,
+        fixedPrice: nprice * (ndiscount / 100),
+        slug: cslug,
+        market: mitra,
+        sku: csku,
+        weight: nberat,
+        unit: csatuan,
+        variantId: id_variasi,
+        variantName: variasi,
+        sizeId: id_ukuran,
+        size: ukuran,
+      };
+    },
+  );
