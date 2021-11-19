@@ -37,18 +37,33 @@ const AddToCart = () => {
   const [open, setOpen] = useState(false);
   const [activeSupplierCode, setActiveSupplierCode] = useState('');
   const [product, setProduct] = useState<ProductTypes | null>();
-  const [selectedVariant, setSelectedVariant] = useState<any>(null);
-  const [selectedDetailVariant, setSelectedDetailVariant] = useState<any>(null);
+  const [selectedVariant, setSelectedVariant] = useState<any>({
+    id_variasi: 0,
+    data: [],
+  });
+  const [selectedDetailVariant, setSelectedDetailVariant] = useState<any>({
+    id_ukuran: 0,
+  });
   const [fixedPrice, setFixedPrice] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
   const [qty, setQty] = useState<number>(1);
+  const [maxQty, setMaxQty] = useState<number>(5);
   const { suppliers } = useGetSuppliers({
     marketCode: product?.market?.ckode_user,
     category: product?.classCode,
   });
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+
+  const getSettings = () => {
+    axios()
+      .get('/market/setting')
+      .then(({ data }) => {
+        const { result } = data;
+        setMaxQty(result.nmargin_item);
+      });
+  };
 
   const onSelectSupplierChange = (supplier: SupplierPropsTypes) => () => {
     setActiveSupplierCode(supplier.supplierCode);
@@ -72,7 +87,7 @@ const AddToCart = () => {
         break;
       }
       default:
-        qty < 5 && setQty(prevQty => prevQty + 1);
+        qty < maxQty && setQty(prevQty => prevQty + 1);
     }
   };
 
@@ -161,20 +176,22 @@ const AddToCart = () => {
                 key: new Date().getTime(),
               },
             ]);
-            setTimeout(() => {
-              onSnackbarClose();
-              dispatch(
-                setAddToCartModalR({
-                  discount: 0,
-                  fixedPrice: 0,
-                  imageUri: '',
-                  name: '',
-                  price: 0,
-                  slug: '',
-                  open: false,
-                }),
-              );
-            }, 1500);
+            if (!data.error) {
+              setTimeout(() => {
+                onSnackbarClose();
+                dispatch(
+                  setAddToCartModalR({
+                    discount: 0,
+                    fixedPrice: 0,
+                    imageUri: '',
+                    name: '',
+                    price: 0,
+                    slug: '',
+                    open: false,
+                  }),
+                );
+              }, 1500);
+            }
           })
           .finally(() => setIsAddingToCart(false));
       })
@@ -200,7 +217,13 @@ const AddToCart = () => {
     const { open: modalOpen, ...product } = appState.addToCartModal;
     setOpen(modalOpen);
     setProduct(product);
-    setSelectedVariant(null);
+    setSelectedVariant({
+      id_variasi: 0,
+      data: [],
+    });
+    setSelectedDetailVariant({
+      id_ukuran: 0,
+    });
     setActiveSupplierCode('');
     setQty(1);
   }, [appState.addToCartModal.open]);
@@ -222,6 +245,10 @@ const AddToCart = () => {
       setDiscount(0);
     }
   }, [product]);
+
+  useEffect(() => {
+    getSettings();
+  }, []);
 
   if (!product) {
     return <Fragment />;
@@ -297,6 +324,7 @@ const AddToCart = () => {
                             row
                             aria-label={'variant'}
                             name={'variant'}
+                            value={selectedVariant?.id_variasi}
                             onChange={onVariantChanged(v)}>
                             <FormControlLabel
                               value={v.id_variasi}
@@ -322,6 +350,7 @@ const AddToCart = () => {
                               row
                               aria-label={'detailVariant'}
                               name={'detailVariant'}
+                              value={selectedDetailVariant?.id_ukuran}
                               onChange={onDetailVariantChanged(v)}>
                               <FormControlLabel
                                 value={v.id_ukuran}
