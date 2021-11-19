@@ -4,7 +4,9 @@ import {
   setMyAddressesOpenT,
   setNearestMarketT,
   setSelectedAddressT,
+  triggerCartUpdateT,
 } from '../Types/AppRTypes';
+import { v4 as uuid } from 'uuid';
 import { appDefStateRT } from '../defaultStateR/appDefStateR';
 
 export const setSelectedAddressR = (
@@ -47,5 +49,12 @@ export const setAddToCartModalR = (
   return {
     type: setAddToCartModalT,
     payload,
+  };
+};
+
+export const triggerCartUpdateR = () => {
+  return {
+    type: triggerCartUpdateT,
+    payload: uuid(),
   };
 };

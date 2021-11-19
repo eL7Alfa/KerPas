@@ -1,4 +1,5 @@
 import { ProductTypes } from '../../components/constants';
+import { v4 as uuid } from 'uuid';
 
 export type NearestMarketTypes = {
   id?: number;
@@ -29,6 +30,7 @@ export type appDefStateRT = {
     description: string;
   };
   addToCartModal: addToCartModal;
+  cartUpdateId: string;
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -72,4 +74,5 @@ export const appDefStateR: appDefStateRT = {
     brand: '',
     slug: '',
   },
+  cartUpdateId: uuid(),
 };
