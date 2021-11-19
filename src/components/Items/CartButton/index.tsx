@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import {
   Avatar,
+  ButtonBase,
+  Divider,
   Grow,
   IconButton,
   ListItem,
@@ -12,6 +14,8 @@ import { ShoppingCart } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import useStyles from './styles';
+import { useGetCartProducts } from '../../../Requests/GlobalRequests';
+import toRupiah from '../../../modules/toRupiah';
 
 type CartButtonPropsType = {
   classes?: { iconButton: string };
@@ -23,6 +27,8 @@ const CartButton = ({
   const classes = useStyles();
   const cartBtnRef = React.useRef<HTMLButtonElement>(null);
   const [cartOpen, setCartOpen] = React.useState(false);
+  const { cartProducts } = useGetCartProducts();
+
   return (
     <Fragment>
       <IconButton
@@ -49,12 +55,37 @@ const CartButton = ({
               onMouseOver={() => setCartOpen(true)}
               onMouseLeave={() => setCartOpen(false)}>
               <Paper className={classes.paperPopCartList}>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>A</Avatar>
-                  </ListItemAvatar>
-                  <Typography>Hello heaven!</Typography>
-                </ListItem>
+                <div className={classes.cMPHeader}>
+                  <div className={classes.cMPHTitleW}>
+                    <ShoppingCart className={classes.cMPHTitleIcon} />
+                    <Typography variant={'h6'} className={classes.cMPHTitle}>
+                      Keranjang
+                    </Typography>
+                  </div>
+                  <ButtonBase className={classes.showAllItemBtn}>
+                    Semua
+                  </ButtonBase>
+                </div>
+                <Divider />
+                {cartProducts.map((cP, key) => (
+                  <ListItem key={key}>
+                    <ListItemAvatar>
+                      <Avatar src={cP.imageUri} />
+                    </ListItemAvatar>
+                    <div>
+                      <Typography
+                        variant={'body2'}
+                        className={classes.cMPItemName}>
+                        {cP.name}
+                      </Typography>
+                      <Typography
+                        variant={'body2'}
+                        className={classes.cMPItemName}>
+                        {toRupiah(cP.fixedPrice)}
+                      </Typography>
+                    </div>
+                  </ListItem>
+                ))}
               </Paper>
             </div>
           </Grow>
