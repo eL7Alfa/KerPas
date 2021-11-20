@@ -105,19 +105,6 @@ const AddToCart = () => {
       dispatch(setMyAddressesOpenR(true));
       return;
     }
-    if (!selectedVariant.id_variasi || !selectedDetailVariant.id_ukuran) {
-      setSnackPack(prev => [
-        ...prev,
-        {
-          ...snackbarState,
-          open: true,
-          severity: 'error',
-          msg: 'Silahkan pilih variasi terlebih dahulu.',
-          key: new Date().getTime(),
-        },
-      ]);
-      return;
-    }
     if (!activeSupplierCode) {
       setSnackPack(prev => [
         ...prev,
@@ -126,6 +113,19 @@ const AddToCart = () => {
           open: true,
           severity: 'error',
           msg: 'Silahkan pilih kios pangan terlebih dahulu.',
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
+    if (!selectedVariant.id_variasi || !selectedDetailVariant.id_ukuran) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih variasi terlebih dahulu.',
           key: new Date().getTime(),
         },
       ]);
