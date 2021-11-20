@@ -1,24 +1,20 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { newProducts, ProductTypes } from '../constants';
+import { ProductTypes } from '../constants';
 import useStyles from './styles';
 import Image from 'next/image';
 import { Button, ButtonBase, Divider, Paper, Typography } from '@mui/material';
 import { AddShoppingCart, Store } from '@mui/icons-material';
-import { useGetProducts } from '../../Requests/GlobalRequests';
 import axios from '../../config/axios';
 import { marketImgUrl } from '../../config/urls';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../redux/reducers';
 import { NearestMarketTypes } from '../../redux/defaultStateR/appDefStateR';
-import Products from '../Items/Products';
 import toRupiah from '../../modules/toRupiah';
-import MarketDetails from '../Items/MarketDetails';
 import {
   setAddToCartModalR,
   setMarketDetailsModalR,
   setMyAddressesOpenR,
 } from '../../redux/actions/appRActions';
-import AddToCart from '../Items/AddToCart';
 import { setAuthModalOpenR } from '../../redux/actions/authRActions';
 
 export type ProductDetailsPropsTypes = {
@@ -39,40 +35,6 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     distance: { text: '', value: 0 },
     id: 0,
   });
-  const [currentProductsPage, setCurrentProductsPage] = useState<number>(1);
-  const {
-    products,
-    setProducts,
-    lastProductsPage,
-    isProductsLoading,
-    setIsProductsLoading,
-  } = useGetProducts({
-    marketCode: nearestMarket.ckode_mitra,
-    productType: 'category',
-    categoryId: Number(product.classCode),
-  });
-
-  const onShowMoreProductBtnClicked = () => {
-    const nextProductPage = currentProductsPage + 1;
-    if (!isProductsLoading && nextProductPage <= lastProductsPage) {
-      setIsProductsLoading(true);
-      axios()
-        .post(`/market/product?page=${nextProductPage}`, {
-          limit: 12,
-          type: 'category',
-          marketId: nearestMarket.ckode_mitra,
-          subcategory: Number(product.classCode),
-        })
-        .then(({ data }) => {
-          setProducts(prevProducts => [
-            ...prevProducts,
-            ...newProducts(data.result.data),
-          ]);
-          setCurrentProductsPage(nextProductPage);
-        })
-        .finally(() => setIsProductsLoading(false));
-    }
-  };
 
   const onMarketClicked = () => {
     axios()
@@ -265,15 +227,6 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
           </Paper>
         </div>
       </div>
-      <Products
-        name={`${product.class} Lainnya`}
-        data={products}
-        onShowMoreBtnClicked={onShowMoreProductBtnClicked}
-        isLoading={isProductsLoading}
-        isLastProductReached={currentProductsPage + 1 > lastProductsPage}
-      />
-      <MarketDetails />
-      <AddToCart />
     </Fragment>
   );
 };
