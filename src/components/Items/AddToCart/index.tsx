@@ -105,7 +105,7 @@ const AddToCart = () => {
       dispatch(setMyAddressesOpenR(true));
       return;
     }
-    if (!selectedVariant || !selectedDetailVariant) {
+    if (!selectedVariant.id_variasi || !selectedDetailVariant.id_ukuran) {
       setSnackPack(prev => [
         ...prev,
         {
