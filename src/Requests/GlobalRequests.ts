@@ -44,6 +44,7 @@ export type useGetProductParamTypes = {
 };
 
 export const initialProduct: ProductTypes = {
+  productId: undefined,
   discount: 0,
   fixedPrice: 0,
   imageUri: '',

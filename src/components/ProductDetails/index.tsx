@@ -72,7 +72,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     setNearestMarket(appState.nearestMarket);
   }, [appState.nearestMarket]);
 
-  if (!nearestMarket.id) {
+  if (!nearestMarket.id || !product.productId) {
     return <Fragment />;
   }
 
