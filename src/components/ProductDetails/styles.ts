@@ -62,8 +62,9 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('sm')]: {
         width: '100%',
-        paddingTop: '100%',
         height: 'unset',
+        paddingTop: '100%',
+        borderRadius: 0,
       },
       boxShadow: '0 20px 15px -10px rgba(0,0,0,0.15)',
     },
