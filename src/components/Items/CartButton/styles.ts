@@ -25,11 +25,14 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 10,
     },
     paperPopCartList: {
-      minWidth: 400,
+      minWidth: 300,
       padding: '10px 0',
       borderRadius: 10,
       boxShadow:
         '0 13px 27px -5px rgb(50 50 93 / 25%), 0 8px 16px -8px rgb(0 0 0 / 30%), 0 -6px 16px -6px rgb(0 0 0 / 3%)',
+      [theme.breakpoints.up('sm')]: {
+        minWidth: 400,
+      },
     },
     cMPHeader: {
       display: 'flex',
