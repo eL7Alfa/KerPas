@@ -102,6 +102,7 @@ const AppHeader = () => {
             );
             dispatch(setSelectedAddressR({}));
             dispatch(setAuthResetUserDataR());
+            router.pathname !== '/' && router.push('/');
           }
         });
     });
