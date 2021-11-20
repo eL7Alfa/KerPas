@@ -156,34 +156,37 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
             </div>
             <Divider />
             <div className={classes.sBPriceW}>
-              <Typography
-                variant={'h5'}
-                fontWeight={800}
-                className={classes.sBPFixedPrice}>
-                {toRupiah(
-                  Math.round(
-                    product.variants[0].data[0].nretail_price -
-                      product.variants[0].data[0].nretail_price *
-                        (product.variants[0].data[0].ndiscount / 100),
-                  ),
-                )}
-              </Typography>
-              {product.variants[0].data[0].ndiscount > 0 && (
-                <div className={classes.sBProductDiscountW}>
-                  <Typography
-                    variant={'h6'}
-                    fontWeight={500}
-                    className={classes.sBPrice}>
-                    {toRupiah(product.variants[0].data[0].nretail_price)}
-                  </Typography>
-                  <Typography
-                    variant={'h6'}
-                    fontWeight={500}
-                    className={classes.sBDiscount}>
-                    {`${product.variants[0].data[0].ndiscount}%`}
-                  </Typography>
-                </div>
+              {product.variants?.length && (
+                <Typography
+                  variant={'h5'}
+                  fontWeight={800}
+                  className={classes.sBPFixedPrice}>
+                  {toRupiah(
+                    Math.round(
+                      product.variants[0].data[0].nretail_price -
+                        product.variants[0].data[0].nretail_price *
+                          (product.variants[0].data[0].ndiscount / 100),
+                    ),
+                  )}
+                </Typography>
               )}
+              {product.variants?.length &&
+                product.variants[0].data[0].ndiscount > 0 && (
+                  <div className={classes.sBProductDiscountW}>
+                    <Typography
+                      variant={'h6'}
+                      fontWeight={500}
+                      className={classes.sBPrice}>
+                      {toRupiah(product.variants[0].data[0].nretail_price)}
+                    </Typography>
+                    <Typography
+                      variant={'h6'}
+                      fontWeight={500}
+                      className={classes.sBDiscount}>
+                      {`${product.variants[0].data[0].ndiscount}%`}
+                    </Typography>
+                  </div>
+                )}
             </div>
             <Divider />
             <div className={classes.sBBody}>
