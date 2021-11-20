@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.spacing(1),
       overflow: 'hidden',
       backgroundColor: '#ffffff',
+      '&.active': {
+        borderWidth: 4,
+        borderColor: '#ffffff',
+        borderStyle: 'solid',
+      },
     },
     imgW: {
       position: 'relative',

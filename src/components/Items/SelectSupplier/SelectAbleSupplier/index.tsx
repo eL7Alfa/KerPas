@@ -28,7 +28,7 @@ const SelectAbleSupplier = ({
   return (
     <div className={classes.root}>
       <Button onClick={onClick}>
-        <Paper className={classes.body}>
+        <Paper className={`${classes.body} ${active ? 'active' : ''}`}>
           <div className={classes.imgW}>
             <Image
               src={imageUri}

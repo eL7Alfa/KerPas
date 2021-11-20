@@ -16,6 +16,7 @@ import clsx from 'clsx';
 import useStyles from './styles';
 import { useGetCartProducts } from '../../../Requests/GlobalRequests';
 import toRupiah from '../../../modules/toRupiah';
+import theme from '../../../config/theme';
 
 type CartButtonPropsType = {
   classes?: { iconButton: string };
@@ -66,26 +67,55 @@ const CartButton = ({
                     Semua
                   </ButtonBase>
                 </div>
-                <Divider />
-                {cartProducts.map((cP, key) => (
-                  <ListItem key={key}>
-                    <ListItemAvatar>
-                      <Avatar src={cP.imageUri} />
-                    </ListItemAvatar>
-                    <div>
+                <Divider sx={{ mx: theme.spacing(1) }} />
+                <div className={classes.cMPBody}>
+                  {cartProducts.slice(0, 3).map((cP, key) => (
+                    <ListItem key={key}>
+                      <ListItemAvatar>
+                        <Avatar
+                          src={cP.imageUri}
+                          className={classes.cMPItemImage}
+                        />
+                      </ListItemAvatar>
+                      <div className={classes.cMPItemInfoW}>
+                        <Typography
+                          variant={'body2'}
+                          className={classes.cMPItemName}>
+                          {cP.name}
+                        </Typography>
+                        <Typography
+                          variant={'body2'}
+                          className={classes.cMPItemQty}>
+                          {`${cP.qty} item ${
+                            cP.weight ? `(${cP.weight}gr)` : ''
+                          }`}
+                        </Typography>
+                        <Typography
+                          variant={'body2'}
+                          className={classes.cMPItemPrice}>
+                          {toRupiah(cP.fixedPrice)}
+                        </Typography>
+                      </div>
+                    </ListItem>
+                  ))}
+                  {cartProducts.length > 3 && (
+                    <div className={classes.cMPThreeDotsW}>
                       <Typography
-                        variant={'body2'}
-                        className={classes.cMPItemName}>
-                        {cP.name}
-                      </Typography>
-                      <Typography
-                        variant={'body2'}
-                        className={classes.cMPItemName}>
-                        {toRupiah(cP.fixedPrice)}
+                        variant={'body1'}
+                        className={classes.cMPThreeDots}>
+                        ...
                       </Typography>
                     </div>
-                  </ListItem>
-                ))}
+                  )}
+                </div>
+                <Divider sx={{ mx: theme.spacing(1) }} />
+                <div className={classes.cMPFooter}>
+                  <Typography
+                    variant={'body2'}
+                    className={classes.cMPItemTotal}>
+                    {`Total ${cartProducts.length} item`}
+                  </Typography>
+                </div>
               </Paper>
             </div>
           </Grow>

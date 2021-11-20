@@ -134,6 +134,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: `0 ${theme.spacing(4)}`,
     },
     totalPrice: {
+      color: '#424242',
       marginLeft: 'auto',
       fontSize: 18,
       fontWeight: 800,

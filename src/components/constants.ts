@@ -388,6 +388,7 @@ export type CartProductParamsTypes = {
   cslug: string;
   mitra?: any;
   csku?: string;
+  nqty?: number;
   nberat?: number;
   csatuan?: string;
   id_variasi?: number;
@@ -408,6 +409,7 @@ export type CartProductTypes = {
   slug: string;
   market?: any;
   sku?: string;
+  qty?: number;
   weight?: number;
   unit?: string;
   variantId?: number;
@@ -432,6 +434,7 @@ export const newCartProducts: newCartProductsTypes = data =>
       cslug,
       mitra,
       csku,
+      nqty,
       nberat,
       csatuan,
       id_variasi,
@@ -451,6 +454,7 @@ export const newCartProducts: newCartProductsTypes = data =>
         slug: cslug,
         market: mitra,
         sku: csku,
+        qty: nqty,
         weight: nberat,
         unit: csatuan,
         variantId: id_variasi,

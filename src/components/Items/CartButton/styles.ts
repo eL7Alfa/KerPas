@@ -1,5 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
+import { yellow } from '@mui/material/colors';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 10,
     },
     paperPopCartList: {
-      minWidth: theme.breakpoints.values.xs,
+      minWidth: 400,
       padding: '10px 0',
       borderRadius: 10,
       boxShadow:
@@ -56,8 +57,53 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 16,
       borderRadius: theme.spacing(1),
     },
+    cMPBody: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    cMPItemImage: {
+      borderRadius: theme.spacing(0.5),
+      width: 50,
+      height: 50,
+    },
+    cMPItemInfoW: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
     cMPItemName: {
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      [theme.breakpoints.up('sm')]: {
+        maxWidth: theme.breakpoints.values.sm,
+      },
+      overflow: 'hidden',
       color: '#424242',
+      fontWeight: 800,
+    },
+    cMPItemQty: {
+      fontSize: 12,
+      color: '#424242',
+    },
+    cMPItemPrice: {
+      color: yellow[900],
+      fontWeight: 800,
+    },
+    cMPThreeDotsW: {
+      padding: `0 ${theme.spacing(2)}`,
+    },
+    cMPThreeDots: {
+      color: '#424242',
+      fontWeight: 800,
+      fontSize: 18,
+    },
+    cMPFooter: {
+      display: 'flex',
+      flexDirection: 'column',
+      padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+      alignItems: 'flex-end',
+    },
+    cMPItemTotal: {
+      color: theme.palette.primary.main,
       fontWeight: 800,
     },
   }),
