@@ -14,26 +14,56 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.spacing(2),
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
+      marginTop: theme.spacing(2),
+      [theme.breakpoints.down('md')]: {
+        flexDirection: 'column',
+        padding: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        borderRadius: 0,
+        marginTop: 0,
+      },
     },
     sectionA: {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'flex-end',
+      [theme.breakpoints.down('md')]: {
+        alignItems: 'center',
+      },
+      [theme.breakpoints.up('sm')]: {
+        marginTop: theme.spacing(2),
+      },
     },
     sectionB: {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
+      zIndex: 1,
+      [theme.breakpoints.down('md')]: {
+        marginTop: theme.spacing(-4),
+        padding: `0 ${theme.spacing(1)}`,
+      },
     },
     imgC: {
       position: 'relative',
       width: 400,
       height: 400,
       overflow: 'hidden',
-      borderTopLeftRadius: 8,
-      borderBottomLeftRadius: 8,
+      borderTopLeftRadius: theme.spacing(1),
+      borderBottomLeftRadius: theme.spacing(1),
+      [theme.breakpoints.down('md')]: {
+        borderRadius: theme.spacing(1),
+        width: 500,
+        height: 500,
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        paddingTop: '100%',
+        height: 'unset',
+      },
       boxShadow: '0 20px 15px -10px rgba(0,0,0,0.15)',
     },
     sBContainer: {
@@ -41,12 +71,18 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       boxShadow: '0 40px 25px -20px rgba(0,0,0,0.15)',
       padding: theme.spacing(2),
-      minWidth: 500,
-      [theme.breakpoints.up('lg')]: {
-        maxWidth: 500,
-      },
       borderRadius: theme.spacing(2),
       minHeight: 550,
+      [theme.breakpoints.down('md')]: {
+        width: 600,
+      },
+      [theme.breakpoints.up('md')]: {
+        minWidth: 500,
+        maxWidth: 500,
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
     sBHeader: {
       padding: `${theme.spacing(1)} 0`,
@@ -122,6 +158,13 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: 'space-between',
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
+    },
+    sBSubItemLabel: {
+      width: '40%',
+    },
+    sBSubItemValue: {
+      width: '50%',
+      textAlign: 'right',
     },
     sBDescription: {
       fontSize: theme.typography.body2.fontSize,

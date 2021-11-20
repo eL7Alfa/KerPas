@@ -194,23 +194,52 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                 Informasi Produk Pangan
               </Typography>
               <div className={classes.sBSubItem}>
-                <Typography variant={'body2'}>SKU</Typography>
-                <Typography variant={'body2'}>{product.sku}</Typography>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSubItemLabel}>
+                  SKU
+                </Typography>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSubItemValue}>
+                  {product.sku}
+                </Typography>
               </div>
               <div className={classes.sBSubItem}>
-                <Typography variant={'body2'}>Kategori</Typography>
-                <Typography variant={'body2'}>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSubItemLabel}>
+                  Kategori
+                </Typography>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSubItemValue}>
                   {`${product.category}/${product.class}`}
                 </Typography>
               </div>
               <div className={classes.sBSubItem}>
-                <Typography variant={'body2'}>Merk</Typography>
-                <Typography variant={'body2'}>{product.brand}</Typography>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSubItemLabel}>
+                  Merk
+                </Typography>
+                <Typography
+                  variant={'body2'}
+                  className={classes.sBSubItemValue}>
+                  {product.brand}
+                </Typography>
               </div>
               <div className={classes.sBSubItem}>
-                <Typography variant={'body2'}>Berat</Typography>
                 <Typography
-                  variant={'body2'}>{`${product.weight}gr`}</Typography>
+                  variant={'body2'}
+                  className={classes.sBSubItemLabel}>
+                  Berat
+                </Typography>
+                <Typography
+                  variant={'body2'}
+                  className={
+                    classes.sBSubItemValue
+                  }>{`${product.weight}gr`}</Typography>
               </div>
               <Typography variant={'body1'} className={classes.sBSubtitle}>
                 Deskripsi
