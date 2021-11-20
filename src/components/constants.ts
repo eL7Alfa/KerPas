@@ -50,7 +50,7 @@ export type ProductParamsTypes = {
   cdeskripsi?: string;
   csatuan?: string;
   cmerk?: string;
-  variasi: any[];
+  variasi?: any[];
 };
 
 export type ProductTypes = {
@@ -73,7 +73,7 @@ export type ProductTypes = {
   description?: string;
   unit?: string;
   brand?: string;
-  variants: any[];
+  variants?: any[];
 };
 
 export interface newProductsTypes<T = ProductParamsTypes[]> {
