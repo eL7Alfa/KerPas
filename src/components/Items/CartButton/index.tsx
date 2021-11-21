@@ -17,6 +17,7 @@ import useStyles from './styles';
 import { useGetCartProducts } from '../../../Requests/GlobalRequests';
 import toRupiah from '../../../modules/toRupiah';
 import theme from '../../../config/theme';
+import { useRouter } from 'next/router';
 
 type CartButtonPropsType = {
   classes?: { iconButton: string };
@@ -25,16 +26,22 @@ type CartButtonPropsType = {
 const CartButton = ({
   classes: classesProps = { iconButton: '' },
 }: CartButtonPropsType) => {
+  const router = useRouter();
   const classes = useStyles();
   const cartBtnRef = React.useRef<HTMLButtonElement>(null);
   const [cartOpen, setCartOpen] = React.useState(false);
   const { cartProducts } = useGetCartProducts();
+
+  const onShowAllClicked = () => {
+    router.push('/cart');
+  };
 
   return (
     <Fragment>
       <IconButton
         ref={cartBtnRef}
         className={clsx(classes.cartButton, classesProps.iconButton)}
+        onClick={onShowAllClicked}
         onMouseOver={() => !cartOpen && setCartOpen(true)}
         onMouseLeave={() => setCartOpen(false)}>
         <ShoppingCart />
@@ -63,7 +70,9 @@ const CartButton = ({
                       Keranjang
                     </Typography>
                   </div>
-                  <ButtonBase className={classes.showAllItemBtn}>
+                  <ButtonBase
+                    className={classes.showAllItemBtn}
+                    onClick={onShowAllClicked}>
                     Semua
                   </ButtonBase>
                 </div>

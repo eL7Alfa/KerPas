@@ -4,6 +4,7 @@ import AppHeader from '../../src/components/Items/AppHeader';
 import React, { Fragment } from 'react';
 import { useInit } from '../../src/components/constants';
 import Auth from '../../src/components/Items/Auth';
+import Cart from '../../src/components/Cart';
 
 const Index = () => {
   useInit();
@@ -17,7 +18,9 @@ const Index = () => {
       <CssBaseline />
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
-        <Box py={1} mt={10} mb={8}></Box>
+        <Box py={1} mt={10} mb={8}>
+          <Cart />
+        </Box>
       </Container>
       <Auth />
     </Fragment>
