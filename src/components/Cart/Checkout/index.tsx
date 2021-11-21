@@ -187,7 +187,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       <div className={classes.header}>
         <Payment className={classes.headerIcon} />
         <Typography variant={'h5'} className={classes.headerTitle}>
-          Pembelian
+          Pemesanan
         </Typography>
       </div>
       <div className={classes.container}>
