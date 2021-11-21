@@ -10,7 +10,7 @@ export type NearestMarketTypes = {
   ckota: string;
   cfoto: string;
   cdeskripsi: string;
-  cloc: string;
+  cloc: number;
 };
 
 export interface addToCartModal extends ProductTypes {
@@ -44,7 +44,7 @@ export const appDefStateR: appDefStateRT = {
     cfoto: '',
     ckode_mitra: '',
     cnama_mitra: '',
-    cloc: '',
+    cloc: 0,
     id: undefined,
   },
   myAddressesOpen: false,

@@ -351,6 +351,7 @@ export const useInit = () => {
               ckota: '',
               cnama_mitra: '',
               distance: { text: '', value: 0 },
+              cloc: 0,
             }),
           );
         }
@@ -386,6 +387,7 @@ export type CartProductParamsTypes = {
   nprice: number;
   ndiscount: number;
   cslug: string;
+  cstore?: string;
   mitra?: any;
   csku?: string;
   nqty?: number;
@@ -407,6 +409,7 @@ export type CartProductTypes = {
   fixedPrice: number;
   discount: number;
   slug: string;
+  marketCode?: string;
   market?: any;
   sku?: string;
   qty?: number;
@@ -432,6 +435,7 @@ export const newCartProducts: newCartProductsTypes = data =>
       cimg = '',
       ndiscount = 0,
       cslug,
+      cstore,
       mitra,
       csku,
       nqty,
@@ -452,6 +456,7 @@ export const newCartProducts: newCartProductsTypes = data =>
         fixedPrice: Math.round(nprice - nprice * (ndiscount / 100)),
         discount: ndiscount,
         slug: cslug,
+        marketCode: cstore,
         market: mitra,
         sku: csku,
         qty: nqty,
