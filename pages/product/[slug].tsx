@@ -26,6 +26,7 @@ const Index = () => {
   const { product } = useGetProduct({ slug: slug as string });
   const [currentProductsPage, setCurrentProductsPage] = useState<number>(1);
   const [nearestMarket, setNearestMarket] = useState<NearestMarketTypes>({
+    cloc: 0,
     calamat_toko: '',
     cdeskripsi: '',
     cfoto: '',
