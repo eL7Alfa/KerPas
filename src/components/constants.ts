@@ -8,6 +8,7 @@ import { setAuthUserDataR } from '../redux/actions/authRActions';
 import { setNearestMarketR } from '../redux/actions/appRActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../redux/reducers';
+import { useRouter } from 'next/router';
 
 // Google API Key
 export const googleMapsApiKey = 'AIzaSyAtCUe0ZNVf6otms1PhEOIAaB0cW7djbRw';
@@ -237,18 +238,22 @@ export const newSuppliers: nweSuppliersTypes = data =>
   );
 
 // Auth
-export const checkUserData = () =>
+export const checkUserData = ({
+  token,
+  userCode,
+}: {
+  token?: string;
+  userCode?: string;
+}) =>
   new Promise<userDataRT>((resolve, reject) => {
-    const _userData = localStorage.getItem('userData');
-    if (_userData) {
-      const userData = JSON.parse(_userData);
-      axios(userData.token)
+    if (userCode && userCode) {
+      axios(token)
         .post('/user/retrieve', {
-          ckode_user: userData.ckode_user,
+          ckode_user: userCode,
         })
         .then(({ data: { response, result } }) => {
           if (response === 200) {
-            const newUserData = { ...result, token: userData.token };
+            const newUserData = { ...result, token: token };
             localStorage.setItem('userData', JSON.stringify(newUserData));
             resolve(newUserData);
           }
@@ -256,6 +261,25 @@ export const checkUserData = () =>
         .catch((e: AxiosError) => {
           reject(e);
         });
+    } else {
+      const _userData = localStorage.getItem('userData');
+      if (_userData) {
+        const userData = JSON.parse(_userData);
+        axios(userData.token)
+          .post('/user/retrieve', {
+            ckode_user: userData.ckode_user,
+          })
+          .then(({ data: { response, result } }) => {
+            if (response === 200) {
+              const newUserData = { ...result, token: userData.token };
+              localStorage.setItem('userData', JSON.stringify(newUserData));
+              resolve(newUserData);
+            }
+          })
+          .catch((e: AxiosError) => {
+            reject(e);
+          });
+      }
     }
   });
 
@@ -305,6 +329,8 @@ export const useSnackbarConst = () => {
 export const useInit = () => {
   const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { token, userCode } = router.query;
 
   let locationRequestCount = 0;
   const getNearestMarketByDeviceAddress = () => {
@@ -368,14 +394,20 @@ export const useInit = () => {
   }, [selector.appState.selectedAddress]);
 
   useEffect(() => {
-    checkUserData()
+    checkUserData({
+      token: token as string | undefined,
+      userCode: userCode as string | undefined,
+    })
       .then(userData => {
         if (userData) {
           dispatch(setAuthUserDataR(userData));
+          if (token && userCode) {
+            router.replace(router.pathname);
+          }
         }
       })
       .catch(() => {});
-  }, []);
+  }, [token, userCode]);
 };
 
 // Serialize New Product
