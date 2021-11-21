@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../redux/reducers';
 import axios from '../../config/axios';
 import { newProducts } from '../constants';
+import Head from 'next/head';
 
 const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
   const classes = useStyles();
@@ -93,26 +94,32 @@ const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
   }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.sectionA}>
-        <Supplier {...{ supplier, market }} />
-        <div className={classes.catW}>
-          <Categories
-            {...{
-              categories,
-              onClick: onCategoryClick,
-            }}
-          />
+    <Fragment>
+      <Head>
+        <meta name="description" content={`Kios ${supplier.name}`} />
+        <title>{`KerPas - Kios ${supplier.name}`}</title>
+      </Head>
+      <div className={classes.root}>
+        <div className={classes.sectionA}>
+          <Supplier {...{ supplier, market }} />
+          <div className={classes.catW}>
+            <Categories
+              {...{
+                categories,
+                onClick: onCategoryClick,
+              }}
+            />
+          </div>
         </div>
+        <Products
+          name={currentCat.name}
+          data={products}
+          onShowMoreBtnClicked={onShowMoreProductBtnClicked}
+          isLoading={isProductsLoading}
+          isLastProductReached={currentProductPage + 1 > lastProductsPage}
+        />
       </div>
-      <Products
-        name={currentCat.name}
-        data={products}
-        onShowMoreBtnClicked={onShowMoreProductBtnClicked}
-        isLoading={isProductsLoading}
-        isLastProductReached={currentProductPage + 1 > lastProductsPage}
-      />
-    </div>
+    </Fragment>
   );
 };
 
