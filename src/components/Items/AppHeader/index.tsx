@@ -98,6 +98,7 @@ const AppHeader = () => {
                 ckota: '',
                 cnama_mitra: '',
                 distance: { text: '', value: 0 },
+                cloc: 0,
               }),
             );
             dispatch(setSelectedAddressR({}));

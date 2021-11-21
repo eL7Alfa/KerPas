@@ -179,6 +179,15 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       setTotalOrder(newTotalOrder);
       setSubTotalPrice(newSubTotalPrice);
       setTotalWeight(newTotalWeight);
+    } else {
+      setCurrentPaymentMethod(initialCurrentPaymentMethod);
+      setCurrentShippingTime('');
+      setTotalOrder(0);
+      setServiceFee(0);
+      setTotalWeight(0);
+      setSubTotalPrice(0);
+      setPaymentCode(0);
+      setSettings({ id: undefined, nongkir: 0 });
     }
   }, [data]);
 
