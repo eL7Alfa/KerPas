@@ -28,6 +28,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
   const classes = useStyles();
   const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [nearestMarket, setNearestMarket] = useState<NearestMarketTypes>({
+    cloc: 0,
     calamat_toko: '',
     cdeskripsi: '',
     cfoto: '',
