@@ -16,6 +16,8 @@ import {
   setMyAddressesOpenR,
 } from '../../redux/actions/appRActions';
 import { setAuthModalOpenR } from '../../redux/actions/authRActions';
+import Head from 'next/head';
+import { parse } from 'node-html-parser';
 
 export type ProductDetailsPropsTypes = {
   product: ProductTypes;
@@ -78,6 +80,15 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
 
   return (
     <Fragment>
+      <Head>
+        <meta
+          name="description"
+          content={`${product.name} - ${
+            parse(`<div>${product.description}</div>`).innerText
+          }`}
+        />
+        <title>{`KerPas - ${product.name}`}</title>
+      </Head>
       <div className={classes.detailsW}>
         <div className={classes.sectionA}>
           {product.imagesUri?.length ? (
