@@ -101,7 +101,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       setCurrentPaymentMethodPickerOpen(false);
       setServiceFee(providerFee);
       if (method.toUpperCase() === 'BANK_TRANSFER') {
-        setPaymentCode(mathRandomRange(400, 500));
+        setPaymentCode(mathRandomRange(100, 300));
       } else {
         setPaymentCode(0);
       }
