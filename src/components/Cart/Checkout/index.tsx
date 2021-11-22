@@ -147,8 +147,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
           setSettings({ id: undefined, nongkir: 0 });
           dispatch(triggerCartUpdateR());
           if (currentPaymentMethod.method.toUpperCase() === 'EMONEY') {
-            // window.open();
-            console.log(result);
+            window.open(result.actions[0].url);
           }
           setCurrentPaymentMethod(initialCurrentPaymentMethod);
         }
