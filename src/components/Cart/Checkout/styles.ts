@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { grey, yellow } from '@mui/material/colors';
+import { grey, red, yellow } from '@mui/material/colors';
 import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
       padding: `0 ${theme.spacing(1)}`,
     },
     sIInfoLabel: {
@@ -75,6 +76,17 @@ const useStyles = makeStyles((theme: Theme) =>
       '&:hover': {
         backgroundColor: '#ffffff',
         color: yellow[900],
+      },
+    },
+    switchBtn: {
+      '& .MuiSwitch-switchBase.Mui-checked': {
+        color: red[700],
+        '&:hover': {
+          backgroundColor: alpha(red[700], theme.palette.action.hoverOpacity),
+        },
+      },
+      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+        backgroundColor: red[700],
       },
     },
     paymentDetailsW: {

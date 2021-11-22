@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
 import { Payment } from '@mui/icons-material';
-import { Button, Divider, Typography } from '@mui/material';
+import { Button, Divider, Switch, Typography } from '@mui/material';
 import { CartProductTypes } from '../../constants';
 import toRupiah from '../../../modules/toRupiah';
 import ShippingTimePicker from './ShippingTimePicker';
@@ -22,6 +22,13 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const [subTotalPrice, setSubTotalPrice] = useState(0);
   const [serviceFee, setServiceFee] = useState(0);
   const [paymentCode, setPaymentCode] = useState(0);
+  const [usePointEnabled, setUsePointEnabled] = useState(true);
+  const [wallet, setWallet] = useState({
+    nsaku_kerbel: 0,
+    npoint_kerbel: 0,
+    cicon: '',
+    cicon_point: '',
+  });
   const [settings, setSettings] = useState<any>({ id: undefined, nongkir: 0 });
   const [shippingTimePickerOpen, setShippingTimePickerOpen] = useState(false);
   const [currentPaymentMethodPickerOpen, setCurrentPaymentMethodPickerOpen] =
@@ -100,6 +107,10 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       }
     };
 
+  const onUsePointBtnChange = () => {
+    setUsePointEnabled(prevState => !prevState);
+  };
+
   const onOrderBtnClicked = () => {
     if (!Object.keys(appState.selectedAddress).length) {
       return;
@@ -130,7 +141,8 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       nservice: currentPaymentMethod.id,
       ua: 'W',
       nunique_code: paymentCode,
-      npoint_kerbel: 0,
+      npoint_kerbel:
+        Number(wallet.npoint_kerbel) > 0 ? (usePointEnabled ? 1 : 0) : 0,
       ccod: 0,
       cinsurance: 0,
       ddelivery: currentShippingTime,
@@ -158,9 +170,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
 
   const getUserData = () => {
     axios(authState.userData.token)
-      .get('/user/retrieve')
-      .then(({ data }) => {
-        const { result } = data;
+      .post('/user/retrieve', { ckode_user: authState.userData.ckode_user })
+      .then(({ data: { result, response, error } }) => {
+        if (response === 200 && !error) {
+          setWallet(result.ewallet[0]);
+        }
       });
   };
 
@@ -177,6 +191,12 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
         );
       });
   };
+
+  useEffect(() => {
+    if (authState.userData.id) {
+      getUserData();
+    }
+  }, [authState.userData.id]);
 
   useEffect(() => {
     if (cartProducts.length) {
@@ -275,6 +295,23 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Button>
           </div>
         </div>
+        {Number(wallet.nsaku_kerbel) === 0 && (
+          <div className={classes.subItem}>
+            <Typography variant={'h6'} className={classes.subItemTitle}>
+              Pakai point
+            </Typography>
+            <div className={classes.sIInfo}>
+              <Switch
+                defaultChecked
+                onChange={onUsePointBtnChange}
+                className={classes.switchBtn}
+              />
+              <Typography variant={'body1'} className={classes.sIInfoValue}>
+                {`${wallet.npoint_kerbel}`}
+              </Typography>
+            </div>
+          </div>
+        )}
         <div className={classes.paymentDetailsW}>
           <div className={classes.paymentDetailsC}>
             <div className={classes.sIInfo}>
