@@ -163,12 +163,13 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             window.open(result.actions[0].url);
           }
           setCurrentPaymentMethod(initialCurrentPaymentMethod);
+          getUserWallet();
         }
       })
       .finally(() => setIsOrdering(false));
   };
 
-  const getUserData = () => {
+  const getUserWallet = () => {
     axios(authState.userData.token)
       .post('/user/retrieve', { ckode_user: authState.userData.ckode_user })
       .then(({ data: { result, response, error } }) => {
@@ -193,7 +194,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
 
   useEffect(() => {
     if (authState.userData.id) {
-      getUserData();
+      getUserWallet();
     }
   }, [authState.userData.id]);
 
