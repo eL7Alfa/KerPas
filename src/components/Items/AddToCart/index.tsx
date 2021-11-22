@@ -242,7 +242,10 @@ const AddToCart = () => {
       product.variants?.length &&
       product.variants[0].cnama_variasi.toUpperCase() === 'NONE'
     ) {
-      setFixedPrice(product.variants[0].data[0].ndiscount_price);
+      setFixedPrice(
+        product.variants[0].data[0].ndiscount *
+          product.variants[0].data[0].nretail_price,
+      );
       setPrice(product.variants[0].data[0].nretail_price);
       setDiscount(product.variants[0].data[0].ndiscount);
       setSelectedVariant(product.variants[0]);
