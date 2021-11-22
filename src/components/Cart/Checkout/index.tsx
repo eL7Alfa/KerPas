@@ -137,7 +137,6 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       .post('/market/transaction', postData)
       .then(({ data: { response, result, error } }) => {
         if (!error && response === 200) {
-          dispatch(triggerCartUpdateR());
           setCurrentPaymentMethod(initialCurrentPaymentMethod);
           setCurrentShippingTime('');
           setTotalOrder(0);
@@ -146,6 +145,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
           setSubTotalPrice(0);
           setPaymentCode(0);
           setSettings({ id: undefined, nongkir: 0 });
+          dispatch(triggerCartUpdateR());
         }
       })
       .finally(() => setIsOrdering(false));
