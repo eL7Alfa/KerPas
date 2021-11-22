@@ -181,12 +181,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const getSettings = () => {
     axios()
       .get('/market/setting')
-      .then(({ data }) => {
-        const { result } = data;
+      .then(({ data: { result } }) => {
         setSettings(
           result.filter(
             (r: { ckode_mitra: string }) =>
-              r.ckode_mitra === data[0].marketCode,
+              r.ckode_mitra === cartProducts[0].marketCode,
           )[0],
         );
       });
