@@ -106,6 +106,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
       backgroundColor: alpha(grey[900], 0.1),
       width: '100%',
       borderRadius: theme.spacing(1),

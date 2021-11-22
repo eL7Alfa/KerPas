@@ -358,13 +358,20 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               Total bayar
             </Typography>
             <Typography variant={'h6'} className={classes.sIInfoValue}>
-              {toRupiah(
-                subTotalPrice +
-                  settings.nongkir +
-                  serviceFee +
-                  paymentCode -
-                  (usePointEnabled ? Number(wallet.npoint_kerbel) : 0),
-              )}
+              {usePointEnabled && Number(wallet.npoint_kerbel) > 0
+                ? toRupiah(
+                    Number(subTotalPrice) +
+                      Number(settings.nongkir) +
+                      Number(serviceFee) +
+                      Number(paymentCode) -
+                      Number(wallet.npoint_kerbel),
+                  )
+                : toRupiah(
+                    Number(subTotalPrice) +
+                      Number(settings.nongkir) +
+                      Number(serviceFee) +
+                      Number(paymentCode),
+                  )}
             </Typography>
           </div>
         </div>
