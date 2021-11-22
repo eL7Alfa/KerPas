@@ -80,7 +80,7 @@ const AddToCart = () => {
 
   const onDetailVariantChanged = (variant: any) => () => {
     setSelectedDetailVariant(variant);
-    setFixedPrice(variant.ndiscount_price);
+    setFixedPrice(variant.nretail_price * variant.ndiscount);
     setPrice(variant.nretail_price);
     setDiscount(variant.ndiscount);
   };

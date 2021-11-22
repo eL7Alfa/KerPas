@@ -125,6 +125,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       cuser_address: appState.selectedAddress.id,
       cstore_location: appState.nearestMarket.cloc,
       nweight: totalWeight,
+      nongkir: settings.nongkir,
       nservice: currentPaymentMethod.id,
       ua: 'W',
       nunique_code: paymentCode,
@@ -137,7 +138,6 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       .post('/market/transaction', postData)
       .then(({ data: { response, result, error } }) => {
         if (!error && response === 200) {
-          setCurrentPaymentMethod(initialCurrentPaymentMethod);
           setCurrentShippingTime('');
           setTotalOrder(0);
           setServiceFee(0);
@@ -146,6 +146,11 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
           setPaymentCode(0);
           setSettings({ id: undefined, nongkir: 0 });
           dispatch(triggerCartUpdateR());
+          if (currentPaymentMethod.method.toUpperCase() === 'EMONEY') {
+            // window.open();
+            console.log(result);
+          }
+          setCurrentPaymentMethod(initialCurrentPaymentMethod);
         }
       })
       .finally(() => setIsOrdering(false));
