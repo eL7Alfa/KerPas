@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: 'flex',
       flexDirection: 'row',
+      padding: theme.spacing(1),
     },
     sidebar: {
       display: 'flex',

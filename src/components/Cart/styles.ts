@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      padding: `${theme.spacing(1)}`,
+      padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     },
     cartHeaderIcon: {
       color: theme.palette.primary.main,
