@@ -359,7 +359,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Typography>
             <Typography variant={'h6'} className={classes.sIInfoValue}>
               {toRupiah(
-                subTotalPrice + settings.nongkir + serviceFee + paymentCode,
+                subTotalPrice +
+                  settings.nongkir +
+                  serviceFee +
+                  paymentCode -
+                  (usePointEnabled ? Number(wallet.npoint_kerbel) : 0),
               )}
             </Typography>
           </div>
