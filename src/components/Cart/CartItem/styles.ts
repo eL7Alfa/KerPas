@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
     imgW: {
       position: 'relative',
       width: '20vh',
+      height: '20vh',
     },
     infoW: {
       flex: 1,
