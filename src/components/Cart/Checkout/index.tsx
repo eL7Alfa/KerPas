@@ -13,7 +13,7 @@ import mathRandomRange from '../../../modules/mathRandomRange';
 import { LoadingButton } from '@mui/lab';
 import { triggerCartUpdateR } from '../../../redux/actions/appRActions';
 
-const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
+const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { appState, authState } = useSelector((state: rootReducerI) => state);
@@ -108,8 +108,9 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       return;
     }
     if (
-      !data.filter(d => d.marketCode === appState.nearestMarket.ckode_mitra)
-        .length
+      !cartProducts.filter(
+        cP => cP.marketCode === appState.nearestMarket.ckode_mitra,
+      ).length
     ) {
       return;
     }
@@ -155,11 +156,19 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       .finally(() => setIsOrdering(false));
   };
 
+  const getUserData = () => {
+    axios(authState.userData.token)
+      .get('/user/retrieve')
+      .then(({ data }) => {
+        const { result } = data;
+      });
+  };
+
   const getSettings = () => {
     axios()
       .get('/market/setting')
-      .then(({ data: dataS }) => {
-        const { result } = dataS;
+      .then(({ data }) => {
+        const { result } = data;
         setSettings(
           result.filter(
             (r: { ckode_mitra: string }) =>
@@ -170,12 +179,12 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
   };
 
   useEffect(() => {
-    if (data.length) {
+    if (cartProducts.length) {
       getSettings();
       let newTotalOrder = 0;
       let newSubTotalPrice = 0;
       let newTotalWeight = 0;
-      data.map(d => {
+      cartProducts.map(d => {
         newTotalOrder += d.qty!;
         newSubTotalPrice += d.fixedPrice * d.qty!;
         newTotalWeight += d.weight! * d.qty!;
@@ -193,7 +202,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
       setPaymentCode(0);
       setSettings({ id: undefined, nongkir: 0 });
     }
-  }, [data]);
+  }, [cartProducts]);
 
   return (
     <div className={classes.root}>
@@ -213,7 +222,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
               Total Jenis
             </Typography>
             <Typography variant={'body1'} className={classes.sIInfoValue}>
-              {`${data.length} item`}
+              {`${cartProducts.length} item`}
             </Typography>
           </div>
           <div className={classes.sIInfo}>
@@ -243,7 +252,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
               variant={'contained'}
               onClick={onShippingTimePickerBtnClicked}
               className={classes.shippingTimePickerBtn}
-              disabled={!data.length || !settings.id}>
+              disabled={!cartProducts.length || !settings.id}>
               {currentShippingTime
                 ? currentShippingTime
                 : `Pilih waktu pengantaran`}
@@ -259,7 +268,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
               variant={'contained'}
               onClick={onPaymentMethodPickerBtnClicked}
               className={classes.paymentMethodPickerBtn}
-              disabled={!data.length}>
+              disabled={!cartProducts.length}>
               {currentPaymentMethod.code
                 ? currentPaymentMethod.name
                 : `Pilih metode pengiriman`}
@@ -323,7 +332,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
             variant={'contained'}
             className={classes.orderBtn}
             onClick={onOrderBtnClicked}
-            disabled={!data.length || !settings.id}
+            disabled={!cartProducts.length || !settings.id}
             loading={isOrdering}>
             Pesan
           </LoadingButton>
@@ -339,7 +348,11 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
           onClose={onPaymentMethodPickerClose}
           onChange={onPaymentMethodPickerChanged}
           marketCode={
-            data.length ? (data[0].marketCode ? data[0].marketCode : '') : ''
+            cartProducts.length
+              ? cartProducts[0].marketCode
+                ? cartProducts[0].marketCode
+                : ''
+              : ''
           }
           {...{ currentPaymentMethod }}
         />

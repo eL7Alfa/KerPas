@@ -22,7 +22,7 @@ const Cart = () => {
           <CartItem key={key} {...cP} isLoading={isCartProductLoading} />
         ))}
       </div>
-      <CheckOut data={cartProducts} />
+      <CheckOut {...{ cartProducts }} />
     </div>
   );
 };
