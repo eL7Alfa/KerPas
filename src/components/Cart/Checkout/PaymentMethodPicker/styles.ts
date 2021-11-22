@@ -92,6 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: `0 ${theme.spacing(1)}`,
       fontWeight: 800,
       color: yellow[900],
+      textAlign: 'left',
     },
   }),
 );
