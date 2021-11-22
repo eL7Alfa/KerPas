@@ -75,14 +75,9 @@ const PaymentMethodPicker = ({
         </div>
         <Divider sx={{ mx: 1 }} />
         <div className={classes.body}>
-          {paymentMethods.map((pM, key) => {
-            if (
-              pM.cpayment_method.toUpperCase() === 'SAKU' &&
-              pM.data[0].cbank.toUpperCase() === 'RP. 0'
-            ) {
-              return <Fragment key={key} />;
-            }
-            return (
+          {paymentMethods
+            .filter(pMF => pMF.cpayment_method.toUpperCase() !== 'SAKU')
+            .map((pM, key) => (
               <div key={key}>
                 <Typography variant={'subtitle1'} className={classes.subTitle}>
                   {pM.cname}
@@ -122,8 +117,7 @@ const PaymentMethodPicker = ({
                   </Button>
                 ))}
               </div>
-            );
-          })}
+            ))}
         </div>
       </Paper>
     </div>
