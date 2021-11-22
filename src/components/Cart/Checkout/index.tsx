@@ -295,7 +295,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Button>
           </div>
         </div>
-        {Number(wallet.nsaku_kerbel) === 0 && (
+        {Number(wallet.nsaku_kerbel) > 0 && (
           <div className={classes.subItem}>
             <Typography variant={'h6'} className={classes.subItemTitle}>
               Pakai point

@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { grey, red, yellow } from '@mui/material/colors';
+import { grey, yellow } from '@mui/material/colors';
 import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -79,14 +79,17 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     switchBtn: {
+      '& .MuiSwitch-switchBase': {
+        color: yellow[700],
+      },
       '& .MuiSwitch-switchBase.Mui-checked': {
-        color: red[700],
+        color: '#ffffff',
         '&:hover': {
-          backgroundColor: alpha(red[700], theme.palette.action.hoverOpacity),
+          backgroundColor: alpha('#ffffff', theme.palette.action.hoverOpacity),
         },
       },
       '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-        backgroundColor: red[700],
+        backgroundColor: '#ffffff',
       },
     },
     paymentDetailsW: {
