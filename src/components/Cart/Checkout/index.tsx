@@ -248,7 +248,7 @@ const CheckOut = ({ data }: { data: CartProductTypes[] }) => {
         </div>
         <div className={classes.subItem}>
           <Typography variant={'h6'} className={classes.subItemTitle}>
-            Metode Pengiriman
+            Metode Pembayaran
           </Typography>
           <div className={classes.sIInfo}>
             <Button

@@ -10,6 +10,7 @@ import {
   ButtonBase,
   ClickAwayListener,
   Container,
+  Divider,
   Hidden,
   Menu,
   MenuItem,
@@ -73,9 +74,10 @@ const AppHeader = () => {
     dispatch(setAuthModalOpenR(true));
   };
 
-  useEffect(() => {
-    setSelectedAddress(selector.appState.selectedAddress);
-  }, [selector.appState.selectedAddress]);
+  const onTransactionBtnClicked = () => {
+    router.push('/transactions');
+    onCloseProfileBtnClicked();
+  };
 
   const onLogoutClicked = () => {
     window.FB.getLoginStatus((resA: { status: string }) => {
@@ -121,6 +123,10 @@ const AppHeader = () => {
       dispatch(setMyAddressesOpenR(true));
     }
   };
+
+  useEffect(() => {
+    setSelectedAddress(selector.appState.selectedAddress);
+  }, [selector.appState.selectedAddress]);
 
   useEffect(() => {
     window.addEventListener('resize', onSearchBlurred);
@@ -200,6 +206,10 @@ const AppHeader = () => {
                   open={profileBtnHovered}
                   anchorEl={profileBtnEl}
                   onClose={onCloseProfileBtnClicked}>
+                  <MenuItem onClick={onTransactionBtnClicked}>
+                    Transaksi
+                  </MenuItem>
+                  <Divider />
                   <MenuItem onClick={onLogoutClicked}>Logout</MenuItem>
                 </Menu>
               </Fragment>
