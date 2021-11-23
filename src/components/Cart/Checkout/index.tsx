@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
 import { Payment } from '@mui/icons-material';
 import { Button, Divider, Switch, Typography } from '@mui/material';
-import { CartProductTypes } from '../../constants';
+import { CartProductTypes, useSnackbarConst } from '../../constants';
 import toRupiah from '../../../modules/toRupiah';
 import ShippingTimePicker from './ShippingTimePicker';
 import axios from '../../../config/axios';
@@ -12,6 +12,7 @@ import PaymentMethodPicker from './PaymentMethodPicker';
 import mathRandomRange from '../../../modules/mathRandomRange';
 import { LoadingButton } from '@mui/lab';
 import { triggerCartUpdateR } from '../../../redux/actions/appRActions';
+import Snackbar from '../../../smallComponents/Snackbar';
 
 const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const classes = useStyles();
@@ -51,6 +52,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     method: string;
   }>(initialCurrentPaymentMethod);
   const [isOrdering, setIsOrdering] = useState(false);
+  const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
 
   const onShippingTimePickerClose = () => {
     setShippingTimePickerOpen(false);
@@ -113,9 +115,29 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
 
   const onOrderBtnClicked = () => {
     if (!Object.keys(appState.selectedAddress).length) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih alamat pengiriman terlebih dahulu.',
+          key: new Date().getTime(),
+        },
+      ]);
       return;
     }
     if (!appState.nearestMarket.id) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Market terdekat tidak ditemukan atau belum dalam jangkauan kami',
+          key: new Date().getTime(),
+        },
+      ]);
       return;
     }
     if (
@@ -123,14 +145,75 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
         cP => cP.marketCode === appState.nearestMarket.ckode_mitra,
       ).length
     ) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Item di keranjang bukan dari market terdekat',
+          key: new Date().getTime(),
+        },
+      ]);
       return;
     }
     if (!currentShippingTime) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih waktu pengantaran terlebih dahulu',
+          key: new Date().getTime(),
+        },
+      ]);
       return;
     }
     if (!currentPaymentMethod.id) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih metode pembayaran terlebih dahulu',
+          key: new Date().getTime(),
+        },
+      ]);
       return;
     }
+
+    if (currentPaymentMethod.method.toUpperCase() === 'KPCOD') {
+      if (subTotalPrice > settings.nmax_amount_po_cod) {
+        setSnackPack(prev => [
+          ...prev,
+          {
+            ...snackbarState,
+            open: true,
+            severity: 'error',
+            msg: 'Sub total harga melebihi maksimal total harga',
+            key: new Date().getTime(),
+          },
+        ]);
+        return;
+      }
+    }
+
+    if (subTotalPrice > settings.nmax_amount_po_non_cod) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Sub total harga melebihi maksimal total harga',
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
+
     setIsOrdering(true);
     let postData = {
       ckode_user: authState.userData.ckode_user,
@@ -239,7 +322,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           </Typography>
           <div className={classes.sIInfo}>
             <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
-              Total Jenis
+              Total Item
             </Typography>
             <Typography variant={'body1'} className={classes.sIInfoValue}>
               {`${cartProducts.length} item`}
@@ -324,6 +407,20 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </div>
             <div className={classes.sIInfo}>
               <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
+                Maksimal total harga:
+              </Typography>
+              <Typography variant={'body1'} className={classes.sIInfoValue}>
+                {currentPaymentMethod.id && settings.id
+                  ? toRupiah(
+                      currentPaymentMethod.method.toUpperCase() === 'KPCOD'
+                        ? settings.nmax_amount_po_cod
+                        : settings.nmax_amount_po_non_cod,
+                    )
+                  : toRupiah(0)}
+              </Typography>
+            </div>
+            <div className={classes.sIInfo}>
+              <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
                 Ongkos kirim
               </Typography>
               <Typography variant={'body1'} className={classes.sIInfoValue}>
@@ -403,6 +500,16 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               : ''
           }
           {...{ currentPaymentMethod }}
+        />
+        <Snackbar
+          key={snackbarState.key}
+          open={snackbarState.open}
+          msg={snackbarState.msg}
+          severity={snackbarState.severity}
+          onClose={onSnackbarClose}
+          anchorOrigin={snackbarState.anchorOrigin}
+          className={classes.snackbar}
+          autoHideDuration={snackbarState.timeout}
         />
       </div>
     </div>

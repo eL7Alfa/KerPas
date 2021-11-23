@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
     sIInfoLabel: {
       color: '#ffffff',
       fontWeight: 800,
+      paddingRight: theme.spacing(1),
     },
     sIInfoValue: {
       color: '#ffffff',
@@ -133,6 +134,11 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
       margin: `0 ${theme.spacing(2)}`,
       borderColor: '#ffffff',
+    },
+    snackbar: {
+      position: 'absolute',
+      top: theme.spacing(1),
+      width: '95%',
     },
   }),
 );
