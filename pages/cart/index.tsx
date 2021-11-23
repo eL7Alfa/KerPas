@@ -17,8 +17,10 @@ const Index = () => {
       </Head>
       <CssBaseline />
       <AppHeader />
-      <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
-        <Box py={1} mt={10} mb={8}>
+      <Container
+        maxWidth={'lg'}
+        sx={{ px: '0!important', overflow: 'hidden', minHeight: '100vh' }}>
+        <Box py={1} mt={10}>
           <Cart />
         </Box>
       </Container>
