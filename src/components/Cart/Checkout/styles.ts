@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: `linear-gradient(-45deg, ${theme.palette.tertiary.main} 0%, ${yellow[900]} 100%)`,
       backgroundColor: theme.palette.tertiary.main,
       borderRadius: theme.spacing(1),
-      boxShadow: '0 25px 25px -12px rgba(0,0,0,0.2)',
+      boxShadow: `0 25px 25px -12px ${alpha(theme.palette.tertiary.main, 0.5)}`,
       overflow: 'hidden',
     },
     subItem: {
