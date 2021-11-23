@@ -20,7 +20,7 @@ const Index = () => {
       <AppHeader />
       <Container
         maxWidth={'lg'}
-        sx={{ px: '0!important', overflow: 'hidden', maxHeight: '100vh' }}>
+        sx={{ px: '0!important', overflow: 'hidden', height: '100vh' }}>
         <Box py={1} mt={10}>
           <Transactions />
         </Box>
