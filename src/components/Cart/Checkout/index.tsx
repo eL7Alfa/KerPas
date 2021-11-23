@@ -257,6 +257,16 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             window.open(result.actions[0].url);
           }
           setCurrentPaymentMethod(initialCurrentPaymentMethod);
+          setSnackPack(prev => [
+            ...prev,
+            {
+              ...snackbarState,
+              open: true,
+              severity: 'success',
+              msg: 'Pemesanan sukses',
+              key: new Date().getTime(),
+            },
+          ]);
           getUserWallet();
           router.push('/transactions');
         }
@@ -470,6 +480,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             onChange={onNoteInputChange}
             className={classes.nITextField}
             multiline
+            maxRows={5}
           />
         </div>
         <div className={classes.paymentDetailsW}>
