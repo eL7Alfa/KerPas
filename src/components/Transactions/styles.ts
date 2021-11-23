@@ -1,6 +1,7 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
+import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: `linear-gradient(-45deg, ${theme.palette.primary.main} 0%, ${green[800]} 100%)`,
       backgroundColor: theme.palette.primary.main,
       borderRadius: theme.spacing(1),
-      boxShadow: '0 25px 25px -12px rgba(0,0,0,0.2)',
+      boxShadow: `0 25px 25px -12px ${alpha(theme.palette.primary.main, 0.5)}`,
       overflow: 'hidden',
     },
     subItem: {
