@@ -153,7 +153,9 @@ const Transactions = () => {
                         </Typography>
                       </div>
                     )}
-                    {t.cstatus === '2' && (
+                    {(t.cstatus === '2' ||
+                      t.cstatus === '3' ||
+                      t.cstatus === '9') && (
                       <div className={classes.tBItem}>
                         <Typography variant={'body2'}>Kurir:</Typography>
                         <Typography variant={'body2'}>
