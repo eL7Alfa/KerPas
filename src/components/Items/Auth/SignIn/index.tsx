@@ -151,6 +151,10 @@ const SignIn = () => {
     e.preventDefault();
   };
 
+  const onSignUpNowBtnClicked = () => {
+    window.location.href = 'https://keranjangbelanja.co.id/sign-up/daftar';
+  };
+
   const onCloseAuthBtnClicked = () => {
     dispatch(setAuthModalOpenR(false));
   };
@@ -256,7 +260,9 @@ const SignIn = () => {
         <Divider />
         <div className={classes.toRegisterW}>
           <Typography variant={'body2'}>Belum punya akun?</Typography>
-          <ButtonBase>Daftar Sekarang</ButtonBase>
+          <ButtonBase onClick={onSignUpNowBtnClicked}>
+            Daftar Sekarang
+          </ButtonBase>
         </div>
       </CardContent>
       <IconButton
