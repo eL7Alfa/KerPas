@@ -64,7 +64,7 @@ const AppHeader = () => {
     setSearchWidth('60%');
   };
 
-  const onProfileBtnClicked = (e: {
+  const onAccountBtnClicked = (e: {
     currentTarget: React.SetStateAction<HTMLElement | null>;
   }) => {
     setProfileBtnEl(e.currentTarget);
@@ -77,6 +77,10 @@ const AppHeader = () => {
   const onTransactionBtnClicked = () => {
     router.push('/transactions');
     onCloseProfileBtnClicked();
+  };
+
+  const onProfileBtnClicked = () => {
+    window.open('https://keranjangbelanja.co.id/profil');
   };
 
   const onLogoutClicked = () => {
@@ -193,7 +197,7 @@ const AppHeader = () => {
               <Fragment>
                 <Button
                   className={classes.userProfileBtn}
-                  onClick={onProfileBtnClicked}>
+                  onClick={onAccountBtnClicked}>
                   <Image
                     src={`${profileUrl}/${userData.cprofile_picture}`}
                     layout={'fill'}
@@ -209,6 +213,7 @@ const AppHeader = () => {
                   <MenuItem onClick={onTransactionBtnClicked}>
                     Transaksi
                   </MenuItem>
+                  <MenuItem onClick={onProfileBtnClicked}>Profil</MenuItem>
                   <Divider />
                   <MenuItem onClick={onLogoutClicked}>Logout</MenuItem>
                 </Menu>
