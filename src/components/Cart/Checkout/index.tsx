@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import useStyles from './styles';
 import { Payment } from '@mui/icons-material';
-import { Button, Divider, Switch, Typography } from '@mui/material';
+import { Button, Divider, Switch, TextField, Typography } from '@mui/material';
 import { CartProductTypes, useSnackbarConst } from '../../constants';
 import toRupiah from '../../../modules/toRupiah';
 import ShippingTimePicker from './ShippingTimePicker';
@@ -52,6 +52,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     method: string;
   }>(initialCurrentPaymentMethod);
   const [isOrdering, setIsOrdering] = useState(false);
+  const [noteInputValue, setNoteInputValue] = useState('');
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
 
   const onShippingTimePickerClose = () => {
@@ -111,6 +112,12 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
 
   const onUsePointBtnChange = () => {
     setUsePointEnabled(prevState => !prevState);
+  };
+
+  const onNoteInputChange = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setNoteInputValue(value);
   };
 
   const onOrderBtnClicked = () => {
@@ -229,6 +236,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       ccod: 0,
       cinsurance: 0,
       ddelivery: currentShippingTime,
+      cnote: noteInputValue,
     };
     axios(authState.userData.token)
       .post('/market/transaction', postData)
@@ -241,6 +249,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           setSubTotalPrice(0);
           setPaymentCode(0);
           setSettings({ id: undefined, nongkir: 0 });
+          setNoteInputValue('');
           dispatch(triggerCartUpdateR());
           if (currentPaymentMethod.method.toUpperCase() === 'EMONEY') {
             window.open(result.actions[0].url);
@@ -304,6 +313,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       setSubTotalPrice(0);
       setPaymentCode(0);
       setSettings({ id: undefined, nongkir: 0 });
+      setNoteInputValue('');
     }
   }, [cartProducts]);
 
@@ -448,6 +458,16 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               </div>
             )}
           </div>
+        </div>
+        <div className={classes.noteInputW}>
+          <TextField
+            variant={'filled'}
+            label={'Catatan'}
+            value={noteInputValue}
+            onChange={onNoteInputChange}
+            className={classes.nITextField}
+            multiline
+          />
         </div>
         <div className={classes.paymentDetailsW}>
           <div className={classes.totalPay}>

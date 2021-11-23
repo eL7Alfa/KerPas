@@ -103,6 +103,33 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.spacing(1),
       padding: `${theme.spacing(1)} 0`,
     },
+    noteInputW: {
+      margin: `${theme.spacing(1)} 0`,
+      padding: `0 ${theme.spacing(1)}`,
+    },
+    nITextField: {
+      width: '100%',
+      '& textarea': {
+        color: '#ffffff',
+      },
+      '& label': {
+        color: '#ffffff',
+      },
+      '& label.Mui-focused': {
+        color: '#ffffff',
+      },
+      '& .MuiFilledInput-underline:after': {
+        borderBottomColor: '#ffffff',
+      },
+      '& .MuiFilledInput-underline:before': {
+        borderBottomColor: '#cccccc',
+      },
+      '& .MuiFilledInput-root': {
+        '&:hover:not(.Mui-disabled):before': {
+          borderBottomColor: '#ffffff',
+        },
+      },
+    },
     totalPay: {
       display: 'flex',
       flexDirection: 'row',
