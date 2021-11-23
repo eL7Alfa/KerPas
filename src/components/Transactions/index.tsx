@@ -12,6 +12,8 @@ import {
   Typography,
 } from '@mui/material';
 import toRupiah from '../../modules/toRupiah';
+import Image from 'next/image';
+import { productImgUrl } from '../../config/urls';
 
 const Transactions = () => {
   const classes = useStyles();
@@ -104,6 +106,23 @@ const Transactions = () => {
                         {t.mitra.cnama_mitra}
                       </Typography>
                     </div>
+                    <div className={classes.tBSampleItem}>
+                      <div className={classes.tBSIImgW}>
+                        <Image
+                          src={`${productImgUrl}/${t.details.cimg_top}`}
+                          layout={'fill'}
+                          placeholder={'blur'}
+                          blurDataURL={`${productImgUrl}/${t.details.cimg_top}`}
+                          objectFit={'cover'}
+                          alt={t.details.cnama_produk}
+                        />
+                      </div>
+                      <div className={classes.tBSIInfo}>
+                        <Typography variant={'body2'}>
+                          {t.details.cnama_produk}
+                        </Typography>
+                      </div>
+                    </div>
                     <div className={classes.tBItem}>
                       <Typography variant={'body2'}>Jumlah:</Typography>
                       <Typography variant={'body2'}>
@@ -131,6 +150,14 @@ const Transactions = () => {
                         </Typography>
                         <Typography variant={'body2'}>
                           {t.payment_expired}
+                        </Typography>
+                      </div>
+                    )}
+                    {t.cstatus === '2' && (
+                      <div className={classes.tBItem}>
+                        <Typography variant={'body2'}>Kurir:</Typography>
+                        <Typography variant={'body2'}>
+                          {t.courier.cnama}
                         </Typography>
                       </div>
                     )}

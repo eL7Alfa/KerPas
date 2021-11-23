@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: '#ffffff',
         color: green[900],
       },
-      '&:hover': {
-        backgroundColor: '#ffffff',
+      '&:hover:not(.active)': {
+        backgroundColor: alpha('#ffffff', 0.8),
         color: green[900],
       },
     },
@@ -125,6 +125,23 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: `0 ${theme.spacing(1)}`,
       alignItems: 'center',
       justifyContent: 'space-between',
+    },
+    tBSampleItem: {
+      display: 'flex',
+      flexDirection: 'row',
+      padding: theme.spacing(1),
+    },
+    tBSIImgW: {
+      position: 'relative',
+      width: 60,
+      height: 60,
+      overflow: 'hidden',
+      borderRadius: theme.spacing(0.5),
+    },
+    tBSIInfo: {
+      display: 'flex',
+      flexDirection: 'column',
+      padding: `0 ${theme.spacing(1)}`,
     },
     tFooter: {
       display: 'flex',
