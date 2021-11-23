@@ -13,10 +13,12 @@ import mathRandomRange from '../../../modules/mathRandomRange';
 import { LoadingButton } from '@mui/lab';
 import { triggerCartUpdateR } from '../../../redux/actions/appRActions';
 import Snackbar from '../../../smallComponents/Snackbar';
+import { useRouter } from 'next/router';
 
 const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const router = useRouter();
   const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [totalOrder, setTotalOrder] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
@@ -256,6 +258,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           }
           setCurrentPaymentMethod(initialCurrentPaymentMethod);
           getUserWallet();
+          router.push('/transactions');
         }
       })
       .finally(() => setIsOrdering(false));
