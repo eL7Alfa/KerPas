@@ -36,24 +36,24 @@ const Transactions = () => {
 
   const getTransaction = (statusCode = '0') => {
     setTransactions([]);
-    axios(authState.userData.token)
-      .post('/market/transactions', {
-        ckode_user: authState.userData.ckode_user,
-        cstatus: statusCode,
-      })
-      .then(({ data: { result, response, error } }) => {
-        if (response === 200 && !error) {
-          console.log(result);
-          setTransactions(result);
-        }
-      })
-      .catch(() => setTransactions([]));
+    if (authState.userData.id) {
+      axios(authState.userData.token)
+        .post('/market/transactions', {
+          ckode_user: authState.userData.ckode_user,
+          cstatus: statusCode,
+        })
+        .then(({ data: { result, response, error } }) => {
+          if (response === 200 && !error) {
+            console.log(result);
+            setTransactions(result);
+          }
+        })
+        .catch(() => setTransactions([]));
+    }
   };
 
   useEffect(() => {
-    if (authState.userData.id) {
-      getTransaction();
-    }
+    getTransaction();
   }, [authState.userData]);
 
   return (
