@@ -84,8 +84,8 @@ const Transactions = () => {
         <Grid container spacing={2}>
           {transactions.map((t: any, key) => (
             <Grid key={key} item xs={12} sm={12} md={6}>
-              <ButtonBase className={classes.tWrapper}>
-                <Paper className={classes.tContainer}>
+              <Paper className={classes.tContainer}>
+                <ButtonBase className={classes.tWrapper}>
                   <div className={classes.tHeader}>
                     <Typography variant={'subtitle1'}>No. Invoice</Typography>
                     <Typography variant={'body1'}>{t.cnmr_po}</Typography>
@@ -135,8 +135,15 @@ const Transactions = () => {
                       </div>
                     )}
                   </div>
-                </Paper>
-              </ButtonBase>
+                </ButtonBase>
+                <div className={classes.tFooter}>
+                  {t.cstatus === '0' && (
+                    <Button variant={'text'} className={classes.tFPaymentBtn}>
+                      Pembayaran
+                    </Button>
+                  )}
+                </div>
+              </Paper>
             </Grid>
           ))}
         </Grid>
