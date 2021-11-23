@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../config/axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../redux/reducers';
 import useStyles from './styles';
 import {
@@ -14,11 +14,9 @@ import {
 import toRupiah from '../../modules/toRupiah';
 import Image from 'next/image';
 import { productImgUrl } from '../../config/urls';
-import { setAuthModalOpenR } from '../../redux/actions/authRActions';
 
 const Transactions = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { authState } = useSelector((state: rootReducerI) => state);
   const [transactions, setTransactions] = useState([]);
   const [statusCode, setStatusCode] = useState('0');
@@ -56,9 +54,6 @@ const Transactions = () => {
 
   useEffect(() => {
     getTransaction();
-    if (!authState.userData.id) {
-      dispatch(setAuthModalOpenR(true));
-    }
   }, [authState.userData]);
 
   return (
