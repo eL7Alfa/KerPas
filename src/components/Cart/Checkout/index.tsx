@@ -164,9 +164,9 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       return;
     }
     if (
-      !cartProducts.filter(
-        cP => cP.marketCode === appState.nearestMarket.ckode_mitra,
-      ).length
+      cartProducts.filter(
+        cP => cP.marketCode !== appState.nearestMarket.ckode_mitra,
+      ).length > 0
     ) {
       setSnackPack(prev => [
         ...prev,
