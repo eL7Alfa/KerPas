@@ -36,7 +36,6 @@ const AddToCart = () => {
   const dispatch = useDispatch();
   const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [open, setOpen] = useState(false);
-  const [activeSupplierCode, setActiveSupplierCode] = useState('');
   const [product, setProduct] = useState<ProductTypes | null>();
   const [selectedVariant, setSelectedVariant] = useState<any>({
     id_variasi: null,
@@ -54,6 +53,7 @@ const AddToCart = () => {
     marketCode: product?.market?.ckode_user,
     category: product?.classCode,
   });
+  const [activeSupplierCode, setActiveSupplierCode] = useState('');
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
 
@@ -265,6 +265,12 @@ const AddToCart = () => {
       setDiscount(0);
     }
   }, [product]);
+
+  useEffect(() => {
+    if (suppliers.length) {
+      setActiveSupplierCode(suppliers[0].supplierCode);
+    }
+  }, [suppliers]);
 
   useEffect(() => {
     getSettings();
