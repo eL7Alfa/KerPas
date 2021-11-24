@@ -55,9 +55,9 @@ const MyAddress = ({ data, selectedAddress }: MyAddressTypes) => {
           )}
         </div>
       </div>
-      <div className={classes.sectionB}>
-        <Button className={classes.editBtn}>UBAH</Button>
-      </div>
+      {/*<div className={classes.sectionB}>*/}
+      {/*  <Button className={classes.editBtn}>UBAH</Button>*/}
+      {/*</div>*/}
     </div>
   );
 };

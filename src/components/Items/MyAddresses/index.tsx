@@ -80,11 +80,11 @@ const MyAddresses = () => {
               <MyAddress key={key} data={d} {...{ selectedAddress }} />
             ))}
           </div>
-          <div className={classes.footer}>
-            <Button variant={'outlined'} className={classes.addAddressBtn}>
-              TAMBAH ALAMAT
-            </Button>
-          </div>
+          {/*<div className={classes.footer}>*/}
+          {/*  <Button variant={'outlined'} className={classes.addAddressBtn}>*/}
+          {/*    TAMBAH ALAMAT*/}
+          {/*  </Button>*/}
+          {/*</div>*/}
         </div>
         <IconButton
           className={classes.closeBtn}
