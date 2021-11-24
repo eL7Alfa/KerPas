@@ -71,6 +71,19 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     return;
   };
 
+  const onBuyNowBtnClicked = () => {
+    if (!authState.userData.id) {
+      dispatch(setAuthModalOpenR(true));
+      return;
+    }
+    if (!Object.keys(appState.selectedAddress).length) {
+      dispatch(setMyAddressesOpenR(true));
+      return;
+    }
+    dispatch(setAddToCartModalR({ open: true, ...product }));
+    return;
+  };
+
   useEffect(() => {
     setNearestMarket(appState.nearestMarket);
   }, [appState.nearestMarket]);
@@ -232,7 +245,10 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                 onClick={onAddToCartBtnClicked}>
                 TAMBAH <AddShoppingCart />
               </Button>
-              <Button variant={'contained'} className={classes.sBBuyNowBtn}>
+              <Button
+                variant={'contained'}
+                className={classes.sBBuyNowBtn}
+                onClick={onBuyNowBtnClicked}>
                 BELI SEKARANG
               </Button>
             </div>
