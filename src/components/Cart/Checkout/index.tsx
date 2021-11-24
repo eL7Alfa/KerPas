@@ -32,7 +32,13 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     cicon: '',
     cicon_point: '',
   });
-  const [settings, setSettings] = useState<any>({ id: undefined, nongkir: 0 });
+  const [settings, setSettings] = useState({
+    id: undefined,
+    nongkir: 0,
+    nmax_berat: 0,
+    nmax_amount_po_cod: 0,
+    nmax_amount_po_non_cod: 0,
+  });
   const [shippingTimePickerOpen, setShippingTimePickerOpen] = useState(false);
   const [currentPaymentMethodPickerOpen, setCurrentPaymentMethodPickerOpen] =
     useState(false);
@@ -55,6 +61,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   }>(initialCurrentPaymentMethod);
   const [isOrdering, setIsOrdering] = useState(false);
   const [noteInputValue, setNoteInputValue] = useState('');
+  const totalPay =
+    Number(subTotalPrice) +
+    Number(settings.nongkir) +
+    Number(serviceFee) +
+    Number(paymentCode);
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
 
   const onShippingTimePickerClose = () => {
@@ -201,7 +212,9 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             ...snackbarState,
             open: true,
             severity: 'error',
-            msg: 'Sub total harga melebihi maksimal total harga',
+            msg: `Sub total harga melebihi maksimal total harga ${toRupiah(
+              settings.nmax_amount_po_cod,
+            )}`,
             key: new Date().getTime(),
           },
         ]);
@@ -216,7 +229,23 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           ...snackbarState,
           open: true,
           severity: 'error',
-          msg: 'Sub total harga melebihi maksimal total harga',
+          msg: `Sub total harga melebihi maksimal total harga ${toRupiah(
+            settings.nmax_amount_po_non_cod,
+          )}`,
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
+
+    if (totalWeight > settings.nmax_berat) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: `Berat melebihi batas maksimal ${settings.nmax_berat}gr`,
           key: new Date().getTime(),
         },
       ]);
@@ -250,7 +279,13 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           setTotalWeight(0);
           setSubTotalPrice(0);
           setPaymentCode(0);
-          setSettings({ id: undefined, nongkir: 0 });
+          setSettings({
+            id: undefined,
+            nongkir: 0,
+            nmax_berat: 0,
+            nmax_amount_po_cod: 0,
+            nmax_amount_po_non_cod: 0,
+          });
           setNoteInputValue('');
           dispatch(triggerCartUpdateR());
           if (currentPaymentMethod.method.toUpperCase() === 'EMONEY') {
@@ -325,7 +360,13 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       setTotalWeight(0);
       setSubTotalPrice(0);
       setPaymentCode(0);
-      setSettings({ id: undefined, nongkir: 0 });
+      setSettings({
+        id: undefined,
+        nongkir: 0,
+        nmax_berat: 0,
+        nmax_amount_po_non_cod: 0,
+        nmax_amount_po_cod: 0,
+      });
       setNoteInputValue('');
     }
   }, [cartProducts]);
@@ -367,6 +408,14 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               {`${totalWeight}gr`}
             </Typography>
           </div>
+          <div className={classes.sIInfo}>
+            <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
+              Maksimal Berat
+            </Typography>
+            <Typography variant={'body1'} className={classes.sIInfoValue}>
+              {`${settings.nmax_berat}gr`}
+            </Typography>
+          </div>
         </div>
         <Divider className={classes.divider} />
         <div className={classes.subItem}>
@@ -401,23 +450,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Button>
           </div>
         </div>
-        {Number(wallet.nsaku_kerbel) > 0 && (
-          <div className={classes.subItem}>
-            <Typography variant={'h6'} className={classes.subItemTitle}>
-              Pakai point
-            </Typography>
-            <div className={classes.sIInfo}>
-              <Switch
-                defaultChecked
-                onChange={onUsePointBtnChange}
-                className={classes.switchBtn}
-              />
-              <Typography variant={'body1'} className={classes.sIInfoValue}>
-                {`${wallet.npoint_kerbel}`}
-              </Typography>
-            </div>
-          </div>
-        )}
         <div className={classes.paymentDetailsW}>
           <div className={classes.paymentDetailsC}>
             <div className={classes.sIInfo}>
@@ -470,6 +502,15 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
                 </Typography>
               </div>
             )}
+            <Divider sx={{ mx: 1, borderColor: '#cccccc' }} />
+            <div className={classes.sIInfo}>
+              <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
+                Total Harga
+              </Typography>
+              <Typography variant={'body1'} className={classes.sIInfoValue}>
+                {toRupiah(totalPay)}
+              </Typography>
+            </div>
           </div>
         </div>
         <div className={classes.noteInputW}>
@@ -483,6 +524,37 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             maxRows={5}
           />
         </div>
+        {Number(wallet.npoint_kerbel) > 0 && (
+          <div className={classes.subItem}>
+            <Typography variant={'h6'} className={classes.subItemTitle}>
+              Pakai Point
+            </Typography>
+            <div className={classes.sIInfo}>
+              <Switch
+                defaultChecked
+                onChange={onUsePointBtnChange}
+                className={classes.switchBtn}
+              />
+              <Typography variant={'body1'} className={classes.sIInfoValue}>
+                {toRupiah(wallet.npoint_kerbel)}
+              </Typography>
+            </div>
+            <div className={classes.sIInfo}>
+              <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
+                Sisa Point
+              </Typography>
+              <Typography variant={'body1'} className={classes.sIInfoValue}>
+                {toRupiah(
+                  usePointEnabled
+                    ? totalPay < wallet.npoint_kerbel
+                      ? wallet.npoint_kerbel - totalPay
+                      : 0
+                    : wallet.npoint_kerbel,
+                )}
+              </Typography>
+            </div>
+          </div>
+        )}
         <div className={classes.paymentDetailsW}>
           <div className={classes.totalPay}>
             <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
@@ -491,18 +563,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             <Typography variant={'h6'} className={classes.sIInfoValue}>
               {usePointEnabled && Number(wallet.npoint_kerbel) > 0
                 ? toRupiah(
-                    Number(subTotalPrice) +
-                      Number(settings.nongkir) +
-                      Number(serviceFee) +
-                      Number(paymentCode) -
-                      Number(wallet.npoint_kerbel),
+                    totalPay < Number(wallet.npoint_kerbel)
+                      ? 0
+                      : totalPay - Number(wallet.npoint_kerbel),
                   )
-                : toRupiah(
-                    Number(subTotalPrice) +
-                      Number(settings.nongkir) +
-                      Number(serviceFee) +
-                      Number(paymentCode),
-                  )}
+                : toRupiah(totalPay)}
             </Typography>
           </div>
         </div>
