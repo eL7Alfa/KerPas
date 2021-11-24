@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { green, grey, yellow } from '@mui/material/colors';
+import { blue, green, grey, yellow } from '@mui/material/colors';
 import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -105,6 +105,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
+      height: '100%',
     },
     tHeader: {
       display: 'flex',
@@ -142,15 +143,29 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       padding: `0 ${theme.spacing(1)}`,
+      textAlign: 'left',
     },
     tFooter: {
       display: 'flex',
       flexDirection: 'row',
       padding: theme.spacing(1),
       justifyContent: 'flex-end',
+      marginTop: 'auto',
     },
     tFPaymentBtn: {
-      color: yellow[900],
+      backgroundColor: yellow[900],
+      '&:hover': {
+        backgroundColor: yellow[900],
+      },
+    },
+    tFStatus: {
+      color: blue[600],
+      textTransform: 'uppercase',
+      fontWeight: 500,
+      padding: '2px 8px',
+      border: `1px ${blue[600]} solid`,
+      borderRadius: theme.spacing(2),
+      backgroundColor: alpha(blue[600], 0.15),
     },
   }),
 );

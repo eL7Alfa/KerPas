@@ -121,21 +121,13 @@ const Transactions = () => {
                         <Typography variant={'body2'}>
                           {t.details.cnama_produk}
                         </Typography>
+                        <Typography variant={'body2'}>
+                          {toRupiah(t.details.nharga_total)}
+                        </Typography>
+                        <Typography variant={'body2'}>
+                          {`${t.details.nqty} item`}
+                        </Typography>
                       </div>
-                    </div>
-                    <div className={classes.tBItem}>
-                      <Typography variant={'body2'}>Jumlah:</Typography>
-                      <Typography variant={'body2'}>
-                        {t.details.nqty}
-                      </Typography>
-                    </div>
-                    <div className={classes.tBItem}>
-                      <Typography variant={'body2'}>
-                        Sub Total Harga:
-                      </Typography>
-                      <Typography variant={'body2'}>
-                        {toRupiah(t.details.nharga_total)}
-                      </Typography>
                     </div>
                     <div className={classes.tBItem}>
                       <Typography variant={'body2'}>Total Harga:</Typography>
@@ -143,16 +135,17 @@ const Transactions = () => {
                         {toRupiah(t.namount)}
                       </Typography>
                     </div>
-                    {t.cstatus === '0' && (
-                      <div className={classes.tBItem}>
-                        <Typography variant={'body2'}>
-                          Bayar sebelum:
-                        </Typography>
-                        <Typography variant={'body2'}>
-                          {t.payment_expired}
-                        </Typography>
-                      </div>
-                    )}
+                    {t.cstatus === '0' &&
+                      t.cpayment_type.toUpperCase() !== 'POINT' && (
+                        <div className={classes.tBItem}>
+                          <Typography variant={'body2'}>
+                            Bayar sebelum:
+                          </Typography>
+                          <Typography variant={'body2'}>
+                            {t.payment_expired}
+                          </Typography>
+                        </div>
+                      )}
                     {(t.cstatus === '2' ||
                       t.cstatus === '3' ||
                       t.cstatus === '9') && (
@@ -166,10 +159,31 @@ const Transactions = () => {
                   </div>
                 </ButtonBase>
                 <div className={classes.tFooter}>
-                  {t.cstatus === '0' && (
-                    <Button variant={'text'} className={classes.tFPaymentBtn}>
-                      Pembayaran
-                    </Button>
+                  {t.cstatus === '0' &&
+                  t.cpayment_type.toUpperCase() !== 'POINT' ? (
+                    t.cpayment_type.toUpperCase() !== 'TRANSFER_MANUAL' ? (
+                      <Button
+                        variant={'contained'}
+                        className={classes.tFPaymentBtn}>
+                        Pembayaran
+                      </Button>
+                    ) : t.cupload_bukti === '0' ? (
+                      <Button
+                        variant={'contained'}
+                        className={classes.tFPaymentBtn}>
+                        Pembayaran
+                      </Button>
+                    ) : (
+                      <Typography
+                        variant={'body2'}
+                        className={classes.tFStatus}>
+                        Menunggu konfirmasi admin
+                      </Typography>
+                    )
+                  ) : (
+                    <Typography variant={'body2'} className={classes.tFStatus}>
+                      Menunggu konfirmasi admin
+                    </Typography>
                   )}
                 </div>
               </Paper>
