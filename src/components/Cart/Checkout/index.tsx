@@ -405,15 +405,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           </Typography>
           <div className={classes.sIInfo}>
             <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
-              Total Item
-            </Typography>
-            <Typography variant={'body1'} className={classes.sIInfoValue}>
-              {`${cartProducts.length} item`}
-            </Typography>
-          </div>
-          <div className={classes.sIInfo}>
-            <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
-              Total Pesanan
+              Jumlah Item
             </Typography>
             <Typography variant={'body1'} className={classes.sIInfoValue}>
               {`${totalOrder} item`}
