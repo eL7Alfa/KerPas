@@ -190,7 +190,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       ]);
       return;
     }
-    if (!currentPaymentMethod.id) {
+    if (!currentPaymentMethod.id && !usePointEnabled) {
       setSnackPack(prev => [
         ...prev,
         {
@@ -203,7 +203,19 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       ]);
       return;
     }
-
+    if (usePointEnabled && wallet.npoint_kerbel < totalPay) {
+      setSnackPack(prev => [
+        ...prev,
+        {
+          ...snackbarState,
+          open: true,
+          severity: 'error',
+          msg: 'Silahkan pilih metode pembayaran terlebih dahulu',
+          key: new Date().getTime(),
+        },
+      ]);
+      return;
+    }
     if (currentPaymentMethod.method.toUpperCase() === 'KPCOD') {
       if (subTotalPrice > settings.nmax_amount_po_cod) {
         setSnackPack(prev => [
@@ -221,7 +233,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
         return;
       }
     }
-
     if (subTotalPrice > settings.nmax_amount_po_non_cod) {
       setSnackPack(prev => [
         ...prev,
@@ -237,7 +248,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       ]);
       return;
     }
-
     if (totalWeight > settings.nmax_berat) {
       setSnackPack(prev => [
         ...prev,
@@ -331,6 +341,12 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
         );
       });
   };
+
+  useEffect(() => {
+    if (usePointEnabled && wallet.npoint_kerbel > totalPay) {
+      setCurrentPaymentMethod(initialCurrentPaymentMethod);
+    }
+  }, [usePointEnabled]);
 
   useEffect(() => {
     if (authState.userData.id) {
@@ -443,7 +459,10 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               variant={'contained'}
               onClick={onPaymentMethodPickerBtnClicked}
               className={classes.paymentMethodPickerBtn}
-              disabled={!cartProducts.length}>
+              disabled={
+                !cartProducts.length ||
+                (usePointEnabled && wallet.npoint_kerbel > totalPay)
+              }>
               {currentPaymentMethod.code
                 ? currentPaymentMethod.name
                 : `Pilih metode pembayaran`}
