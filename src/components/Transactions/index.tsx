@@ -145,9 +145,7 @@ const Transactions = () => {
                           </Typography>
                         </div>
                       )}
-                    {(t.cstatus === '2' ||
-                      t.cstatus === '3' ||
-                      t.cstatus === '9') && (
+                    {t.cstatus !== '0' && (
                       <div className={classes.tBItem}>
                         <Typography variant={'body2'}>Kurir:</Typography>
                         <Typography variant={'body2'}>
@@ -158,31 +156,42 @@ const Transactions = () => {
                   </div>
                 </ButtonBase>
                 <div className={classes.tFooter}>
-                  {t.cstatus === '0' &&
-                  t.cpayment_type.toUpperCase() !== 'POINT' ? (
-                    t.cpayment_type.toUpperCase() !== 'TRANSFER_MANUAL' ? (
-                      <Button
-                        variant={'contained'}
-                        className={classes.tFPaymentBtn}>
-                        Pembayaran
-                      </Button>
-                    ) : t.cupload_bukti === '0' ? (
-                      <Button
-                        variant={'contained'}
-                        className={classes.tFPaymentBtn}>
-                        Pembayaran
-                      </Button>
+                  {t.cstatus === '0' ? (
+                    t.cpayment_type.toUpperCase() !== 'POINT' ? (
+                      t.cpayment_type.toUpperCase() !== 'TRANSFER_MANUAL' ? (
+                        <Button
+                          variant={'contained'}
+                          className={classes.tFPaymentBtn}>
+                          Pembayaran
+                        </Button>
+                      ) : t.cupload_bukti === '0' ? (
+                        <Button
+                          variant={'contained'}
+                          className={classes.tFPaymentBtn}>
+                          Pembayaran
+                        </Button>
+                      ) : (
+                        <Typography
+                          variant={'body2'}
+                          className={classes.tFStatus}>
+                          Menunggu konfirmasi admin
+                        </Typography>
+                      )
                     ) : (
-                      <Typography
-                        variant={'body2'}
-                        className={classes.tFStatus}>
-                        Menunggu konfirmasi admin
-                      </Typography>
+                      t.cpayment_type.toUpperCase() === 'POINT' && (
+                        <Typography
+                          variant={'body2'}
+                          className={classes.tFStatus}>
+                          Menunggu konfirmasi admin
+                        </Typography>
+                      )
                     )
                   ) : (
-                    <Typography variant={'body2'} className={classes.tFStatus}>
-                      Menunggu konfirmasi admin
-                    </Typography>
+                    <Button
+                      variant={'contained'}
+                      className={classes.tFPaymentBtn}>
+                      Pesan Ulang
+                    </Button>
                   )}
                 </div>
               </Paper>
