@@ -446,7 +446,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               disabled={!cartProducts.length}>
               {currentPaymentMethod.code
                 ? currentPaymentMethod.name
-                : `Pilih metode pengiriman`}
+                : `Pilih metode pembayaran`}
             </Button>
           </div>
         </div>
