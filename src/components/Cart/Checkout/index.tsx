@@ -269,7 +269,10 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       cstore_location: appState.nearestMarket.cloc,
       nweight: totalWeight,
       nongkir: settings.nongkir,
-      nservice: currentPaymentMethod.id,
+      nservice:
+        usePointEnabled && wallet.npoint_kerbel > totalPay
+          ? 19
+          : currentPaymentMethod.id,
       ua: 'W',
       nunique_code: paymentCode,
       npoint_kerbel:
@@ -490,6 +493,8 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
                         ? settings.nmax_amount_po_cod
                         : settings.nmax_amount_po_non_cod,
                     )
+                  : usePointEnabled && wallet.npoint_kerbel > totalPay
+                  ? toRupiah(settings.nmax_amount_po_non_cod)
                   : toRupiah(0)}
               </Typography>
             </div>
