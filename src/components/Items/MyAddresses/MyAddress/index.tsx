@@ -46,8 +46,9 @@ const MyAddress = ({ data, selectedAddress }: MyAddressTypes) => {
             <Button
               variant={'contained'}
               className={classes.selectBtn}
-              onClick={onSelectAddressClicked}>
-              PILIH
+              onClick={onSelectAddressClicked}
+              disabled={!data.maddress}>
+              {!data.maddress ? 'BELUM PIN POINT' : 'PILIH'}
             </Button>
           ) : (
             <CheckCircle className={classes.selectedCheckbox} />
