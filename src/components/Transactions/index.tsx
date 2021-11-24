@@ -44,7 +44,6 @@ const Transactions = () => {
         })
         .then(({ data: { result, response, error } }) => {
           if (response === 200 && !error) {
-            console.log(result);
             setTransactions(result);
           }
         })
