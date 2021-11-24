@@ -34,6 +34,12 @@ const useStyles = makeStyles((theme: Theme) =>
         color: '#000000',
       },
     },
+    forgotPasswordBtnW: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%',
+      justifyContent: 'flex-end',
+    },
     submitBtn: {
       margin: `${theme.spacing(2)} 0`,
       width: '70%',

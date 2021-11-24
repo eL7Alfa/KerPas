@@ -155,6 +155,10 @@ const SignIn = () => {
     window.location.href = 'https://keranjangbelanja.co.id/sign-up/daftar';
   };
 
+  const onForgotPasswordBtnClicked = () => {
+    window.location.href = 'https://keranjangbelanja.co.id/forgetpassword';
+  };
+
   const onCloseAuthBtnClicked = () => {
     dispatch(setAuthModalOpenR(false));
   };
@@ -238,6 +242,11 @@ const SignIn = () => {
               }}
             />
           </Box>
+          <div className={classes.forgotPasswordBtnW}>
+            <ButtonBase onClick={onForgotPasswordBtnClicked}>
+              Lupa kata sandi
+            </ButtonBase>
+          </div>
           <LoadingButton
             variant={'contained'}
             className={classes.submitBtn}
