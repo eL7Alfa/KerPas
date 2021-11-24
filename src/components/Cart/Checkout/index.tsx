@@ -119,6 +119,9 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       if (method.toUpperCase() === 'BANK_TRANSFER') {
         setPaymentCode(mathRandomRange(100, 300));
       } else {
+        if (method.toUpperCase() === 'KPCOD') {
+          setUsePointEnabled(false);
+        }
         setPaymentCode(0);
       }
     };
@@ -540,37 +543,40 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             maxRows={5}
           />
         </div>
-        {Number(wallet.npoint_kerbel) > 0 && (
-          <div className={classes.subItem}>
-            <Typography variant={'h6'} className={classes.subItemTitle}>
-              Pakai Point
-            </Typography>
-            <div className={classes.sIInfo}>
-              <Switch
-                defaultChecked
-                onChange={onUsePointBtnChange}
-                className={classes.switchBtn}
-              />
-              <Typography variant={'body1'} className={classes.sIInfoValue}>
-                {toRupiah(wallet.npoint_kerbel)}
+        {currentPaymentMethod.method.toUpperCase() !== 'KPCOD' &&
+          Number(wallet.npoint_kerbel) > 0 && (
+            <div className={classes.subItem}>
+              <Typography variant={'h6'} className={classes.subItemTitle}>
+                Pakai Point
               </Typography>
+              <div className={classes.sIInfo}>
+                <Switch
+                  defaultChecked={usePointEnabled}
+                  onChange={onUsePointBtnChange}
+                  className={classes.switchBtn}
+                />
+                <Typography variant={'body1'} className={classes.sIInfoValue}>
+                  {toRupiah(wallet.npoint_kerbel)}
+                </Typography>
+              </div>
+              <div className={classes.sIInfo}>
+                <Typography
+                  variant={'subtitle1'}
+                  className={classes.sIInfoLabel}>
+                  Sisa Point
+                </Typography>
+                <Typography variant={'body1'} className={classes.sIInfoValue}>
+                  {toRupiah(
+                    usePointEnabled
+                      ? totalPay < wallet.npoint_kerbel
+                        ? wallet.npoint_kerbel - totalPay
+                        : 0
+                      : wallet.npoint_kerbel,
+                  )}
+                </Typography>
+              </div>
             </div>
-            <div className={classes.sIInfo}>
-              <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
-                Sisa Point
-              </Typography>
-              <Typography variant={'body1'} className={classes.sIInfoValue}>
-                {toRupiah(
-                  usePointEnabled
-                    ? totalPay < wallet.npoint_kerbel
-                      ? wallet.npoint_kerbel - totalPay
-                      : 0
-                    : wallet.npoint_kerbel,
-                )}
-              </Typography>
-            </div>
-          </div>
-        )}
+          )}
         <div className={classes.paymentDetailsW}>
           <div className={classes.totalPay}>
             <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
