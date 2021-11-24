@@ -248,19 +248,19 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       ]);
       return;
     }
-    if (totalWeight > settings.nmax_berat) {
-      setSnackPack(prev => [
-        ...prev,
-        {
-          ...snackbarState,
-          open: true,
-          severity: 'error',
-          msg: `Berat melebihi batas maksimal ${settings.nmax_berat}gr`,
-          key: new Date().getTime(),
-        },
-      ]);
-      return;
-    }
+    // if (totalWeight > settings.nmax_berat) {
+    //   setSnackPack(prev => [
+    //     ...prev,
+    //     {
+    //       ...snackbarState,
+    //       open: true,
+    //       severity: 'error',
+    //       msg: `Berat melebihi batas maksimal ${settings.nmax_berat}gr`,
+    //       key: new Date().getTime(),
+    //     },
+    //   ]);
+    //   return;
+    // }
 
     setIsOrdering(true);
     let postData = {
@@ -419,14 +419,14 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               {`${totalWeight}gr`}
             </Typography>
           </div>
-          <div className={classes.sIInfo}>
-            <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>
-              Maksimal Berat
-            </Typography>
-            <Typography variant={'body1'} className={classes.sIInfoValue}>
-              {`${settings.nmax_berat}gr`}
-            </Typography>
-          </div>
+          {/*<div className={classes.sIInfo}>*/}
+          {/*  <Typography variant={'subtitle1'} className={classes.sIInfoLabel}>*/}
+          {/*    Maksimal Berat*/}
+          {/*  </Typography>*/}
+          {/*  <Typography variant={'body1'} className={classes.sIInfoValue}>*/}
+          {/*    {`${settings.nmax_berat}gr`}*/}
+          {/*  </Typography>*/}
+          {/*</div>*/}
         </div>
         <Divider className={classes.divider} />
         <div className={classes.subItem}>
