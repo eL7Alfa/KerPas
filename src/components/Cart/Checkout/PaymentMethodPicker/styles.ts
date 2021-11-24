@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
       boxShadow: '0 20px 20px -10px rgba(0,0,0,0.3)',
       zIndex: 1,
       overflow: 'hidden',
-      height: '100%',
+      height: 'fit-content',
+      maxHeight: '90%',
     },
     header: {
       display: 'flex',
