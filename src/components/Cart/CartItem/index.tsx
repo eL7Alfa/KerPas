@@ -9,6 +9,7 @@ import axios from '../../../config/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import { triggerCartUpdateR } from '../../../redux/actions/appRActions';
+import moment from 'moment';
 
 interface CartItemPropsTypes extends CartProductTypes {
   isLoading: boolean;
@@ -16,22 +17,15 @@ interface CartItemPropsTypes extends CartProductTypes {
 
 const CartItem = ({
   cartId,
-  cartCode,
   name,
   price,
   discount,
   fixedPrice,
-  slug,
   imageUri,
-  imageTop,
   qty,
-  sku,
-  market,
+  marketCode,
   size,
-  sizeId,
-  unit,
   variantName,
-  variantId,
   weight,
   isLoading,
 }: CartItemPropsTypes) => {
@@ -79,17 +73,23 @@ const CartItem = ({
   };
 
   const getSettings = () => {
-    axios()
-      .get('/market/setting')
-      .then(({ data }) => {
-        const { result } = data;
-        setMaxQty(result[0].nmargin_item);
-      });
+    if (marketCode) {
+      axios()
+        .post('/market/setting/specific', {
+          ckode_market: marketCode,
+          tz_offset: (new Date().getTimezoneOffset() / 60) * -1,
+          date: moment().format('yyyy-MM-DD'),
+        })
+        .then(({ data }) => {
+          const { result } = data;
+          setMaxQty(result.nmargin_item);
+        });
+    }
   };
 
   useEffect(() => {
     getSettings();
-  }, []);
+  }, [marketCode]);
 
   return (
     <div className={classes.root}>

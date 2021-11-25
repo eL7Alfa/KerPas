@@ -31,22 +31,17 @@ const ShippingTimePicker = ({
           </Typography>
         </div>
         <div className={classes.body}>
-          <Button
-            variant={'contained'}
-            className={`${classes.pickerBtn} ${
-              currentShippingTime === settings.ctrip_reguler_1 ? 'active' : ''
-            }`}
-            onClick={onChange(settings.ctrip_reguler_1)}>
-            {settings.ctrip_reguler_1}
-          </Button>
-          <Button
-            variant={'contained'}
-            className={`${classes.pickerBtn} ${
-              currentShippingTime === settings.ctrip_reguler_2 ? 'active' : ''
-            }`}
-            onClick={onChange(settings.ctrip_reguler_2)}>
-            {settings.ctrip_reguler_2}
-          </Button>
+          {settings.ajam_tersedia.map((jT: string, key: number) => (
+            <Button
+              key={key}
+              variant={'contained'}
+              className={`${classes.pickerBtn} ${
+                currentShippingTime === jT ? 'active' : ''
+              }`}
+              onClick={onChange(jT)}>
+              {jT}
+            </Button>
+          ))}
         </div>
       </Paper>
     </div>

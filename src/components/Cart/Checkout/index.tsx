@@ -1,7 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import useStyles from './styles';
-import { Payment } from '@mui/icons-material';
-import { Button, Divider, Switch, TextField, Typography } from '@mui/material';
+import { Edit, Payment } from '@mui/icons-material';
+import {
+  Button,
+  Divider,
+  InputAdornment,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { CartProductTypes, useSnackbarConst } from '../../constants';
 import toRupiah from '../../../modules/toRupiah';
 import ShippingTimePicker from './ShippingTimePicker';
@@ -10,10 +17,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import PaymentMethodPicker from './PaymentMethodPicker';
 import mathRandomRange from '../../../modules/mathRandomRange';
-import { LoadingButton } from '@mui/lab';
+import {
+  LoadingButton,
+  LocalizationProvider,
+  MobileDatePicker,
+} from '@mui/lab';
 import { triggerCartUpdateR } from '../../../redux/actions/appRActions';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useRouter } from 'next/router';
+import moment, { Moment } from 'moment';
+import DateAdapter from '@mui/lab/AdapterMoment';
 
 const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const classes = useStyles();
@@ -42,6 +55,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const [shippingTimePickerOpen, setShippingTimePickerOpen] = useState(false);
   const [currentPaymentMethodPickerOpen, setCurrentPaymentMethodPickerOpen] =
     useState(false);
+  const [shippingDate, setShippingDate] = useState<Moment>(moment());
   const [currentShippingTime, setCurrentShippingTime] = useState('');
   const initialCurrentPaymentMethod = {
     id: undefined,
@@ -67,6 +81,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     Number(serviceFee) +
     Number(paymentCode);
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
+
+  const onDatePicked = (value: Moment | null) => {
+    setShippingDate(value!);
+    cartProducts.length && getSettings({ date: value?.format('Y-MM-DD') });
+  };
 
   const onShippingTimePickerClose = () => {
     setShippingTimePickerOpen(false);
@@ -335,16 +354,20 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       });
   };
 
-  const getSettings = () => {
+  const getSettings = ({
+    date = moment().format('yyyy-MM-DD'),
+  }: {
+    tzOffset?: number;
+    date?: string;
+  }) => {
     axios()
-      .get('/market/setting')
+      .post('/market/setting/specific', {
+        ckode_market: cartProducts[0].marketCode,
+        tz_offset: (new Date().getTimezoneOffset() / 60) * -1,
+        date,
+      })
       .then(({ data: { result } }) => {
-        setSettings(
-          result.filter(
-            (r: { ckode_mitra: string }) =>
-              r.ckode_mitra === cartProducts[0].marketCode,
-          )[0],
-        );
+        setSettings(result);
       });
   };
 
@@ -362,7 +385,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
 
   useEffect(() => {
     if (cartProducts.length) {
-      getSettings();
+      getSettings({});
       let newTotalOrder = 0;
       let newSubTotalPrice = 0;
       let newTotalWeight = 0;
@@ -393,6 +416,8 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     }
   }, [cartProducts]);
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -437,36 +462,60 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             Waktu Pengantaran
           </Typography>
           <div className={classes.sIInfo}>
+            <LocalizationProvider dateAdapter={DateAdapter}>
+              <MobileDatePicker
+                openTo={'day'}
+                views={['year', 'month', 'day']}
+                label={'Tanggal'}
+                value={shippingDate}
+                onChange={onDatePicked}
+                minDate={moment()}
+                disableCloseOnSelect={false}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    variant={'standard'}
+                    helperText={null}
+                  />
+                )}
+                //@ts-ignore
+                TextFieldProps={{
+                  className: classes.sIIDatePickerInput,
+                }}
+              />
+            </LocalizationProvider>
+          </div>
+          <div className={classes.sIInfo}>
             <Button
               variant={'contained'}
               onClick={onShippingTimePickerBtnClicked}
               className={classes.shippingTimePickerBtn}
               disabled={!cartProducts.length || !settings.id}>
-              {currentShippingTime
-                ? currentShippingTime
-                : `Pilih waktu pengantaran`}
+              {currentShippingTime ? currentShippingTime : `Jam`}
             </Button>
           </div>
         </div>
-        <div className={classes.subItem}>
-          <Typography variant={'h6'} className={classes.subItemTitle}>
-            Metode Pembayaran
-          </Typography>
-          <div className={classes.sIInfo}>
-            <Button
-              variant={'contained'}
-              onClick={onPaymentMethodPickerBtnClicked}
-              className={classes.paymentMethodPickerBtn}
-              disabled={
-                !cartProducts.length ||
-                (usePointEnabled && wallet.npoint_kerbel > totalPay)
-              }>
-              {currentPaymentMethod.code
-                ? currentPaymentMethod.name
-                : `Pilih metode pembayaran`}
-            </Button>
+        {!usePointEnabled && (
+          <div className={classes.subItem}>
+            <Typography variant={'h6'} className={classes.subItemTitle}>
+              Metode Pembayaran
+            </Typography>
+            <div className={classes.sIInfo}>
+              <Button
+                variant={'contained'}
+                onClick={onPaymentMethodPickerBtnClicked}
+                className={classes.paymentMethodPickerBtn}
+                disabled={
+                  !cartProducts.length ||
+                  (usePointEnabled && wallet.npoint_kerbel > totalPay)
+                }>
+                {currentPaymentMethod.code
+                  ? currentPaymentMethod.name
+                  : `Pilih metode pembayaran`}
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
         <div className={classes.paymentDetailsW}>
           <div className={classes.paymentDetailsC}>
             <div className={classes.sIInfo}>
@@ -541,6 +590,13 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             className={classes.nITextField}
             multiline
             maxRows={5}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position={'end'}>
+                  <Edit sx={{ color: '#ffffff' }} />
+                </InputAdornment>
+              ),
+            }}
           />
         </div>
         {currentPaymentMethod.method.toUpperCase() !== 'KPCOD' &&
@@ -559,22 +615,24 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
                   {toRupiah(wallet.npoint_kerbel)}
                 </Typography>
               </div>
-              <div className={classes.sIInfo}>
-                <Typography
-                  variant={'subtitle1'}
-                  className={classes.sIInfoLabel}>
-                  Sisa Point
-                </Typography>
-                <Typography variant={'body1'} className={classes.sIInfoValue}>
-                  {toRupiah(
-                    usePointEnabled
-                      ? totalPay < wallet.npoint_kerbel
-                        ? wallet.npoint_kerbel - totalPay
-                        : 0
-                      : wallet.npoint_kerbel,
-                  )}
-                </Typography>
-              </div>
+              {usePointEnabled && (
+                <div className={classes.sIInfo}>
+                  <Typography
+                    variant={'subtitle1'}
+                    className={classes.sIInfoLabel}>
+                    Sisa Point
+                  </Typography>
+                  <Typography variant={'body1'} className={classes.sIInfoValue}>
+                    {toRupiah(
+                      usePointEnabled
+                        ? totalPay < wallet.npoint_kerbel
+                          ? wallet.npoint_kerbel - totalPay
+                          : 0
+                        : wallet.npoint_kerbel,
+                    )}
+                  </Typography>
+                </div>
+              )}
             </div>
           )}
         <div className={classes.paymentDetailsW}>

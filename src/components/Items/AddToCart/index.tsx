@@ -30,6 +30,7 @@ import { setAuthModalOpenR } from '../../../redux/actions/authRActions';
 import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { LoadingButton } from '@mui/lab';
+import moment from 'moment';
 
 const AddToCart = () => {
   const classes = useStyles();
@@ -58,12 +59,18 @@ const AddToCart = () => {
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
 
   const getSettings = () => {
-    axios()
-      .get('/market/setting')
-      .then(({ data }) => {
-        const { result } = data;
-        setMaxQty(result[0].nmargin_item);
-      });
+    if (appState.nearestMarket.id) {
+      axios()
+        .post('/market/setting/specific', {
+          ckode_market: appState.nearestMarket.ckode_mitra,
+          tz_offset: (new Date().getTimezoneOffset() / 60) * -1,
+          date: moment().format('yyyy-MM-DD'),
+        })
+        .then(({ data }) => {
+          const { result } = data;
+          setMaxQty(result.nmargin_item);
+        });
+    }
   };
 
   const onSelectSupplierChange = (supplier: SupplierPropsTypes) => () => {
@@ -274,7 +281,7 @@ const AddToCart = () => {
 
   useEffect(() => {
     getSettings();
-  }, []);
+  }, [appState.nearestMarket.id]);
 
   if (!product) {
     return <Fragment />;

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: 'hidden',
     },
     subItem: {
-      padding: theme.spacing(1),
+      padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
     },
     subItemTitle: {
       color: '#ffffff',
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: `0 ${theme.spacing(1)}`,
+      padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
     },
     sIInfoLabel: {
       color: '#ffffff',
@@ -56,6 +56,32 @@ const useStyles = makeStyles((theme: Theme) =>
     sIInfoValue: {
       color: '#ffffff',
       fontWeight: 800,
+    },
+    sIIDatePickerInput: {
+      width: '100%',
+      '& input': {
+        color: '#ffffff',
+      },
+      '& label': {
+        color: '#ffffff',
+      },
+      '& label.Mui-focused': {
+        color: '#ffffff',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: '#ffffff',
+      },
+      '& .MuiInput-underline:before': {
+        borderBottomColor: '#cccccc',
+      },
+      '& .MuiInput-root': {
+        '&:hover:not(.Mui-disabled):before': {
+          borderBottomColor: '#ffffff',
+        },
+      },
+      '& .MuiInputAdornment-root .MuiButtonBase-root': {
+        color: '#ffffff',
+      },
     },
     shippingTimePickerBtn: {
       backgroundColor: '#ffffff',
