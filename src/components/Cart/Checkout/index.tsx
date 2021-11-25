@@ -495,8 +495,9 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Button>
           </div>
         </div>
-        {((Number(wallet.npoint_kerbel) > 0 && !usePointEnabled) ||
-          Number(wallet.npoint_kerbel) === 0) && (
+        {((wallet.npoint_kerbel < totalPay && usePointEnabled) ||
+          wallet.npoint_kerbel === 0 ||
+          !usePointEnabled) && (
           <div className={classes.subItem}>
             <Typography variant={'h6'} className={classes.subItemTitle}>
               Metode Pembayaran

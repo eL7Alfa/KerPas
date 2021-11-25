@@ -18,6 +18,7 @@ import { useGetCartProducts } from '../../../Requests/GlobalRequests';
 import toRupiah from '../../../modules/toRupiah';
 import theme from '../../../config/theme';
 import { useRouter } from 'next/router';
+import NoItemInCart from '../NoItemInCart';
 
 type CartButtonPropsType = {
   classes?: { iconButton: string };
@@ -78,6 +79,7 @@ const CartButton = ({
                 </div>
                 <Divider sx={{ mx: theme.spacing(1) }} />
                 <div className={classes.cMPBody}>
+                  {!cartProducts.length && <NoItemInCart variant={'small'} />}
                   {cartProducts.slice(0, 3).map((cP, key) => (
                     <ListItem key={key}>
                       <ListItemAvatar>

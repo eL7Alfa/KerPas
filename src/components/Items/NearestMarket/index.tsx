@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
 import Image from 'next/image';
 import { Button } from '@mui/material';
@@ -8,6 +8,7 @@ import { rootReducerI } from '../../../redux/reducers';
 import Market from '../Market';
 import { useRouter } from 'next/router';
 import { MarketParamsTypes, newMarkets } from '../../constants';
+import NoNearestMarket from './NoNearestMarket';
 
 export type NearestMarketTypes = {
   hideShowMoreBtn?: boolean;
@@ -48,7 +49,7 @@ const NearestMarket = ({ hideShowMoreBtn = false }: NearestMarketTypes) => {
   }, [selector.appState.nearestMarket]);
 
   if (!marketId) {
-    return <Fragment />;
+    return <NoNearestMarket />;
   }
   return (
     <div className={classes.root}>

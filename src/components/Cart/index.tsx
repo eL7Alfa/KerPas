@@ -5,6 +5,7 @@ import useStyles from './styles';
 import CheckOut from './Checkout';
 import { Typography } from '@mui/material';
 import { ShoppingCart } from '@mui/icons-material';
+import NoItemInCart from '../Items/NoItemInCart';
 
 const Cart = () => {
   const classes = useStyles();
@@ -18,6 +19,7 @@ const Cart = () => {
             Keranjang
           </Typography>
         </div>
+        {!cartProducts.length && <NoItemInCart variant={'large'} />}
         {cartProducts.map((cP, key) => (
           <CartItem key={key} {...cP} isLoading={isCartProductLoading} />
         ))}

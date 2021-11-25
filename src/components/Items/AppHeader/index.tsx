@@ -183,9 +183,10 @@ const AppHeader = () => {
             </div>
           </Hidden>
           <div className={classes.toolbarItemRight}>
-            {userData !== authDefStateR.userData && (
-              <CartButton classes={{ iconButton: classes.cartBtn }} />
-            )}
+            {userData !== authDefStateR.userData &&
+              router.pathname !== '/cart' && (
+                <CartButton classes={{ iconButton: classes.cartBtn }} />
+              )}
             {userData === authDefStateR.userData ? (
               <Button
                 className={classes.loginButton}

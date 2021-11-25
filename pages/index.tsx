@@ -92,12 +92,17 @@ export default function Home() {
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
         <Box py={1} mt={10} mb={8}>
+          {!nearestMarket.id && <NearestMarket />}
           <Campaign data={campaigns} />
           <FeaturedServices data={featuredServiceData} />
           <Categories />
           <Divider />
-          <NearestMarket />
-          <Divider />
+          {nearestMarket.id && (
+            <Fragment>
+              <NearestMarket />
+              <Divider />
+            </Fragment>
+          )}
           <Promos data={promotedProducts} />
           <Divider />
           <ProductsByCategory
