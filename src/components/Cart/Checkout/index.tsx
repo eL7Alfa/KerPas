@@ -225,7 +225,11 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       ]);
       return;
     }
-    if (usePointEnabled && wallet.npoint_kerbel < totalPay) {
+    if (
+      usePointEnabled &&
+      Number(wallet.npoint_kerbel) < totalPay &&
+      !currentPaymentMethod.id
+    ) {
       setSnackPack(prev => [
         ...prev,
         {
@@ -495,8 +499,8 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Button>
           </div>
         </div>
-        {((wallet.npoint_kerbel < totalPay && usePointEnabled) ||
-          wallet.npoint_kerbel === 0 ||
+        {((Number(wallet.npoint_kerbel) < totalPay && usePointEnabled) ||
+          Number(wallet.npoint_kerbel) === 0 ||
           !usePointEnabled) && (
           <div className={classes.subItem}>
             <Typography variant={'h6'} className={classes.subItemTitle}>

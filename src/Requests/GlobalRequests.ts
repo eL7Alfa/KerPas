@@ -380,7 +380,7 @@ export const useGetCartProducts = () => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [cartProducts, setCartProducts] = useState<CartProductTypes[]>([]);
   const [isCartProductLoading, setIsCartProductLoading] =
-    useState<boolean>(false);
+    useState<boolean>(true);
   useEffect(() => {
     setIsCartProductLoading(true);
     if (authState.userData.token) {

@@ -19,7 +19,9 @@ const Cart = () => {
             Keranjang
           </Typography>
         </div>
-        {!cartProducts.length && <NoItemInCart variant={'large'} />}
+        {!isCartProductLoading && !cartProducts.length && (
+          <NoItemInCart variant={'large'} />
+        )}
         {cartProducts.map((cP, key) => (
           <CartItem key={key} {...cP} isLoading={isCartProductLoading} />
         ))}
