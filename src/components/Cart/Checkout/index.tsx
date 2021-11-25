@@ -495,27 +495,28 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             </Button>
           </div>
         </div>
-        {!usePointEnabled && (
-          <div className={classes.subItem}>
-            <Typography variant={'h6'} className={classes.subItemTitle}>
-              Metode Pembayaran
-            </Typography>
-            <div className={classes.sIInfo}>
-              <Button
-                variant={'contained'}
-                onClick={onPaymentMethodPickerBtnClicked}
-                className={classes.paymentMethodPickerBtn}
-                disabled={
-                  !cartProducts.length ||
-                  (usePointEnabled && wallet.npoint_kerbel > totalPay)
-                }>
-                {currentPaymentMethod.code
-                  ? currentPaymentMethod.name
-                  : `Pilih metode pembayaran`}
-              </Button>
+        {Number(wallet.npoint_kerbel) === 0 ||
+          (Number(wallet.npoint_kerbel) > 0 && !usePointEnabled && (
+            <div className={classes.subItem}>
+              <Typography variant={'h6'} className={classes.subItemTitle}>
+                Metode Pembayaran
+              </Typography>
+              <div className={classes.sIInfo}>
+                <Button
+                  variant={'contained'}
+                  onClick={onPaymentMethodPickerBtnClicked}
+                  className={classes.paymentMethodPickerBtn}
+                  disabled={
+                    !cartProducts.length ||
+                    (usePointEnabled && wallet.npoint_kerbel > totalPay)
+                  }>
+                  {currentPaymentMethod.code
+                    ? currentPaymentMethod.name
+                    : `Pilih metode pembayaran`}
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
         <div className={classes.paymentDetailsW}>
           <div className={classes.paymentDetailsC}>
             <div className={classes.sIInfo}>
