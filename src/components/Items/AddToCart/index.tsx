@@ -44,6 +44,7 @@ const AddToCart = () => {
   });
   const [selectedDetailVariant, setSelectedDetailVariant] = useState<any>({
     id_ukuran: null,
+    cnama_ukuran: '',
   });
   const [fixedPrice, setFixedPrice] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
@@ -179,6 +180,7 @@ const AddToCart = () => {
           id_variasi: selectedVariant.id_variasi,
           variasi: selectedVariant.cnama_variasi,
           id_ukuran: selectedDetailVariant.id_ukuran,
+          ukuran: selectedDetailVariant.cnama_ukuran,
         };
         axios(authState.userData.token)
           .post('/market/cart/add', formData)
@@ -243,6 +245,7 @@ const AddToCart = () => {
     });
     setSelectedDetailVariant({
       id_ukuran: null,
+      cnama_ukuran: '',
     });
     setActiveSupplierCode('');
     setQty(1);

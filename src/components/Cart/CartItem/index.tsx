@@ -39,7 +39,7 @@ const CartItem = ({
     if (mode === 'reduce' && qty! <= 1) {
       return;
     }
-    if (mode === 'add' && qty! >= 5) {
+    if (mode === 'add' && qty! >= maxQty) {
       return;
     }
     if (!isOptionsBtnDisabled) {
@@ -144,7 +144,7 @@ const CartItem = ({
               }`}
             </Typography>
             <Typography variant={'body1'} className={classes.variantDetail}>
-              {`Detail Variasi: ${size ?? '-'}`}
+              {`Detail Variasi: ${size?.toUpperCase() === 'NONE' ? '-' : size}`}
             </Typography>
           </div>
         </div>
