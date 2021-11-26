@@ -20,7 +20,7 @@ const Index = () => {
       <Container
         maxWidth={'lg'}
         sx={{ px: '0!important', overflow: 'hidden', minHeight: '100vh' }}>
-        <Box py={1} mt={10}>
+        <Box py={1} mt={10} mb={8}>
           <Cart />
         </Box>
       </Container>

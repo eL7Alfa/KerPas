@@ -80,7 +80,7 @@ const Index = () => {
       <CssBaseline />
       <AppHeader />
       <Container maxWidth={'lg'} sx={{ px: '0!important', overflow: 'hidden' }}>
-        <Box py={1} mt={7} mb={8}>
+        <Box py={1} mt={9} mb={8}>
           <NearestMarket />
           <Categories />
           <Products
