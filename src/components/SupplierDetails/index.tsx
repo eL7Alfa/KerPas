@@ -96,7 +96,7 @@ const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
   return (
     <Fragment>
       <Head>
-        <meta name="description" content={`Kios ${supplier.name}`} />
+        <meta name={'description'} content={`Kios ${supplier.name}`} />
         <title>{`KerPas - Kios ${supplier.name}`}</title>
       </Head>
       <div className={classes.root}>

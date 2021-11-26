@@ -73,9 +73,12 @@ const Index = () => {
   return (
     <Fragment>
       <Head>
-        <meta name="description" content={`Kategori bahan pangan ${name}`} />
+        <meta
+          name={'description'}
+          content={`Kategori bahan pangan ${name ?? ''}`.trim()}
+        />
         <link rel="icon" href="/favicon.ico" />
-        <title>KerPas - {name}</title>
+        <title>{`KerPas ${name ?? ''}`.trim()}</title>
       </Head>
       <CssBaseline />
       <AppHeader />

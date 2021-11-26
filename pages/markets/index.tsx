@@ -16,7 +16,7 @@ const Index = () => {
   return (
     <Fragment>
       <Head>
-        <meta name="description" content={'Pasar yang terdaftar'} />
+        <meta name={'description'} content={'Pasar yang terdaftar'} />
         <link rel="icon" href="/favicon.ico" />
         <title>KerPas - Pasar</title>
       </Head>

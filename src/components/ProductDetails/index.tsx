@@ -96,7 +96,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
     <Fragment>
       <Head>
         <meta
-          name="description"
+          name={'description'}
           content={`${product.name} - ${
             parse(`<div>${product.description}</div>`).innerText
           }`}
