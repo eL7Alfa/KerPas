@@ -39,6 +39,7 @@ const PaymentMethodPicker = ({
   const [paymentMethods, setPaymentMethods] = useState<any[]>([]);
 
   const getPaymentMethod = () => {
+    setPaymentMethods([]);
     axios(authState.userData.token)
       .post('/market/payment/method', {
         ckode_user: authState.userData.ckode_user,
@@ -49,14 +50,15 @@ const PaymentMethodPicker = ({
         if (response === 200) {
           setPaymentMethods(result);
         }
-      });
+      })
+      .catch(() => setPaymentMethods([]));
   };
 
   useEffect(() => {
-    if (authState.userData.token && marketCode) {
+    if (authState.userData.token && marketCode && open) {
       getPaymentMethod();
     }
-  }, [authState.userData.token, marketCode]);
+  }, [authState.userData.token, marketCode, open]);
 
   if (!open) {
     return <Fragment />;
