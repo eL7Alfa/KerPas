@@ -677,6 +677,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           open={currentPaymentMethodPickerOpen}
           onClose={onPaymentMethodPickerClose}
           onChange={onPaymentMethodPickerChanged}
+          {...{ cartProducts }}
           marketCode={
             cartProducts.length
               ? cartProducts[0].marketCode

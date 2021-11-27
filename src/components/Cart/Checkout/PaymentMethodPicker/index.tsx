@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { rootReducerI } from '../../../../redux/reducers';
 import Image from 'next/image';
 import { Close } from '@mui/icons-material';
+import { CartProductTypes } from '../../../constants';
 
 const PaymentMethodPicker = ({
   open,
@@ -13,6 +14,7 @@ const PaymentMethodPicker = ({
   currentPaymentMethod,
   onChange,
   marketCode,
+  cartProducts,
 }: {
   open: boolean;
   onClose: () => void;
@@ -33,6 +35,7 @@ const PaymentMethodPicker = ({
     method: string;
   }) => () => void;
   marketCode: string;
+  cartProducts: CartProductTypes[];
 }) => {
   const classes = useStyles();
   const { authState } = useSelector((state: rootReducerI) => state);
@@ -55,10 +58,10 @@ const PaymentMethodPicker = ({
   };
 
   useEffect(() => {
-    if (authState.userData.token && marketCode && open) {
+    if (authState.userData.token && marketCode && cartProducts.length) {
       getPaymentMethod();
     }
-  }, [authState.userData.token, marketCode, open]);
+  }, [authState.userData.token, marketCode, cartProducts]);
 
   if (!open) {
     return <Fragment />;
