@@ -135,7 +135,8 @@ const Transactions = () => {
                       </Typography>
                     </div>
                     {t.cstatus === '0' &&
-                      t.cpayment_type.toUpperCase() !== 'POINT' && (
+                      t.cpayment_type.toUpperCase() !== 'POINT' &&
+                      t.cpayment_type.toUpperCase() !== 'COD' && (
                         <div className={classes.tBItem}>
                           <Typography variant={'body2'}>
                             Bayar sebelum:
@@ -153,11 +154,20 @@ const Transactions = () => {
                         </Typography>
                       </div>
                     )}
+                    <div className={classes.tBItem}>
+                      <Typography variant={'body2'}>
+                        Metode Pembayaran:
+                      </Typography>
+                      <Typography variant={'body2'}>
+                        {t.payment_method.cbank}
+                      </Typography>
+                    </div>
                   </div>
                 </ButtonBase>
                 <div className={classes.tFooter}>
                   {t.cstatus === '0' ? (
-                    t.cpayment_type.toUpperCase() !== 'POINT' ? (
+                    t.cpayment_type.toUpperCase() !== 'POINT' &&
+                    t.cpayment_type.toUpperCase() !== 'COD' ? (
                       t.cpayment_type.toUpperCase() !== 'TRANSFER_MANUAL' ? (
                         <Button
                           variant={'contained'}
