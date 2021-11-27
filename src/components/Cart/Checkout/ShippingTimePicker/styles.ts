@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme: Theme) =>
       right: 0,
       bottom: 0,
       left: 0,
+      padding: theme.spacing(1),
+      [theme.breakpoints.down('sm')]: {
+        position: 'fixed',
+        zIndex: 9999,
+      },
     },
     backdrop: {
       position: 'absolute',
@@ -31,10 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       padding: theme.spacing(1),
+      alignItems: 'center',
     },
     hTitle: {
       color: grey[800],
       fontWeight: 800,
+      textAlign: 'center',
     },
     body: {
       display: 'flex',
@@ -58,6 +65,11 @@ const useStyles = makeStyles((theme: Theme) =>
         color: yellow[900],
         boxShadow: 'none',
       },
+    },
+    noItemInfo: {
+      padding: theme.spacing(1),
+      fontWeight: 800,
+      color: grey[700],
     },
   }),
 );

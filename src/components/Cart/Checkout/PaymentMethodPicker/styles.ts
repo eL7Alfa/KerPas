@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
       left: 0,
       padding: theme.spacing(1),
+      [theme.breakpoints.down('sm')]: {
+        position: 'fixed',
+        zIndex: 9999,
+      },
     },
     backdrop: {
       position: 'absolute',

@@ -42,6 +42,11 @@ const ShippingTimePicker = ({
               {jT}
             </Button>
           ))}
+          {settings.cstatus_jam === '2' && (
+            <Typography variant={'body2'} className={classes.noItemInfo}>
+              Maaf pengantaran hari ini sudah selesai.
+            </Typography>
+          )}
         </div>
       </Paper>
     </div>
