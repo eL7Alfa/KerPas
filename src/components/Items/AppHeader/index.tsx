@@ -212,7 +212,7 @@ const AppHeader = () => {
                   anchorEl={profileBtnEl}
                   onClose={onCloseProfileBtnClicked}>
                   <MenuItem onClick={onTransactionBtnClicked}>
-                    Transaksi
+                    Riwayat Transaksi
                   </MenuItem>
                   <MenuItem onClick={onProfileBtnClicked}>Profil</MenuItem>
                   <Divider />
