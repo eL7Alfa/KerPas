@@ -131,7 +131,7 @@ const Transactions = () => {
                     <div className={classes.tBItem}>
                       <Typography variant={'body2'}>Total Harga:</Typography>
                       <Typography variant={'body2'}>
-                        {toRupiah(t.namount)}
+                        {toRupiah(t.namount - t.details.ndiscount_total)}
                       </Typography>
                     </div>
                     {t.cstatus === '0' &&
