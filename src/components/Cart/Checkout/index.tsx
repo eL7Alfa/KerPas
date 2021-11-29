@@ -456,8 +456,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     }
   }, [cartProducts]);
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <div className={classes.root}>
       <div className={classes.header}>
