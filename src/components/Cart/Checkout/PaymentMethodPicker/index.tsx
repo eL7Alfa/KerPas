@@ -7,6 +7,7 @@ import { rootReducerI } from '../../../../redux/reducers';
 import Image from 'next/image';
 import { Close } from '@mui/icons-material';
 import { CartProductTypes } from '../../../constants';
+import { paymentIconUrl } from '../../../../config/urls';
 
 const PaymentMethodPicker = ({
   open,
@@ -107,10 +108,10 @@ const PaymentMethodPicker = ({
                     <div className={classes.pBContainer}>
                       <div className={classes.pBIcon}>
                         <Image
-                          src={`https://kbi.sfo3.digitaloceanspaces.com/api/icon/payment/${pMD.cicon}`}
+                          src={`${paymentIconUrl}/${pMD.cicon}`}
                           alt={pMD.cbank}
                           placeholder={'blur'}
-                          blurDataURL={`https://kbi.sfo3.digitaloceanspaces.com/api/icon/payment/${pMD.cicon}`}
+                          blurDataURL={`${paymentIconUrl}/${pMD.cicon}`}
                           layout={'fill'}
                           objectFit={'cover'}
                         />

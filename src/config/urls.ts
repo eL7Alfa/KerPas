@@ -6,3 +6,5 @@ export const productImgUrl =
   'https://kbi.sfo3.digitaloceanspaces.com/assets/product';
 export const marketImgUrl =
   'https://kbi.sfo3.digitaloceanspaces.com/api/public/assets/upload/images/mitra';
+export const paymentIconUrl =
+  'https://kbi.sfo3.digitaloceanspaces.com/api/icon/payment';
