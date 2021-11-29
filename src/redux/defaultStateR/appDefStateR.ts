@@ -33,7 +33,7 @@ export type appDefStateRT = {
   };
   addToCartModal: addToCartModal;
   cartUpdateId: string;
-  paymentModal: { open: boolean };
+  paymentModal: { open: boolean; transactionCode: string };
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -82,5 +82,6 @@ export const appDefStateR: appDefStateRT = {
   cartUpdateId: uuid(),
   paymentModal: {
     open: false,
+    transactionCode: '',
   },
 };
