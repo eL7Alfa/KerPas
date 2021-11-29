@@ -8,6 +8,7 @@ import axios from '../../../config/axios';
 import { Payment as PaymentIcon } from '@mui/icons-material';
 import Image from 'next/image';
 import { paymentIconUrl } from '../../../config/urls';
+import toRupiah from '../../../modules/toRupiah';
 
 const Payment = () => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
@@ -15,6 +16,29 @@ const Payment = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [transaction, setTransaction] = useState<any>({});
+  const totalPay =
+    transaction.details.reduce(
+      (
+        a: number,
+        b: {
+          nharga_item: number;
+          ndiscamount: number;
+          nqty: number;
+        },
+      ) => {
+        return (
+          a +
+          Math.floor(b.nharga_item - b.nharga_item * (b.ndiscamount / 100)) *
+            Number(b.nqty)
+        );
+      },
+      0,
+    ) +
+    transaction.shipping.nongkir +
+    transaction.payment.nbiaya_layanan +
+    (transaction.payment.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL'
+      ? transaction.payment.nunique_code
+      : 0);
 
   const getTransactionDetail = () => {
     axios(authState.userData.token)
@@ -61,6 +85,41 @@ const Payment = () => {
                 placeholder={'blur'}
                 blurDataURL={`${paymentIconUrl}/${transaction.payment.cicon}`}
               />
+            </div>
+            <div className={classes.bPaymentInfoW}>
+              <Typography
+                variant={'subtitle1'}
+                className={classes.bPaymentInfoBankName}>
+                Pembayaran Melalui {transaction.payment.cbank} Senilai
+              </Typography>
+            </div>
+            <div className={classes.bPaymentInfoW}>
+              <Typography
+                variant={'body1'}
+                className={classes.bPaymentInfoPrice}>
+                {toRupiah(totalPay)}
+              </Typography>
+            </div>
+            <div className={classes.bPaymentInfoW}>
+              <Typography
+                variant={'subtitle1'}
+                className={classes.bPaymentInfoBankName}>
+                Transfer Ke No Rekening
+              </Typography>
+            </div>
+            <div className={classes.bPaymentInfoW}>
+              <Typography
+                variant={'body1'}
+                className={classes.bPaymentInfoBankAccount}>
+                {transaction.payment.cbank_account}
+              </Typography>
+            </div>
+            <div className={classes.bPaymentInfoProvisionW}>
+              <Typography
+                variant={'body1'}
+                className={classes.bPaymentInfoProvision}>
+                (BAYAR SESUAI HARGA DI ATAS AGAR PROSES TRANSAKSI LANCAR)
+              </Typography>
             </div>
           </div>
         </Paper>
