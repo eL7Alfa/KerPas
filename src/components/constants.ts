@@ -112,7 +112,7 @@ export const newProducts: newProductsTypes = data =>
         imagesUri: cimg?.map(ci => `${productImgUrl}/${ci}`),
         price: nretail_price,
         discount: ndiscount,
-        fixedPrice: Math.ceil(
+        fixedPrice: Math.floor(
           nretail_price - nretail_price * (ndiscount / 100),
         ),
         slug: cslug,
@@ -485,7 +485,7 @@ export const newCartProducts: newCartProductsTypes = data =>
         imageTop: cimg,
         imageUri: `${productImgUrl}/${cimg}`,
         price: nprice,
-        fixedPrice: Math.ceil(nprice - nprice * (ndiscount / 100)),
+        fixedPrice: Math.floor(nprice - nprice * (ndiscount / 100)),
         discount: ndiscount,
         slug: cslug,
         marketCode: cstore,

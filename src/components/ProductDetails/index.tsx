@@ -151,11 +151,11 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
                   fontWeight={800}
                   className={classes.sBPFixedPrice}>
                   {toRupiah(
-                    Math.ceil(
-                      product.variants[0].data[0].nretail_price -
+                    product.variants[0].data[0].nretail_price -
+                      Math.floor(
                         product.variants[0].data[0].nretail_price *
                           (product.variants[0].data[0].ndiscount / 100),
-                    ),
+                      ),
                   )}
                 </Typography>
               )}

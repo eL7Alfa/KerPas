@@ -94,9 +94,9 @@ const AddToCart = () => {
   const onDetailVariantChanged = (variant: any) => () => {
     setSelectedDetailVariant(variant);
     setFixedPrice(
-      Math.ceil(
+      Math.floor(
         variant.nretail_price -
-          (variant.nretail_price * variant.ndiscount) / 100,
+          variant.nretail_price * (variant.ndiscount / 100),
       ),
     );
     setPrice(variant.nretail_price);
@@ -277,11 +277,10 @@ const AddToCart = () => {
       product.variants[0].cnama_variasi.toUpperCase() === 'NONE'
     ) {
       setFixedPrice(
-        Math.ceil(
+        Math.floor(
           product.variants[0].data[0].nretail_price -
-            (product.variants[0].data[0].nretail_price *
-              product.variants[0].data[0].ndiscount) /
-              100,
+            product.variants[0].data[0].nretail_price *
+              (product.variants[0].data[0].ndiscount / 100),
         ),
       );
       setPrice(product.variants[0].data[0].nretail_price);

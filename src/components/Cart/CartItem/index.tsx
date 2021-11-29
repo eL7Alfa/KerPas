@@ -112,7 +112,7 @@ const CartItem = ({
             <div className={classes.priceW}>
               <div className={classes.fixedPriceW}>
                 <Typography variant={'body1'} className={classes.fixedPrice}>
-                  {toRupiah(Math.round(fixedPrice))}
+                  {toRupiah(fixedPrice)}
                 </Typography>
                 <Typography variant={'body1'} className={classes.fPUnit}>
                   {`/ Pcs`}
