@@ -16,29 +16,6 @@ const Payment = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [transaction, setTransaction] = useState<any>({});
-  const totalPay =
-    transaction.details.reduce(
-      (
-        a: number,
-        b: {
-          nharga_item: number;
-          ndiscamount: number;
-          nqty: number;
-        },
-      ) => {
-        return (
-          a +
-          Math.floor(b.nharga_item - b.nharga_item * (b.ndiscamount / 100)) *
-            Number(b.nqty)
-        );
-      },
-      0,
-    ) +
-    transaction.shipping.nongkir +
-    transaction.payment.nbiaya_layanan +
-    (transaction.payment.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL'
-      ? transaction.payment.nunique_code
-      : 0);
 
   const getTransactionDetail = () => {
     axios(authState.userData.token)
@@ -47,7 +24,9 @@ const Payment = () => {
         cnmr_po: appState.paymentModal.transactionCode,
       })
       .then(({ data: { result, response, error } }) => {
-        setTransaction(result[0]);
+        if (response === 200 && !error) {
+          setTransaction(result[0]);
+        }
       });
   };
 
@@ -65,6 +44,30 @@ const Payment = () => {
   if (!Object.keys(transaction).length) {
     return <Fragment />;
   }
+
+  const totalPay =
+    transaction.details.reduce(
+      (
+        a: number,
+        b: {
+          nharga_item: number;
+          ndiscamount: number;
+          nqty: number;
+        },
+      ) => {
+        return (
+          a +
+          (b.nharga_item - Math.floor(b.nharga_item * (b.ndiscamount / 100))) *
+            Number(b.nqty)
+        );
+      },
+      0,
+    ) +
+    transaction.shipping.nongkir +
+    transaction.payment.nbiaya_layanan +
+    (transaction.payment.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL'
+      ? transaction.payment.nunique_code
+      : 0);
 
   return (
     <Modal {...{ open, onClose }}>

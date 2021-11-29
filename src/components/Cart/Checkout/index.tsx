@@ -401,6 +401,42 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
       setTotalOrder(newTotalOrder);
       setSubTotalPrice(newSubTotalPrice);
       setTotalWeight(newTotalWeight);
+
+      setIsOrdering(true);
+      axios(authState.userData.token)
+        .post('/market/payment/method', {
+          ckode_user: authState.userData.ckode_user,
+          ckode_mitra: cartProducts[0].marketCode,
+          ccod: 1,
+        })
+        .then(({ data: { result, response } }) => {
+          if (response === 200) {
+            let newCurrentPaymentMethod: any = {};
+            result.map((r: any) => {
+              const pMD = r.data.map((a: any) => {
+                if (a.id === currentPaymentMethod.id) {
+                  newCurrentPaymentMethod = {
+                    ...a,
+                    cpayment_method: r.cpayment_method,
+                  };
+                }
+              });
+            });
+            if (Object.keys(newCurrentPaymentMethod).length) {
+              setCurrentPaymentMethod({
+                id: newCurrentPaymentMethod.id,
+                name: newCurrentPaymentMethod.cbank,
+                code: newCurrentPaymentMethod.cbank_code,
+                icon: newCurrentPaymentMethod.cicon,
+                providerFee: newCurrentPaymentMethod.nprovider_fee,
+                method: newCurrentPaymentMethod.cpayment_method,
+              });
+              setServiceFee(newCurrentPaymentMethod.nprovider_fee);
+            }
+          }
+        })
+        .catch(() => setCurrentPaymentMethod(initialCurrentPaymentMethod))
+        .finally(() => setIsOrdering(false));
     } else {
       setCurrentPaymentMethod(initialCurrentPaymentMethod);
       setCurrentShippingTime('');
