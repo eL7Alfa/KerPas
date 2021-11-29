@@ -158,6 +158,58 @@ export const useGetProducts = ({
   };
 };
 
+export type useGetSearchedProductsTypes = {
+  searchText: string;
+};
+
+export const useGetSearchedProducts = ({
+  searchText,
+}: useGetSearchedProductsTypes) => {
+  const [products, setProducts] = useState<ProductTypes[]>([]);
+  const [lastProductsPage, setLastProductsPage] = useState<number>(0);
+  const [isProductsLoading, setIsProductsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    setIsProductsLoading(true);
+    if (searchText) {
+      axios()
+        .get(`/market/product/search/${searchText}`)
+        .then(({ data }) => {
+          if (
+            data.response === 200 &&
+            data &&
+            !data.error &&
+            data.result.data.length
+          ) {
+            setProducts(newProducts(data.result.data));
+            setLastProductsPage(data.result.last_page);
+          } else {
+            setProducts([]);
+            setLastProductsPage(0);
+          }
+        })
+        .catch(() => {
+          setProducts([]);
+          setLastProductsPage(0);
+        })
+        .finally(() => {
+          setIsProductsLoading(false);
+        });
+    } else {
+      setProducts([]);
+      setLastProductsPage(0);
+      setIsProductsLoading(false);
+    }
+  }, [searchText]);
+  return {
+    products,
+    setProducts,
+    lastProductsPage,
+    setLastProductsPage,
+    isProductsLoading,
+    setIsProductsLoading,
+  };
+};
+
 export type useGetSuppliersTypes = {
   marketCode: string;
   limit?: number;

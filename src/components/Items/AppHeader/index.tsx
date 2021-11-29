@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Fragment,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -40,6 +46,7 @@ const AppHeader = () => {
   const selector = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
   const router = useRouter();
+  const { searchText } = router.query;
   const {
     authState: { userData: userDataR },
   } = selector;
@@ -51,6 +58,7 @@ const AppHeader = () => {
   );
   const profileBtnHovered = Boolean(profileBtnEl);
   const [selectedAddress, setSelectedAddress] = useState<any>({});
+  const [searchTextS, setSearchTextS] = useState('');
 
   const onLogoClicked = () => {
     router.pathname === '/' ? router.reload() : router.push('/');
@@ -62,6 +70,17 @@ const AppHeader = () => {
 
   const onSearchBlurred = () => {
     setSearchWidth('60%');
+  };
+
+  const onSearchInputChange = (
+    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    setSearchTextS(e.target.value);
+  };
+  const onSearchSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    router.push(`/search/${formData.get('search')}`);
   };
 
   const onAccountBtnClicked = (e: {
@@ -143,6 +162,10 @@ const AppHeader = () => {
     setUserData(userDataR);
   }, [userDataR]);
 
+  useEffect(() => {
+    setSearchTextS((searchText as string) ?? '');
+  }, [searchText]);
+
   return (
     <Fragment>
       <AppBar position="fixed" elevation={5} className={classes.root}>
@@ -160,7 +183,10 @@ const AppHeader = () => {
             </Typography>
           </ButtonBase>
           <Hidden smDown>
-            <div className={classes.searchW}>
+            <form
+              className={classes.searchW}
+              onSubmit={onSearchSubmit}
+              method={'GET'}>
               <ClickAwayListener onClickAway={onSearchBlurred}>
                 <div
                   className={classes.search}
@@ -169,6 +195,9 @@ const AppHeader = () => {
                     <SearchIcon />
                   </div>
                   <InputBase
+                    name={'search'}
+                    value={searchTextS}
+                    onChange={onSearchInputChange}
                     placeholder="Cari di kerpas"
                     classes={{
                       root: classes.inputRoot,
@@ -177,10 +206,12 @@ const AppHeader = () => {
                     inputProps={{ 'aria-label': 'search' }}
                     onFocus={onSearchFocused}
                   />
-                  <Button className={classes.searchBtn}>Cari</Button>
+                  <Button className={classes.searchBtn} type={'submit'}>
+                    Cari
+                  </Button>
                 </div>
               </ClickAwayListener>
-            </div>
+            </form>
           </Hidden>
           <div className={classes.toolbarItemRight}>
             {userData !== authDefStateR.userData &&
