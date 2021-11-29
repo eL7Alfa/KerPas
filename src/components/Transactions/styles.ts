@@ -166,6 +166,11 @@ const useStyles = makeStyles((theme: Theme) =>
       border: `1px ${blue[600]} solid`,
       borderRadius: theme.spacing(2),
       backgroundColor: alpha(blue[600], 0.15),
+      '&.payViaEMoney': {
+        color: yellow[900],
+        border: `1px ${yellow[900]} solid`,
+        backgroundColor: alpha(yellow[900], 0.15),
+      },
     },
   }),
 );

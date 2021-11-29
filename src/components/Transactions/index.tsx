@@ -54,8 +54,8 @@ const Transactions = () => {
     }
   };
 
-  const onPaymentBtnClicked = () => {
-    dispatch(setPaymentModalR({ open: true }));
+  const onPaymentBtnClicked = (transactionCode: string) => () => {
+    dispatch(setPaymentModalR({ open: true, transactionCode }));
   };
 
   useEffect(() => {
@@ -177,16 +177,16 @@ const Transactions = () => {
                       t.cpayment_type.toUpperCase() !== 'POINT' &&
                       t.cpayment_type.toUpperCase() !== 'COD' ? (
                         t.cpayment_type.toUpperCase() !== 'TRANSFER_MANUAL' ? (
-                          <Button
-                            variant={'contained'}
-                            className={classes.tFPaymentBtn}>
-                            Pembayaran
-                          </Button>
+                          <Typography
+                            variant={'body2'}
+                            className={`${classes.tFStatus} payViaEMoney`}>
+                            {`Bayar Melalui ${t.payment_method.cbank}`}
+                          </Typography>
                         ) : t.cupload_bukti === '0' ? (
                           <Button
                             variant={'contained'}
                             className={classes.tFPaymentBtn}
-                            onClick={onPaymentBtnClicked}>
+                            onClick={onPaymentBtnClicked(t.cnmr_po)}>
                             Pembayaran
                           </Button>
                         ) : (

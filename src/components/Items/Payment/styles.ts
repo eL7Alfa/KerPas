@@ -1,7 +1,5 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { green, red } from '@mui/material/colors';
-import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,11 +26,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     titleIcon: {
       fontSize: theme.typography.h5.fontSize,
-      backgroundColor: theme.palette.primary.main,
-      color: '#ffffff',
+      color: theme.palette.primary.main,
       width: 36,
       height: 36,
-      padding: theme.spacing(0.8),
       borderRadius: 36 / 2,
     },
     title: {
@@ -40,7 +36,13 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 800,
       color: '#424242',
     },
-    body: {},
+    body: { display: 'flex', flexDirection: 'column' },
+    imgW: {
+      position: 'relative',
+      width: 80,
+      height: 80,
+      margin: '0 auto',
+    },
   }),
 );
 
