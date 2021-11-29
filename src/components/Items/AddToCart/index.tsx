@@ -31,10 +31,12 @@ import axios from '../../../config/axios';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { LoadingButton } from '@mui/lab';
 import moment from 'moment';
+import { useRouter } from 'next/router';
 
 const AddToCart = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const router = useRouter();
   const { appState, authState } = useSelector((state: rootReducerI) => state);
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState<ProductTypes | null>();
@@ -58,6 +60,9 @@ const AddToCart = () => {
   const [activeSupplierCode, setActiveSupplierCode] = useState('');
   const { snackbarState, setSnackPack, onSnackbarClose } = useSnackbarConst();
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+  const [callback, setCallback] = useState<'default' | 'openCart' | undefined>(
+    'default',
+  );
 
   const getSettings = () => {
     if (appState.nearestMarket.id) {
@@ -199,6 +204,15 @@ const AddToCart = () => {
               dispatch(triggerCartUpdateR());
               setTimeout(() => {
                 onSnackbarClose();
+                switch (appState.addToCartModal.callback) {
+                  case 'openCart': {
+                    router.push('/cart');
+                    break;
+                  }
+                  default: {
+                    break;
+                  }
+                }
                 dispatch(
                   setAddToCartModalR({
                     discount: 0,
@@ -209,9 +223,10 @@ const AddToCart = () => {
                     price: 0,
                     slug: '',
                     open: false,
+                    callback: 'default',
                   }),
                 );
-              }, 1500);
+              }, 1000);
             }
           })
           .finally(() => setIsAddingToCart(false));
@@ -225,6 +240,7 @@ const AddToCart = () => {
       setAddToCartModalR({
         variants: [],
         open: false,
+        callback: 'default',
         discount: 0,
         fixedPrice: 0,
         imageUri: '',
@@ -247,9 +263,12 @@ const AddToCart = () => {
       id_ukuran: null,
       cnama_ukuran: '',
     });
-    setActiveSupplierCode('');
+    if (suppliers.length) {
+      setActiveSupplierCode(suppliers[0].supplierCode);
+    }
     setQty(1);
-  }, [appState.addToCartModal.open]);
+    setCallback(appState.addToCartModal.callback);
+  }, [appState.addToCartModal.open, suppliers]);
 
   useEffect(() => {
     if (
@@ -432,14 +451,26 @@ const AddToCart = () => {
             </div>
           </div>
           <div className={classes.footer}>
-            <LoadingButton
-              loading={isAddingToCart}
-              variant={'contained'}
-              className={classes.addToCartBtn}
-              onClick={onAddToCartBtnClicked}>
-              TAMBAH KE KERANJANG
-              <AddShoppingCart />
-            </LoadingButton>
+            {callback === 'default' ? (
+              <LoadingButton
+                loading={isAddingToCart}
+                variant={'contained'}
+                className={classes.addToCartBtn}
+                onClick={onAddToCartBtnClicked}>
+                TAMBAH KE KERANJANG
+                <AddShoppingCart />
+              </LoadingButton>
+            ) : (
+              callback === 'openCart' && (
+                <LoadingButton
+                  loading={isAddingToCart}
+                  variant={'contained'}
+                  className={classes.addToCartBtn}
+                  onClick={onAddToCartBtnClicked}>
+                  BELI SEKARANG
+                </LoadingButton>
+              )
+            )}
           </div>
           <Snackbar
             key={snackbarState.key}

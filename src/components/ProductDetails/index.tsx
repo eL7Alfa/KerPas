@@ -80,7 +80,9 @@ const ProductDetails = ({ product }: ProductDetailsPropsTypes) => {
       dispatch(setMyAddressesOpenR(true));
       return;
     }
-    dispatch(setAddToCartModalR({ open: true, ...product }));
+    dispatch(
+      setAddToCartModalR({ open: true, callback: 'openCart', ...product }),
+    );
     return;
   };
 

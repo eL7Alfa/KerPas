@@ -24,7 +24,10 @@ const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
       return { ...state, marketDetailsModal: payload };
     }
     case setAddToCartModalT: {
-      return { ...state, addToCartModal: payload };
+      return {
+        ...state,
+        addToCartModal: { ...state.addToCartModal, ...payload },
+      };
     }
     case triggerCartUpdateT: {
       return { ...state, cartUpdateId: payload };

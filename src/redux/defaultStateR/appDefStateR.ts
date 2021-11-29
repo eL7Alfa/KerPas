@@ -15,6 +15,7 @@ export type NearestMarketTypes = {
 
 export interface addToCartModal extends ProductTypes {
   open: boolean;
+  callback?: 'default' | 'openCart';
 }
 
 export type appDefStateRT = {
@@ -59,6 +60,7 @@ export const appDefStateR: appDefStateRT = {
   },
   addToCartModal: {
     open: false,
+    callback: 'default',
     discount: 0,
     classCode: '',
     class: '',
