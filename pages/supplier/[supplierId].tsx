@@ -6,6 +6,7 @@ import { useInit } from '../../src/components/constants';
 import Auth from '../../src/components/Items/Auth';
 import { useRouter } from 'next/router';
 import SupplierDetails from '../../src/components/SupplierDetails';
+import AddToCart from '../../src/components/Items/AddToCart';
 
 const Index = () => {
   useInit();
@@ -26,6 +27,7 @@ const Index = () => {
         </Box>
       </Container>
       <Auth />
+      <AddToCart />
     </Fragment>
   );
 };
