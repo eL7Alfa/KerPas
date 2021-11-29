@@ -3,6 +3,7 @@ import {
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
+  setPaymentModalT,
   setSelectedAddressT,
   triggerCartUpdateT,
 } from '../Types/AppRTypes';
@@ -56,5 +57,12 @@ export const triggerCartUpdateR = () => {
   return {
     type: triggerCartUpdateT,
     payload: uuid(),
+  };
+};
+
+export const setPaymentModalR = (payload: appDefStateRT['paymentModal']) => {
+  return {
+    type: setPaymentModalT,
+    payload,
   };
 };

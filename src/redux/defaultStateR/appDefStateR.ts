@@ -33,6 +33,7 @@ export type appDefStateRT = {
   };
   addToCartModal: addToCartModal;
   cartUpdateId: string;
+  paymentModal: { open: boolean };
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -79,4 +80,7 @@ export const appDefStateR: appDefStateRT = {
     slug: '',
   },
   cartUpdateId: uuid(),
+  paymentModal: {
+    open: false,
+  },
 };

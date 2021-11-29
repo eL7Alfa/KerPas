@@ -5,6 +5,7 @@ import {
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
+  setPaymentModalT,
   setSelectedAddressT,
   triggerCartUpdateT,
 } from '../Types/AppRTypes';
@@ -31,6 +32,9 @@ const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
     }
     case triggerCartUpdateT: {
       return { ...state, cartUpdateId: payload };
+    }
+    case setPaymentModalT: {
+      return { ...state, paymentModal: payload };
     }
     default:
       return state;
