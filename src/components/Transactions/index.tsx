@@ -70,6 +70,7 @@ const Transactions = () => {
         setDialogR({
           open: true,
           agreeBtnText: 'IYA',
+          disagreeBtnText: 'TIDAK',
           title: 'Batalkan Pesanan',
           body: `Apakah anda yakin ingin membatalkan pesanan dengan nomor invoice: ${transactionCode}`,
         }),
