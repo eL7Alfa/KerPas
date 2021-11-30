@@ -11,6 +11,7 @@ import { rootReducerI } from '../../src/redux/reducers';
 import Products from '../../src/components/Items/Products';
 import Auth from '../../src/components/Items/Auth';
 import AddToCart from '../../src/components/Items/AddToCart';
+import MarketDetails from '../../src/components/Items/MarketDetails';
 
 const Index = () => {
   useInit();
@@ -78,6 +79,7 @@ const Index = () => {
       </Container>
       <Auth />
       <AddToCart />
+      <MarketDetails />
     </Fragment>
   );
 };
