@@ -14,6 +14,7 @@ import Categories from '../../src/components/Items/Categories';
 import { useGetCategories } from '../../src/Requests/HomeRequests';
 import Auth from '../../src/components/Items/Auth';
 import AddToCart from '../../src/components/Items/AddToCart';
+import MarketDetails from '../../src/components/Items/MarketDetails';
 
 const Index = () => {
   useInit();
@@ -97,6 +98,7 @@ const Index = () => {
       </Container>
       <Auth />
       <AddToCart />
+      <MarketDetails />
     </Fragment>
   );
 };

@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { blue, green, grey, yellow } from '@mui/material/colors';
+import { blue, green, grey, red, yellow } from '@mui/material/colors';
 import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -99,7 +99,9 @@ const useStyles = makeStyles((theme: Theme) =>
     tWrapper: {
       display: 'flex',
       flexDirection: 'column',
+      justifyContent: 'flex-start',
       width: '100%',
+      height: '100%',
     },
     tContainer: {
       display: 'flex',
@@ -149,8 +151,14 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'row',
       padding: theme.spacing(1),
-      justifyContent: 'flex-end',
+      justifyContent: 'space-between',
       marginTop: 'auto',
+    },
+    tFCancelPaymentBtn: {
+      backgroundColor: red[700],
+      '&:hover': {
+        backgroundColor: red[700],
+      },
     },
     tFPaymentBtn: {
       backgroundColor: yellow[900],

@@ -5,18 +5,28 @@ import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     box: {
       position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
       width: '100%',
       [theme.breakpoints.down('sm')]: {
         width: '95%',
       },
       maxWidth: theme.breakpoints.values.sm,
+      maxHeight: '90vh',
     },
     paper: {
+      display: 'flex',
+      flexDirection: 'column',
       borderRadius: theme.spacing(2),
       overflow: 'hidden',
     },
@@ -38,11 +48,18 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 800,
       color: '#424242',
     },
-    body: { display: 'flex', flexDirection: 'column' },
+    body: {
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'auto',
+      maxHeight: '100%',
+    },
     imgW: {
       position: 'relative',
-      width: 80,
-      height: 80,
+      minWidth: 80,
+      minHeight: 80,
+      maxWidth: 80,
+      maxHeight: 80,
       margin: `${theme.spacing(1)} auto`,
     },
     bPaymentInfoW: {
@@ -83,6 +100,19 @@ const useStyles = makeStyles((theme: Theme) =>
       color: green[700],
       textAlign: 'center',
       fontStyle: 'italic',
+    },
+    footer: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
+    },
+    fConfirmPaymentBtn: {
+      width: '100%',
+      backgroundColor: theme.palette.primary.main,
+      '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+      },
     },
   }),
 );

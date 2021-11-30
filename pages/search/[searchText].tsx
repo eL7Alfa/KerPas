@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Box, Container, CssBaseline } from '@mui/material';
 import AppHeader from '../../src/components/Items/AppHeader';
 import NearestMarket from '../../src/components/Items/NearestMarket';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { newProducts, useInit } from '../../src/components/constants';
 import Auth from '../../src/components/Items/Auth';
@@ -11,9 +11,13 @@ import { useGetSearchedProducts } from '../../src/Requests/GlobalRequests';
 import { NearestMarketTypes } from '../../src/redux/defaultStateR/appDefStateR';
 import axios from '../../src/config/axios';
 import AddToCart from '../../src/components/Items/AddToCart';
+import MarketDetails from '../../src/components/Items/MarketDetails';
+import { useSelector } from 'react-redux';
+import { rootReducerI } from '../../src/redux/reducers';
 
 const Index = () => {
   useInit();
+  const { appState } = useSelector((state: rootReducerI) => state);
   const router = useRouter();
   const { searchText } = router.query;
   const [nearestMarket, setNearestMarket] = useState<NearestMarketTypes>({
@@ -33,7 +37,10 @@ const Index = () => {
     lastProductsPage,
     isProductsLoading,
     setIsProductsLoading,
-  } = useGetSearchedProducts({ searchText: searchText as string });
+  } = useGetSearchedProducts({
+    searchText: searchText as string,
+    marketCode: nearestMarket.ckode_mitra,
+  });
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
 
   const onShowMoreProductBtnClicked = () => {
@@ -52,6 +59,10 @@ const Index = () => {
         .finally(() => setIsProductsLoading(false));
     }
   };
+
+  useEffect(() => {
+    setNearestMarket(appState.nearestMarket);
+  }, [appState.nearestMarket]);
 
   return (
     <Fragment>
@@ -79,6 +90,7 @@ const Index = () => {
       </Container>
       <Auth />
       <AddToCart />
+      <MarketDetails />
     </Fragment>
   );
 };

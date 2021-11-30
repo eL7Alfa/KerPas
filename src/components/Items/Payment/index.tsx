@@ -1,11 +1,20 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Box, Modal, Paper, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Modal,
+  Paper,
+  Typography,
+} from '@mui/material';
 import useStyles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import { setPaymentModalR } from '../../../redux/actions/appRActions';
 import axios from '../../../config/axios';
-import { Payment as PaymentIcon } from '@mui/icons-material';
+import { ExpandMore, Payment as PaymentIcon } from '@mui/icons-material';
 import Image from 'next/image';
 import { paymentIconUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
@@ -16,6 +25,19 @@ const Payment = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [transaction, setTransaction] = useState<any>({});
+  const [instruction, setInstruction] = useState<any>({});
+
+  const getPaymentInstruction = (paymentId: number) => {
+    axios(authState.userData.token)
+      .post('/payment/instruction', {
+        payment_id: paymentId,
+      })
+      .then(({ data: { result, response, error } }) => {
+        if (response === 200 && !error) {
+          setInstruction(result[0]);
+        }
+      });
+  };
 
   const getTransactionDetail = () => {
     axios(authState.userData.token)
@@ -25,7 +47,9 @@ const Payment = () => {
       })
       .then(({ data: { result, response, error } }) => {
         if (response === 200 && !error) {
-          setTransaction(result[0]);
+          const newTransaction = result[0];
+          setTransaction(newTransaction);
+          getPaymentInstruction(newTransaction.cpmethod_id);
         }
       });
   };
@@ -70,7 +94,7 @@ const Payment = () => {
       : 0);
 
   return (
-    <Modal {...{ open, onClose }}>
+    <Modal {...{ open, onClose }} className={classes.root}>
       <Box className={classes.box}>
         <Paper className={classes.paper}>
           <div className={classes.header}>
@@ -124,6 +148,27 @@ const Payment = () => {
                 (BAYAR SESUAI HARGA DI ATAS AGAR PROSES TRANSAKSI LANCAR)
               </Typography>
             </div>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMore />}>
+                <Typography variant={'subtitle1'}>
+                  Instruksi Pembayaran
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography
+                  dangerouslySetInnerHTML={{
+                    __html: `<div>${instruction.cinstruction}</div>`,
+                  }}
+                />
+              </AccordionDetails>
+            </Accordion>
+          </div>
+          <div className={classes.footer}>
+            <Button
+              variant={'contained'}
+              className={classes.fConfirmPaymentBtn}>
+              KONFIRMASI PEMBAYARAN
+            </Button>
           </div>
         </Paper>
       </Box>

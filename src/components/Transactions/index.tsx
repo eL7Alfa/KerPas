@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { productImgUrl } from '../../config/urls';
 import { setPaymentModalR } from '../../redux/actions/appRActions';
 import Payment from '../Items/Payment';
+import { Close } from '@mui/icons-material';
 
 const Transactions = () => {
   const classes = useStyles();
@@ -24,12 +25,13 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [statusCode, setStatusCode] = useState('0');
   const statusCodes = [
-    { code: '0', label: 'Belum Bayar' },
+    { code: '0', label: 'Checkout' },
     { code: '1', label: 'Terbayar' },
     { code: '2', label: 'Diproses' },
     { code: '9', label: 'Siap Kirim' },
     { code: '3', label: 'Dikirim' },
     { code: '4', label: 'Diterima' },
+    { code: '5', label: 'Dibatalkan' },
   ];
 
   const onSidebarItemClicked = (value: string) => () => {
@@ -38,6 +40,7 @@ const Transactions = () => {
   };
 
   const getTransaction = (statusCode = '0') => {
+    setStatusCode(statusCode);
     setTransactions([]);
     if (authState.userData.id) {
       axios(authState.userData.token)
@@ -56,6 +59,22 @@ const Transactions = () => {
 
   const onPaymentBtnClicked = (transactionCode: string) => () => {
     dispatch(setPaymentModalR({ open: true, transactionCode }));
+  };
+
+  const onCancelPaymentBtnClicked = (transactionCode: string) => () => {
+    if (authState.userData.id) {
+      axios(authState.userData.token)
+        .post('/market/transactions/cancel', {
+          ckode_user: authState.userData.ckode_user,
+          cnmr_po: transactionCode,
+        })
+        .then(({ data: { result, response, error } }) => {
+          if (response === 200 && !error) {
+            getTransaction(statusCode);
+          }
+        })
+        .catch(() => setTransactions([]));
+    }
   };
 
   useEffect(() => {
@@ -129,7 +148,10 @@ const Transactions = () => {
                             {t.details.cnama_produk}
                           </Typography>
                           <Typography variant={'body2'}>
-                            {toRupiah(t.details.nharga_total)}
+                            {toRupiah(
+                              t.details.nharga_total -
+                                t.details.ndiscount_total,
+                            )}
                           </Typography>
                           <Typography variant={'body2'}>
                             {`${t.details.nqty} item`}
@@ -149,8 +171,7 @@ const Transactions = () => {
                         </Typography>
                       </div>
                       {t.cstatus === '0' &&
-                        t.cpayment_type.toUpperCase() !== 'POINT' &&
-                        t.cpayment_type.toUpperCase() !== 'COD' && (
+                        t.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL' && (
                           <div className={classes.tBItem}>
                             <Typography variant={'body2'}>
                               Bayar sebelum:
@@ -180,21 +201,25 @@ const Transactions = () => {
                   </ButtonBase>
                   <div className={classes.tFooter}>
                     {t.cstatus === '0' ? (
+                      t.cpayment_type.toUpperCase() !== 'EMONEY' &&
                       t.cpayment_type.toUpperCase() !== 'POINT' &&
                       t.cpayment_type.toUpperCase() !== 'COD' ? (
-                        t.cpayment_type.toUpperCase() !== 'TRANSFER_MANUAL' ? (
-                          <Typography
-                            variant={'body2'}
-                            className={`${classes.tFStatus} payViaEMoney`}>
-                            {`Bayar Melalui ${t.payment_method.cbank}`}
-                          </Typography>
-                        ) : t.cupload_bukti === '0' ? (
-                          <Button
-                            variant={'contained'}
-                            className={classes.tFPaymentBtn}
-                            onClick={onPaymentBtnClicked(t.cnmr_po)}>
-                            Pembayaran
-                          </Button>
+                        t.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL' &&
+                        t.cupload_bukti === '0' ? (
+                          <Fragment>
+                            <Button
+                              variant={'contained'}
+                              className={classes.tFCancelPaymentBtn}
+                              onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
+                              <Close /> BATAL
+                            </Button>
+                            <Button
+                              variant={'contained'}
+                              className={classes.tFPaymentBtn}
+                              onClick={onPaymentBtnClicked(t.cnmr_po)}>
+                              Pembayaran
+                            </Button>
+                          </Fragment>
                         ) : (
                           <Typography
                             variant={'body2'}

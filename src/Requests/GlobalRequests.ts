@@ -160,17 +160,19 @@ export const useGetProducts = ({
 
 export type useGetSearchedProductsTypes = {
   searchText: string;
+  marketCode: string;
 };
 
 export const useGetSearchedProducts = ({
   searchText,
+  marketCode,
 }: useGetSearchedProductsTypes) => {
   const [products, setProducts] = useState<ProductTypes[]>([]);
   const [lastProductsPage, setLastProductsPage] = useState<number>(0);
   const [isProductsLoading, setIsProductsLoading] = useState<boolean>(true);
   useEffect(() => {
     setIsProductsLoading(true);
-    if (searchText) {
+    if (searchText && marketCode) {
       axios()
         .get(`/market/product/search/${searchText}`)
         .then(({ data }) => {
@@ -199,7 +201,7 @@ export const useGetSearchedProducts = ({
       setLastProductsPage(0);
       setIsProductsLoading(false);
     }
-  }, [searchText]);
+  }, [searchText, marketCode]);
   return {
     products,
     setProducts,
