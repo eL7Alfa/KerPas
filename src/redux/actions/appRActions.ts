@@ -1,5 +1,6 @@
 import {
   setAddToCartModalT,
+  setDialogT,
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
@@ -8,7 +9,7 @@ import {
   triggerCartUpdateT,
 } from '../Types/AppRTypes';
 import { v4 as uuid } from 'uuid';
-import { appDefStateRT } from '../defaultStateR/appDefStateR';
+import { appDefStateR, appDefStateRT } from '../defaultStateR/appDefStateR';
 
 export const setSelectedAddressR = (
   payload: appDefStateRT['selectedAddress'],
@@ -64,5 +65,19 @@ export const setPaymentModalR = (payload: appDefStateRT['paymentModal']) => {
   return {
     type: setPaymentModalT,
     payload,
+  };
+};
+
+export const setDialogR = (payload: appDefStateRT['dialog']) => {
+  return {
+    type: setDialogT,
+    payload,
+  };
+};
+
+export const resetDialogR = () => {
+  return {
+    type: setDialogT,
+    payload: appDefStateR.dialog,
   };
 };

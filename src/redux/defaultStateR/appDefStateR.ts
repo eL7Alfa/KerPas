@@ -34,6 +34,13 @@ export type appDefStateRT = {
   addToCartModal: addToCartModal;
   cartUpdateId: string;
   paymentModal: { open: boolean; transactionCode: string };
+  dialog: {
+    open: boolean;
+    title: string;
+    body: string;
+    disagreeBtnText?: string;
+    agreeBtnText: string;
+  };
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -83,5 +90,12 @@ export const appDefStateR: appDefStateRT = {
   paymentModal: {
     open: false,
     transactionCode: '',
+  },
+  dialog: {
+    open: false,
+    disagreeBtnText: 'BATAL',
+    agreeBtnText: '',
+    body: '',
+    title: '',
   },
 };

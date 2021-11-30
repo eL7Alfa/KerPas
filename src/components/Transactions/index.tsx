@@ -14,15 +14,17 @@ import {
 import toRupiah from '../../modules/toRupiah';
 import Image from 'next/image';
 import { productImgUrl } from '../../config/urls';
-import { setPaymentModalR } from '../../redux/actions/appRActions';
+import { setDialogR, setPaymentModalR } from '../../redux/actions/appRActions';
 import Payment from '../Items/Payment';
 import { Close } from '@mui/icons-material';
+import Dialog from '../Items/Dialog';
 
 const Transactions = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { authState } = useSelector((state: rootReducerI) => state);
   const [transactions, setTransactions] = useState([]);
+  const [transactionCodeToCancel, setTransactionCodeToCancel] = useState('');
   const [statusCode, setStatusCode] = useState('0');
   const statusCodes = [
     { code: '0', label: 'Checkout' },
@@ -63,18 +65,30 @@ const Transactions = () => {
 
   const onCancelPaymentBtnClicked = (transactionCode: string) => () => {
     if (authState.userData.id) {
-      axios(authState.userData.token)
-        .post('/market/transactions/cancel', {
-          ckode_user: authState.userData.ckode_user,
-          cnmr_po: transactionCode,
-        })
-        .then(({ data: { result, response, error } }) => {
-          if (response === 200 && !error) {
-            getTransaction(statusCode);
-          }
-        })
-        .catch(() => setTransactions([]));
+      setTransactionCodeToCancel(transactionCode);
+      dispatch(
+        setDialogR({
+          open: true,
+          agreeBtnText: 'IYA',
+          title: 'Batalkan Pesanan',
+          body: `Apakah anda yakin ingin membatalkan pesanan dengan nomor invoice: ${transactionCode}`,
+        }),
+      );
     }
+  };
+
+  const onConfirmCancelPaymentBtnClicked = () => {
+    axios(authState.userData.token)
+      .post('/market/transactions/cancel', {
+        ckode_user: authState.userData.ckode_user,
+        cnmr_po: transactionCodeToCancel,
+      })
+      .then(({ data: { response, error } }) => {
+        if (response === 200 && !error) {
+          getTransaction(statusCode);
+        }
+      })
+      .catch(() => setTransactions([]));
   };
 
   useEffect(() => {
@@ -251,6 +265,7 @@ const Transactions = () => {
         </div>
       </div>
       <Payment />
+      <Dialog agreeCallback={onConfirmCancelPaymentBtnClicked} />
     </Fragment>
   );
 };

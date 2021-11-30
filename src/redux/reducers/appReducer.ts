@@ -2,6 +2,7 @@ import { AnyAction } from 'redux';
 import { appDefStateR } from '../defaultStateR/appDefStateR';
 import {
   setAddToCartModalT,
+  setDialogT,
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
@@ -35,6 +36,9 @@ const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
     }
     case setPaymentModalT: {
       return { ...state, paymentModal: payload };
+    }
+    case setDialogT: {
+      return { ...state, dialog: { ...state.dialog, ...payload } };
     }
     default:
       return state;
