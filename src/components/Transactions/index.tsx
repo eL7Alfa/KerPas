@@ -185,11 +185,15 @@ const Transactions = () => {
             {transactions.map((t: any, key) => (
               <Grid key={key} item xs={12} sm={12} md={6}>
                 <Paper className={classes.tContainer}>
+                  <div className={classes.tHeader}>
+                    <Typography variant={'subtitle1'}>No. Invoice</Typography>
+                    <Typography
+                      variant={'body1'}
+                      className={classes.tHNoInvoice}>
+                      {t.cnmr_po}
+                    </Typography>
+                  </div>
                   <ButtonBase className={classes.tWrapper}>
-                    <div className={classes.tHeader}>
-                      <Typography variant={'subtitle1'}>No. Invoice</Typography>
-                      <Typography variant={'body1'}>{t.cnmr_po}</Typography>
-                    </div>
                     <Divider sx={{ mx: 1 }} />
                     <div className={classes.tBody}>
                       <div className={classes.tBItem}>

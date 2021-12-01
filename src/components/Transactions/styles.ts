@@ -108,6 +108,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       width: '100%',
       height: '100%',
+      overflow: 'hidden',
     },
     tHeader: {
       display: 'flex',
@@ -116,6 +117,11 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       justifyContent: 'space-between',
       width: '100%',
+      backgroundColor: green[100],
+    },
+    tHNoInvoice: {
+      fontWeight: 800,
+      color: grey[800],
     },
     tBody: {
       display: 'flex',
