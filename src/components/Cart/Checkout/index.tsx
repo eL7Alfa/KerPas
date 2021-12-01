@@ -508,6 +508,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
                 value={shippingDate}
                 onChange={onDatePicked}
                 minDate={moment()}
+                maxDate={moment().add(1, 'days')}
                 disableCloseOnSelect={false}
                 renderInput={params => (
                   <TextField
