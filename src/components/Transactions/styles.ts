@@ -1,6 +1,13 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import { blue, green, grey, red, yellow } from '@mui/material/colors';
+import {
+  blue,
+  deepPurple,
+  green,
+  grey,
+  red,
+  yellow,
+} from '@mui/material/colors';
 import { alpha } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -173,6 +180,12 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
       justifyContent: 'space-between',
       marginTop: 'auto',
+      '& > *': {
+        marginRight: theme.spacing(1),
+      },
+      '& > *:last-child': {
+        marginRight: 0,
+      },
     },
     tFCancelPaymentBtn: {
       backgroundColor: red[700],
@@ -192,8 +205,13 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: green[600],
       },
     },
+    tFCallCourierBtn: {
+      backgroundColor: deepPurple[400],
+      '&:hover': {
+        backgroundColor: deepPurple[400],
+      },
+    },
     tFStatus: {
-      margin: `0 ${theme.spacing(1)}`,
       height: 'fit-content',
       color: blue[600],
       textTransform: 'uppercase',

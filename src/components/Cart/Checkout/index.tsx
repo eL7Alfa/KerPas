@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import useStyles from './styles';
-import { Edit, Payment } from '@mui/icons-material';
+import { Edit, ShoppingCartCheckout } from '@mui/icons-material';
 import {
   Button,
   Divider,
@@ -459,9 +459,9 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Payment className={classes.headerIcon} />
+        <ShoppingCartCheckout className={classes.headerIcon} />
         <Typography variant={'h5'} className={classes.headerTitle}>
-          Pemesanan
+          Checkout
         </Typography>
       </div>
       <div className={classes.container}>
@@ -699,7 +699,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             onClick={onOrderBtnClicked}
             disabled={!cartProducts.length || !settings.id}
             loading={isOrdering}>
-            Pesan
+            Checkout
           </LoadingButton>
         </div>
         <ShippingTimePicker
