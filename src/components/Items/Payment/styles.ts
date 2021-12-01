@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       display: 'flex',
       flexDirection: 'column',
-      borderRadius: theme.spacing(2),
+      borderRadius: theme.spacing(1),
       overflow: 'hidden',
     },
     header: {
