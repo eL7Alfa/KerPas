@@ -48,6 +48,17 @@ const useStyles = makeStyles((theme: Theme) =>
       top: theme.spacing(1),
       right: theme.spacing(1),
     },
+    toConfigureAddressesInfo: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    profileBtn: {
+      padding: theme.spacing(0.5),
+      color: theme.palette.primary.main,
+      fontWeight: 800,
+    },
   }),
 );
 

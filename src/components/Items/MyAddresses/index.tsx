@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, IconButton, Modal, Typography } from '@mui/material';
+import { Box, ButtonBase, IconButton, Modal, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import {
@@ -23,6 +23,10 @@ const MyAddresses = () => {
 
   const onCloseSelectAddressClicked = () => {
     dispatch(setMyAddressesOpenR(false));
+  };
+
+  const onProfileBtnClicked = () => {
+    window.location.href = 'https://keranjangbelanja.co.id/profil';
   };
 
   useEffect(() => {
@@ -79,6 +83,17 @@ const MyAddresses = () => {
             {addresses.map((d: any, key: number) => (
               <MyAddress key={key} data={d} {...{ selectedAddress }} />
             ))}
+          </div>
+          <div className={classes.toConfigureAddressesInfo}>
+            <Typography variant={'body2'}>Gunakan</Typography>
+            <ButtonBase
+              className={classes.profileBtn}
+              onClick={onProfileBtnClicked}>
+              halaman profile
+            </ButtonBase>
+            <Typography variant={'body2'}>
+              untuk mengubah atau menambah alamat
+            </Typography>
           </div>
           {/*<div className={classes.footer}>*/}
           {/*  <Button variant={'outlined'} className={classes.addAddressBtn}>*/}
