@@ -147,6 +147,20 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: `0 ${theme.spacing(1)}`,
       textAlign: 'left',
     },
+    tBIStatus: {
+      fontWeight: 800,
+      fontSize: 15,
+      textDecoration: 'underline',
+      '&.checkout': {
+        color: yellow[900],
+      },
+      '&:not(.checkout):not(.dibatalkan)': {
+        color: blue[700],
+      },
+      '&.dibatalkan': {
+        color: red[700],
+      },
+    },
     tFooter: {
       display: 'flex',
       flexDirection: 'row',
@@ -166,7 +180,15 @@ const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: yellow[900],
       },
     },
+    tFReorderBtn: {
+      backgroundColor: green[600],
+      '&:hover': {
+        backgroundColor: green[600],
+      },
+    },
     tFStatus: {
+      margin: `0 ${theme.spacing(1)}`,
+      height: 'fit-content',
       color: blue[600],
       textTransform: 'uppercase',
       fontWeight: 500,

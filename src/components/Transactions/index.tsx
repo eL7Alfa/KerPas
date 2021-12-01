@@ -29,14 +29,14 @@ const Transactions = () => {
   type statusCodeTypes = 'all' | '0' | '1' | '2' | '3' | '4' | '5' | '9';
   const [statusCode, setStatusCode] = useState<statusCodeTypes>('all');
   const statusCodes = [
-    { code: 'all', label: 'Semua Transaksi' },
-    { code: '0', label: 'Checkout' },
-    { code: '1', label: 'Terbayar' },
-    { code: '2', label: 'Diproses' },
-    { code: '9', label: 'Siap Kirim' },
-    { code: '3', label: 'Dikirim' },
-    { code: '4', label: 'Diterima' },
-    { code: '5', label: 'Dibatalkan' },
+    { code: 'all', label: 'Semua Transaksi', name: 'semuaTransaksi' },
+    { code: '0', label: 'Checkout', name: 'checkout' },
+    { code: '1', label: 'Terbayar / Dikonfirmasi', name: 'terbayar' },
+    { code: '2', label: 'Diproses', name: 'diproses' },
+    { code: '9', label: 'Siap Kirim', name: 'siapKirim' },
+    { code: '3', label: 'Dikirim', name: 'dikirim' },
+    { code: '4', label: 'Diterima', name: 'diterima' },
+    { code: '5', label: 'Dibatalkan', name: 'dibatalkan' },
   ];
 
   const onSidebarItemClicked =
@@ -265,15 +265,66 @@ const Transactions = () => {
                           {t.payment_method.cbank}
                         </Typography>
                       </div>
+                      <div className={classes.tBItem}>
+                        <Typography variant={'body2'}>
+                          Status Transaksi:
+                        </Typography>
+                        <Typography
+                          variant={'body2'}
+                          className={`${classes.tBIStatus} ${
+                            statusCodes.filter(sC => sC.code === t.cstatus)[0]
+                              .name
+                          }`}>
+                          {
+                            statusCodes.filter(sC => sC.code === t.cstatus)[0]
+                              .label
+                          }
+                        </Typography>
+                      </div>
                     </div>
                   </ButtonBase>
                   <div className={classes.tFooter}>
                     {t.cstatus === '0' ? (
-                      t.cpayment_type.toUpperCase() !== 'EMONEY' &&
-                      t.cpayment_type.toUpperCase() !== 'POINT' &&
-                      t.cpayment_type.toUpperCase() !== 'COD' ? (
-                        t.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL' &&
-                        t.cupload_bukti === '0' ? (
+                      <Fragment>
+                        {t.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL' &&
+                          (t.cupload_bukti === '0' ? (
+                            <Fragment>
+                              <Button
+                                variant={'contained'}
+                                className={classes.tFCancelPaymentBtn}
+                                onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
+                                <Close /> BATAL
+                              </Button>
+                              <Button
+                                variant={'contained'}
+                                className={classes.tFPaymentBtn}
+                                onClick={onPaymentBtnClicked(t.cnmr_po)}>
+                                Pembayaran
+                              </Button>
+                            </Fragment>
+                          ) : (
+                            <Typography
+                              variant={'body2'}
+                              className={classes.tFStatus}>
+                              Menunggu konfirmasi admin
+                            </Typography>
+                          ))}
+                        {t.cpayment_type.toUpperCase() === 'POINT' && (
+                          <Typography
+                            variant={'body2'}
+                            className={classes.tFStatus}>
+                            Menunggu konfirmasi admin
+                          </Typography>
+                        )}
+                        {t.cpayment_type.toUpperCase() === 'EMONEY' && (
+                          <Button
+                            variant={'contained'}
+                            className={classes.tFCancelPaymentBtn}
+                            onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
+                            <Close /> BATAL
+                          </Button>
+                        )}
+                        {t.cpayment_type.toUpperCase() === 'COD' && (
                           <Fragment>
                             <Button
                               variant={'contained'}
@@ -281,43 +332,34 @@ const Transactions = () => {
                               onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
                               <Close /> BATAL
                             </Button>
+                            <Typography
+                              variant={'body2'}
+                              className={classes.tFStatus}>
+                              Menunggu konfirmasi admin
+                            </Typography>
+                          </Fragment>
+                        )}
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        {t.cpayment_type.toUpperCase() === 'COD' &&
+                          t.cstatus === '1' && (
                             <Button
                               variant={'contained'}
-                              className={classes.tFPaymentBtn}
-                              onClick={onPaymentBtnClicked(t.cnmr_po)}>
-                              Pembayaran
+                              className={classes.tFCancelPaymentBtn}
+                              onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
+                              <Close /> BATAL
                             </Button>
-                          </Fragment>
-                        ) : (
-                          <Typography
-                            variant={'body2'}
-                            className={classes.tFStatus}>
-                            Menunggu konfirmasi admin
-                          </Typography>
-                        )
-                      ) : t.cpayment_type.toUpperCase() === 'POINT' ? (
-                        <Typography
-                          variant={'body2'}
-                          className={classes.tFStatus}>
-                          Menunggu konfirmasi admin
-                        </Typography>
-                      ) : (
-                        t.cpayment_type.toUpperCase() === 'EMONEY' && (
+                          )}
+                        {t.cstatus === '4' && (
                           <Button
                             variant={'contained'}
-                            className={classes.tFCancelPaymentBtn}
-                            onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
-                            <Close /> BATAL
+                            className={classes.tFReorderBtn}
+                            onClick={onReorderBtnClicked(t.cnmr_po)}>
+                            Pesan Ulang
                           </Button>
-                        )
-                      )
-                    ) : (
-                      <Button
-                        variant={'contained'}
-                        className={classes.tFPaymentBtn}
-                        onClick={onReorderBtnClicked(t.cnmr_po)}>
-                        Pesan Ulang
-                      </Button>
+                        )}
+                      </Fragment>
                     )}
                   </div>
                 </Paper>
