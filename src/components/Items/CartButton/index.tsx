@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import {
   Avatar,
+  Badge,
   ButtonBase,
   Divider,
   Grow,
@@ -45,7 +46,13 @@ const CartButton = ({
         onClick={onShowAllClicked}
         onMouseOver={() => !cartOpen && setCartOpen(true)}
         onMouseLeave={() => setCartOpen(false)}>
-        <ShoppingCart />
+        <Badge
+          badgeContent={cartProducts.length}
+          className={classes.badgeItemNumber}
+          overlap={'circular'}
+          max={9}>
+          <ShoppingCart />
+        </Badge>
       </IconButton>
       <Popper
         open={cartOpen}

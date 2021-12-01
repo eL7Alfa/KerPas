@@ -18,6 +18,14 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    badgeItemNumber: {
+      '& .MuiBadge-badge': {
+        top: '10%',
+        right: '10%',
+        backgroundColor: theme.palette.secondary.main,
+        color: '#ffffff',
+      },
+    },
     popper: {
       zIndex: 9999,
     },
