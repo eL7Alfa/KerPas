@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, IconButton, Modal, Typography } from '@mui/material';
+import { Box, IconButton, Modal, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import {
