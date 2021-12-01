@@ -1,0 +1,171 @@
+import React, { Fragment, useEffect, useState } from 'react';
+import { Box, Divider, Modal, Paper, Typography } from '@mui/material';
+import useStyles from './styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { rootReducerI } from '../../../redux/reducers';
+import { setTransactionDetailsModalR } from '../../../redux/actions/appRActions';
+import axios from '../../../config/axios';
+import { ListAlt } from '@mui/icons-material';
+import Image from 'next/image';
+import { productImgUrl } from '../../../config/urls';
+import toRupiah from '../../../modules/toRupiah';
+import { grey, yellow } from '@mui/material/colors';
+
+const TransactionDetails = () => {
+  const { appState, authState } = useSelector((state: rootReducerI) => state);
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [transaction, setTransaction] = useState<any>({});
+
+  const getTransactionDetail = () => {
+    axios(authState.userData.token)
+      .post('/market/transactions/detail', {
+        ckode_user: authState.userData.ckode_user,
+        cnmr_po: appState.transactionDetails.transactionCode,
+      })
+      .then(({ data: { result, response, error } }) => {
+        if (response === 200 && !error) {
+          const newTransaction = result[0];
+          setTransaction(newTransaction);
+          console.log(newTransaction);
+        }
+      });
+  };
+
+  const onClose = () => {
+    dispatch(setTransactionDetailsModalR({ open: false, transactionCode: '' }));
+  };
+
+  useEffect(() => {
+    setOpen(appState.transactionDetails.open);
+    if (appState.transactionDetails.open) {
+      getTransactionDetail();
+    }
+  }, [appState.transactionDetails.open]);
+
+  if (!Object.keys(transaction).length) {
+    return <Fragment />;
+  }
+
+  const totalPay =
+    transaction.details.reduce(
+      (
+        a: number,
+        b: {
+          nharga_item: number;
+          ndiscamount: number;
+          nqty: number;
+        },
+      ) => {
+        return (
+          a +
+          (b.nharga_item - Math.floor(b.nharga_item * (b.ndiscamount / 100))) *
+            Number(b.nqty)
+        );
+      },
+      0,
+    ) +
+    transaction.shipping.nongkir +
+    transaction.payment.nbiaya_layanan +
+    (transaction.payment.cpayment_type.toUpperCase() === 'TRANSFER_MANUAL'
+      ? transaction.payment.nunique_code
+      : 0);
+
+  const totalItems = transaction.details.reduce(
+    (
+      a: number,
+      b: {
+        nqty: number;
+      },
+    ) => {
+      return a + Number(b.nqty);
+    },
+    0,
+  );
+
+  return (
+    <Modal {...{ open, onClose }} className={classes.root}>
+      <Box className={classes.box}>
+        <Paper className={classes.paper}>
+          <div className={classes.header}>
+            <ListAlt className={classes.titleIcon} />
+            <Typography variant={'h5'} className={classes.title}>
+              Detail Transaksi
+            </Typography>
+          </div>
+          <Divider />
+          <div className={classes.body}>
+            <div className={classes.tBAddressInfo}>
+              <Typography variant={'subtitle1'}>Alamat Pengiriman</Typography>
+              <div className={classes.tBAItem}>
+                <Typography
+                  variant={'body1'}
+                  fontWeight={800}
+                  color={grey[900]}>
+                  {transaction.address.shipping_address.cnama_alamat}
+                </Typography>
+                <Typography variant={'body2'} color={grey[900]}>
+                  {transaction.address.shipping_address.calamat}
+                </Typography>
+              </div>
+            </div>
+            <Divider />
+            <div className={classes.tBProductInfo}>
+              <Typography variant={'subtitle1'}>Produk</Typography>
+              {transaction.details.map((tD: any, key: number) => (
+                <div key={key} className={classes.tBProductItem}>
+                  <div className={classes.tBIImgW}>
+                    <Image
+                      src={`${productImgUrl}/${tD.cimg_top}`}
+                      layout={'fill'}
+                      placeholder={'blur'}
+                      blurDataURL={`${productImgUrl}/${tD.cimg_top}`}
+                      objectFit={'cover'}
+                      alt={tD.cnama_produk}
+                    />
+                  </div>
+                  <div className={classes.tBIInfo}>
+                    <Typography variant={'body2'}>{tD.cnama_produk}</Typography>
+                    <Typography variant={'body2'}>
+                      {toRupiah(
+                        tD.nharga_item -
+                          Math.floor((tD.nharga_item * tD.ndiscamount) / 100),
+                      )}
+                    </Typography>
+                    <Typography
+                      variant={'body2'}>{`${tD.nqty} item`}</Typography>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Divider />
+            <div className={classes.tBItem}>
+              <Typography variant={'body2'}>Total Item:</Typography>
+              <Typography variant={'body2'}>{`${totalItems} item`}</Typography>
+            </div>
+            <div className={classes.tBItem}>
+              <Typography variant={'body2'}>Metode Pembayaran:</Typography>
+              <Typography variant={'body2'}>
+                {transaction.payment.cbank}
+              </Typography>
+            </div>
+            <div className={classes.tBItem}>
+              <Typography variant={'body2'} fontWeight={800}>
+                Total Harga:
+              </Typography>
+              <Typography
+                variant={'body2'}
+                fontWeight={800}
+                color={yellow[900]}>
+                {toRupiah(totalPay)}
+              </Typography>
+            </div>
+          </div>
+        </Paper>
+      </Box>
+    </Modal>
+  );
+};
+
+export default TransactionDetails;

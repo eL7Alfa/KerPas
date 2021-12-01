@@ -45,6 +45,10 @@ export type appDefStateRT = {
     open: boolean;
     transactionCode: string;
   };
+  transactionDetails: {
+    open: boolean;
+    transactionCode: string;
+  };
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -103,6 +107,10 @@ export const appDefStateR: appDefStateRT = {
     title: '',
   },
   invoice: {
+    open: false,
+    transactionCode: '',
+  },
+  transactionDetails: {
     open: false,
     transactionCode: '',
   },

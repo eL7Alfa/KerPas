@@ -7,6 +7,7 @@ import {
   setNearestMarketT,
   setPaymentModalT,
   setSelectedAddressT,
+  setTransactionDetailsModalT,
   triggerCartUpdateT,
 } from '../Types/AppRTypes';
 import { v4 as uuid } from 'uuid';
@@ -94,5 +95,21 @@ export const resetInvoiceModalR = () => {
   return {
     type: setInvoiceModalT,
     payload: appDefStateR.invoice,
+  };
+};
+
+export const setTransactionDetailsModalR = (
+  payload: appDefStateRT['transactionDetails'],
+) => {
+  return {
+    type: setTransactionDetailsModalT,
+    payload,
+  };
+};
+
+export const resetTransactionDetailsModalR = () => {
+  return {
+    type: setTransactionDetailsModalT,
+    payload: appDefStateR.transactionDetails,
   };
 };

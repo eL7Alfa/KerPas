@@ -18,11 +18,13 @@ import {
   setDialogR,
   setInvoiceModalR,
   setPaymentModalR,
+  setTransactionDetailsModalR,
 } from '../../redux/actions/appRActions';
 import { Call, Close } from '@mui/icons-material';
 import Payment from '../Items/Payment';
 import Dialog from '../Items/Dialog';
 import Invoice from '../Items/Invoice';
+import TransactionDetails from '../Items/TransactionDetails';
 
 const Transactions = () => {
   const classes = useStyles();
@@ -71,6 +73,10 @@ const Transactions = () => {
 
   const onShowInvoiceBtnClicked = (transactionCode: string) => () => {
     dispatch(setInvoiceModalR({ open: true, transactionCode }));
+  };
+
+  const onShowDetailsClicked = (transactionCode: string) => () => {
+    dispatch(setTransactionDetailsModalR({ open: true, transactionCode }));
   };
 
   const onPaymentBtnClicked = (transactionCode: string) => () => {
@@ -204,7 +210,9 @@ const Transactions = () => {
                       {t.cnmr_po}
                     </Typography>
                   </ButtonBase>
-                  <ButtonBase className={classes.tWrapper}>
+                  <ButtonBase
+                    className={classes.tWrapper}
+                    onClick={onShowDetailsClicked(t.cnmr_po)}>
                     <Divider sx={{ mx: 1 }} />
                     <div className={classes.tBody}>
                       <div className={classes.tBItem}>
@@ -236,8 +244,11 @@ const Transactions = () => {
                           </Typography>
                           <Typography variant={'body2'}>
                             {toRupiah(
-                              t.details.nharga_total -
-                                t.details.ndiscount_total,
+                              t.details.nharga -
+                                Math.floor(
+                                  (t.details.nharga * t.details.ndiscamount) /
+                                    100,
+                                ),
                             )}
                           </Typography>
                           <Typography variant={'body2'}>
@@ -401,6 +412,7 @@ const Transactions = () => {
       <Payment confirmedCallback={onPaymentConfirmed} />
       <Dialog agreeCallback={onConfirmBtnClicked} />
       <Invoice />
+      <TransactionDetails />
     </Fragment>
   );
 };
