@@ -25,7 +25,9 @@ const Transactions = () => {
   const { authState } = useSelector((state: rootReducerI) => state);
   const [transactions, setTransactions] = useState([]);
   const [transactionCodeToCancel, setTransactionCodeToCancel] = useState('');
-  const [statusCode, setStatusCode] = useState('0');
+  const [dialogName, setDialogName] = useState('');
+  type statusCodeTypes = '0' | '1' | '2' | '3' | '4' | '5' | '9';
+  const [statusCode, setStatusCode] = useState<statusCodeTypes>('0');
   const statusCodes = [
     { code: '0', label: 'Checkout' },
     { code: '1', label: 'Terbayar' },
@@ -36,12 +38,14 @@ const Transactions = () => {
     { code: '5', label: 'Dibatalkan' },
   ];
 
-  const onSidebarItemClicked = (value: string) => () => {
-    setStatusCode(value);
-    getTransaction(value);
-  };
+  const onSidebarItemClicked =
+    (value: statusCodeTypes = '0') =>
+    () => {
+      setStatusCode(value);
+      getTransaction(value);
+    };
 
-  const getTransaction = (statusCode = '0') => {
+  const getTransaction = (statusCode: statusCodeTypes = '0') => {
     setStatusCode(statusCode);
     setTransactions([]);
     if (authState.userData.id) {
@@ -65,6 +69,7 @@ const Transactions = () => {
 
   const onCancelPaymentBtnClicked = (transactionCode: string) => () => {
     if (authState.userData.id) {
+      setDialogName('cancelOrder');
       setTransactionCodeToCancel(transactionCode);
       dispatch(
         setDialogR({
@@ -78,7 +83,7 @@ const Transactions = () => {
     }
   };
 
-  const onConfirmCancelPaymentBtnClicked = () => {
+  const onCancelAgreed = () => {
     axios(authState.userData.token)
       .post('/market/transactions/cancel', {
         ckode_user: authState.userData.ckode_user,
@@ -90,6 +95,53 @@ const Transactions = () => {
         }
       })
       .catch(() => setTransactions([]));
+  };
+
+  const onReorderBtnClicked = (transactionCode: string) => () => {
+    if (authState.userData.id) {
+      setDialogName('reorder');
+      setTransactionCodeToCancel(transactionCode);
+      dispatch(
+        setDialogR({
+          open: true,
+          agreeBtnText: 'OK',
+          // disagreeBtnText: 'TIDAK',
+          title: 'Pesan Ulang',
+          // body: 'Apakah anda yakin ingin memesan ulang?',
+          body: 'Maaf, sedang dalam pengembangan.',
+        }),
+      );
+    }
+  };
+
+  const onReorderAgreed = () => {
+    // axios(authState.userData.token)
+    //   .post('/market/transactions/cancel', {
+    //     ckode_user: authState.userData.ckode_user,
+    //     cnmr_po: transactionCodeToCancel,
+    //   })
+    //   .then(({ data: { response, error } }) => {
+    //     if (response === 200 && !error) {
+    //       setStatusCode('0');
+    //     }
+    //   })
+    //   .catch(() => setTransactions([]));
+  };
+
+  const onConfirmBtnClicked = () => {
+    switch (dialogName) {
+      case 'cancelOrder': {
+        onCancelAgreed();
+        break;
+      }
+      case 'reorder': {
+        onReorderAgreed();
+        break;
+      }
+      default: {
+        return;
+      }
+    }
   };
 
   useEffect(() => {
@@ -109,7 +161,7 @@ const Transactions = () => {
                 <div key={key} className={classes.sBISubBtnW}>
                   <Button
                     variant={'contained'}
-                    onClick={onSidebarItemClicked(sI.code)}
+                    onClick={onSidebarItemClicked(sI.code as statusCodeTypes)}
                     className={`${classes.sBISubBtn} ${
                       sI.code === statusCode ? 'active' : ''
                     }`}>
@@ -254,7 +306,8 @@ const Transactions = () => {
                     ) : (
                       <Button
                         variant={'contained'}
-                        className={classes.tFPaymentBtn}>
+                        className={classes.tFPaymentBtn}
+                        onClick={onReorderBtnClicked(t.cnmr_po)}>
                         Pesan Ulang
                       </Button>
                     )}
@@ -266,7 +319,7 @@ const Transactions = () => {
         </div>
       </div>
       <Payment />
-      <Dialog agreeCallback={onConfirmCancelPaymentBtnClicked} />
+      <Dialog agreeCallback={onConfirmBtnClicked} />
     </Fragment>
   );
 };

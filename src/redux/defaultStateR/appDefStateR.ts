@@ -93,7 +93,7 @@ export const appDefStateR: appDefStateRT = {
   },
   dialog: {
     open: false,
-    disagreeBtnText: 'BATAL',
+    disagreeBtnText: '',
     agreeBtnText: '',
     body: '',
     title: '',

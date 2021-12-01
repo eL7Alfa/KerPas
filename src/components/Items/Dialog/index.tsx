@@ -51,9 +51,11 @@ const Dialog = ({ agreeCallback = () => {} }: DialogPropsTypes) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} autoFocus>
-          {dialog.disagreeBtnText}
-        </Button>
+        {!!dialog.disagreeBtnText && (
+          <Button onClick={onClose} autoFocus>
+            {dialog.disagreeBtnText}
+          </Button>
+        )}
         <Button onClick={onAgree}>{dialog.agreeBtnText}</Button>
       </DialogActions>
     </MaterialDialog>
