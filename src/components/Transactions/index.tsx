@@ -294,13 +294,20 @@ const Transactions = () => {
                             Menunggu konfirmasi admin
                           </Typography>
                         )
+                      ) : t.cpayment_type.toUpperCase() === 'POINT' ? (
+                        <Typography
+                          variant={'body2'}
+                          className={classes.tFStatus}>
+                          Menunggu konfirmasi admin
+                        </Typography>
                       ) : (
-                        t.cpayment_type.toUpperCase() === 'POINT' && (
-                          <Typography
-                            variant={'body2'}
-                            className={classes.tFStatus}>
-                            Menunggu konfirmasi admin
-                          </Typography>
+                        t.cpayment_type.toUpperCase() === 'EMONEY' && (
+                          <Button
+                            variant={'contained'}
+                            className={classes.tFCancelPaymentBtn}
+                            onClick={onCancelPaymentBtnClicked(t.cnmr_po)}>
+                            <Close /> BATAL
+                          </Button>
                         )
                       )
                     ) : (
