@@ -18,7 +18,7 @@ interface SnackbarTypes extends SnackbarProps {
 
 const Snackbar = ({ onClose, severity, msg, ...props }: SnackbarTypes) => {
   return (
-    <SnackbarBase {...props} {...{ onClose }}>
+    <SnackbarBase {...props} {...{ onClose }} sx={{ height: 'fit-content' }}>
       <Alert {...{ severity, onClose }} sx={{ width: '100%' }}>
         {msg}
       </Alert>
