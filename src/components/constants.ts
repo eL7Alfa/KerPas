@@ -245,7 +245,7 @@ export const checkUserData = ({
   userCode?: string;
 }) =>
   new Promise<userDataRT>((resolve, reject) => {
-    if (userCode && userCode) {
+    if (token && userCode) {
       axios(token)
         .post('/user/retrieve', {
           ckode_user: userCode,
