@@ -87,7 +87,14 @@ const Index = () => {
         <Box py={1} mt={9} mb={8}>
           <ProductDetails {...{ product }} />
           <Products
-            name={`${product.class} Lainnya`}
+            name={
+              product.class
+                ? `${product.class} Lainnya`.replace(
+                    'Lainnya Lainnya',
+                    'Lainnya',
+                  )
+                : ''
+            }
             data={products}
             onShowMoreBtnClicked={onShowMoreProductBtnClicked}
             isLoading={isProductsLoading}
