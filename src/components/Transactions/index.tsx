@@ -14,10 +14,15 @@ import {
 import toRupiah from '../../modules/toRupiah';
 import Image from 'next/image';
 import { productImgUrl } from '../../config/urls';
-import { setDialogR, setPaymentModalR } from '../../redux/actions/appRActions';
-import Payment from '../Items/Payment';
+import {
+  setDialogR,
+  setInvoiceModalR,
+  setPaymentModalR,
+} from '../../redux/actions/appRActions';
 import { Close } from '@mui/icons-material';
+import Payment from '../Items/Payment';
 import Dialog from '../Items/Dialog';
+import Invoice from '../Items/Invoice';
 
 const Transactions = () => {
   const classes = useStyles();
@@ -62,6 +67,10 @@ const Transactions = () => {
         })
         .catch(() => setTransactions([]));
     }
+  };
+
+  const onShowInvoiceBtnClicked = (transactionCode: string) => () => {
+    dispatch(setInvoiceModalR({ open: true, transactionCode }));
   };
 
   const onPaymentBtnClicked = (transactionCode: string) => () => {
@@ -185,14 +194,16 @@ const Transactions = () => {
             {transactions.map((t: any, key) => (
               <Grid key={key} item xs={12} sm={12} md={6}>
                 <Paper className={classes.tContainer}>
-                  <div className={classes.tHeader}>
+                  <ButtonBase
+                    className={classes.tHeader}
+                    onClick={onShowInvoiceBtnClicked(t.cnmr_po)}>
                     <Typography variant={'subtitle1'}>No. Invoice</Typography>
                     <Typography
                       variant={'body1'}
                       className={classes.tHNoInvoice}>
                       {t.cnmr_po}
                     </Typography>
-                  </div>
+                  </ButtonBase>
                   <ButtonBase className={classes.tWrapper}>
                     <Divider sx={{ mx: 1 }} />
                     <div className={classes.tBody}>
@@ -378,6 +389,7 @@ const Transactions = () => {
       </div>
       <Payment confirmedCallback={onPaymentConfirmed} />
       <Dialog agreeCallback={onConfirmBtnClicked} />
+      <Invoice />
     </Fragment>
   );
 };

@@ -1,6 +1,7 @@
 import {
   setAddToCartModalT,
   setDialogT,
+  setInvoiceModalT,
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
@@ -79,5 +80,19 @@ export const resetDialogR = () => {
   return {
     type: setDialogT,
     payload: appDefStateR.dialog,
+  };
+};
+
+export const setInvoiceModalR = (payload: appDefStateRT['invoice']) => {
+  return {
+    type: setInvoiceModalT,
+    payload,
+  };
+};
+
+export const resetInvoiceModalR = () => {
+  return {
+    type: setInvoiceModalT,
+    payload: appDefStateR.invoice,
   };
 };

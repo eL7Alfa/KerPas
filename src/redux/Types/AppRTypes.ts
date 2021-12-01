@@ -6,3 +6,4 @@ export const setAddToCartModalT = 'setAddToCartModalT';
 export const triggerCartUpdateT = 'triggerCartUpdateT';
 export const setPaymentModalT = 'setPaymentModalT';
 export const setDialogT = 'setDialogT';
+export const setInvoiceModalT = 'setInvoiceModalT';

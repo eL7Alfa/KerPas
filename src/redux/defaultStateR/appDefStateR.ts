@@ -41,6 +41,10 @@ export type appDefStateRT = {
     disagreeBtnText?: string;
     agreeBtnText: string;
   };
+  invoice: {
+    open: boolean;
+    transactionCode: string;
+  };
 };
 
 export const appDefStateR: appDefStateRT = {
@@ -97,5 +101,9 @@ export const appDefStateR: appDefStateRT = {
     agreeBtnText: '',
     body: '',
     title: '',
+  },
+  invoice: {
+    open: false,
+    transactionCode: '',
   },
 };

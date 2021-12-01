@@ -3,6 +3,7 @@ import { appDefStateR } from '../defaultStateR/appDefStateR';
 import {
   setAddToCartModalT,
   setDialogT,
+  setInvoiceModalT,
   setMarketDetailsModalT,
   setMyAddressesOpenT,
   setNearestMarketT,
@@ -39,6 +40,9 @@ const appReducer = (state = appDefStateR, { type, payload }: AnyAction) => {
     }
     case setDialogT: {
       return { ...state, dialog: { ...state.dialog, ...payload } };
+    }
+    case setInvoiceModalT: {
+      return { ...state, invoice: { ...state.invoice, ...payload } };
     }
     default:
       return state;
