@@ -26,9 +26,10 @@ const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
   const [transactionCodeToCancel, setTransactionCodeToCancel] = useState('');
   const [dialogName, setDialogName] = useState('');
-  type statusCodeTypes = '0' | '1' | '2' | '3' | '4' | '5' | '9';
-  const [statusCode, setStatusCode] = useState<statusCodeTypes>('0');
+  type statusCodeTypes = 'all' | '0' | '1' | '2' | '3' | '4' | '5' | '9';
+  const [statusCode, setStatusCode] = useState<statusCodeTypes>('all');
   const statusCodes = [
+    { code: 'all', label: 'Semua Transaksi' },
     { code: '0', label: 'Checkout' },
     { code: '1', label: 'Terbayar' },
     { code: '2', label: 'Diproses' },
@@ -45,7 +46,7 @@ const Transactions = () => {
       getTransaction(value);
     };
 
-  const getTransaction = (statusCode: statusCodeTypes = '0') => {
+  const getTransaction = (statusCode: statusCodeTypes = 'all') => {
     setStatusCode(statusCode);
     setTransactions([]);
     if (authState.userData.id) {
