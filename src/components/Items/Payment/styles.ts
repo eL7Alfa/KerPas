@@ -101,6 +101,38 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       fontStyle: 'italic',
     },
+    bCardOwnerInput: {
+      width: '100%',
+      '& .MuiInputLabel-root': {
+        color: yellow[900],
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: yellow[900],
+        },
+        '&:hover fieldset': {
+          borderColor: yellow[900],
+        },
+        '&.Mui-focused fieldset': {
+          borderColor: yellow[900],
+        },
+      },
+    },
+    bPaymentConfirmationDetails: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    bPickFileBtn: {
+      margin: `${theme.spacing(1)} auto`,
+      width: '70%',
+      backgroundColor: yellow[900],
+      '&:hover': {
+        backgroundColor: yellow[900],
+      },
+    },
+    bPickedFileName: {
+      margin: `0 auto`,
+    },
     footer: {
       display: 'flex',
       flexDirection: 'row',

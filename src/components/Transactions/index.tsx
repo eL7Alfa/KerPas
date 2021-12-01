@@ -68,6 +68,10 @@ const Transactions = () => {
     dispatch(setPaymentModalR({ open: true, transactionCode }));
   };
 
+  const onPaymentConfirmed = () => {
+    getTransaction(statusCode);
+  };
+
   const onCancelPaymentBtnClicked = (transactionCode: string) => () => {
     if (authState.userData.id) {
       setDialogName('cancelOrder');
@@ -368,7 +372,7 @@ const Transactions = () => {
           </Grid>
         </div>
       </div>
-      <Payment />
+      <Payment confirmedCallback={onPaymentConfirmed} />
       <Dialog agreeCallback={onConfirmBtnClicked} />
     </Fragment>
   );

@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  Fragment,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from 'react';
 import {
   Accordion,
   AccordionDetails,
@@ -7,6 +13,7 @@ import {
   Button,
   Modal,
   Paper,
+  TextField,
   Typography,
 } from '@mui/material';
 import useStyles from './styles';
@@ -19,13 +26,38 @@ import Image from 'next/image';
 import { paymentIconUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
 
-const Payment = () => {
+type PaymentPropsTypes = { confirmedCallback: () => void };
+
+const Payment = ({ confirmedCallback = () => {} }: PaymentPropsTypes) => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
   const dispatch = useDispatch();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [transaction, setTransaction] = useState<any>({});
   const [instruction, setInstruction] = useState<any>({});
+  const [cardOwner, setCardOwner] = useState<string>('');
+  const [pickedFileName, setPickedFileName] = useState<string>('');
+
+  const onPickedFile = (e: ChangeEvent<HTMLInputElement>) => {
+    e.target.files?.length ? setPickedFileName(e.target.files[0].name) : '';
+  };
+
+  const onConfirmPaymentBtnClicked = (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (authState.userData.id) {
+      const formData = new FormData(e.currentTarget);
+      formData.append('cnmr_po', transaction.cnmr_po);
+      formData.append('ckode_user', authState.userData.ckode_user);
+      axios(authState.userData.token)
+        .post('market/payment/upload', formData)
+        .then(({ data: { response } }) => {
+          if (response === 200) {
+            confirmedCallback();
+            onClose();
+          }
+        });
+    }
+  };
 
   const getPaymentInstruction = (paymentId: number) => {
     axios(authState.userData.token)
@@ -60,6 +92,7 @@ const Payment = () => {
 
   useEffect(() => {
     setOpen(appState.paymentModal.open);
+    setPickedFileName('');
     if (appState.paymentModal.open) {
       getTransactionDetail();
     }
@@ -96,7 +129,13 @@ const Payment = () => {
   return (
     <Modal {...{ open, onClose }} className={classes.root}>
       <Box className={classes.box}>
-        <Paper className={classes.paper}>
+        {/*@ts-ignore*/}
+        <Paper
+          className={classes.paper}
+          component={'form'}
+          method={'POST'}
+          encType={'multipart/form-data'}
+          onSubmit={onConfirmPaymentBtnClicked}>
           <div className={classes.header}>
             <PaymentIcon className={classes.titleIcon} />
             <Typography variant={'h5'} className={classes.title}>
@@ -148,6 +187,41 @@ const Payment = () => {
                 (BAYAR SESUAI HARGA DI ATAS AGAR PROSES TRANSAKSI LANCAR)
               </Typography>
             </div>
+            <Accordion defaultExpanded>
+              <AccordionSummary expandIcon={<ExpandMore />}>
+                <Typography variant={'subtitle1'}>
+                  Konfirmasi Pembayaran
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails className={classes.bPaymentConfirmationDetails}>
+                <TextField
+                  label={'Nama Pemilik Rekening'}
+                  name={'cnama_pengirim'}
+                  value={cardOwner}
+                  onChange={({ target: { value } }) => setCardOwner(value)}
+                  className={classes.bCardOwnerInput}
+                  autoFocus
+                  required
+                />
+                <Button
+                  variant={'contained'}
+                  component={'label'}
+                  className={classes.bPickFileBtn}>
+                  Pilih Foto
+                  <input
+                    type="file"
+                    hidden
+                    accept={'image/*'}
+                    onChange={onPickedFile}
+                  />
+                </Button>
+                <Typography
+                  variant={'body1'}
+                  className={classes.bPickedFileName}>
+                  {pickedFileName}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMore />}>
                 <Typography variant={'subtitle1'}>
@@ -166,7 +240,8 @@ const Payment = () => {
           <div className={classes.footer}>
             <Button
               variant={'contained'}
-              className={classes.fConfirmPaymentBtn}>
+              className={classes.fConfirmPaymentBtn}
+              type={'submit'}>
               KONFIRMASI PEMBAYARAN
             </Button>
           </div>
