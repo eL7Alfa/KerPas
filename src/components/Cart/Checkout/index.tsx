@@ -165,7 +165,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           severity: 'error',
           msg: 'Silahkan pilih alamat pengiriman terlebih dahulu.',
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -179,7 +178,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           severity: 'error',
           msg: 'Market terdekat tidak ditemukan atau belum dalam jangkauan kami',
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -197,7 +195,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           severity: 'error',
           msg: 'Item di keranjang bukan dari market terdekat',
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -211,7 +208,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           severity: 'error',
           msg: 'Silahkan pilih waktu pengantaran terlebih dahulu',
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -225,7 +221,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           severity: 'error',
           msg: 'Silahkan pilih metode pembayaran terlebih dahulu',
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -243,7 +238,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           severity: 'error',
           msg: 'Silahkan pilih metode pembayaran terlebih dahulu',
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -260,7 +254,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               settings.nmax_amount_po_cod,
             )}`,
             key: new Date().getTime(),
-            anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
           },
         ]);
         return;
@@ -277,7 +270,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             settings.nmax_amount_po_non_cod,
           )}`,
           key: new Date().getTime(),
-          anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
         },
       ]);
       return;
@@ -347,7 +339,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
               severity: 'success',
               msg: 'Pemesanan sukses',
               key: new Date().getTime(),
-              anchorOrigin: { vertical: 'bottom', horizontal: 'center' },
             },
           ]);
           getUserWallet();
@@ -422,7 +413,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           if (response === 200) {
             let newCurrentPaymentMethod: any = {};
             result.map((r: any) => {
-              const pMD = r.data.map((a: any) => {
+              r.data.map((a: any) => {
                 if (a.id === currentPaymentMethod.id) {
                   newCurrentPaymentMethod = {
                     ...a,

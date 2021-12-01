@@ -190,7 +190,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     snackbar: {
       position: 'absolute',
-      top: theme.spacing(1),
+      bottom: theme.spacing(7),
       width: '95%',
     },
   }),
