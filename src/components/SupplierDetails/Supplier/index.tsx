@@ -25,6 +25,7 @@ const Supplier = ({ market, supplier }: HeaderPropsTypes) => {
           placeholder={'blur'}
           blurDataURL={supplier.imageUri}
           alt={supplier.name}
+          objectFit={'cover'}
         />
       </div>
       <div className={classes.supplierDetails}>

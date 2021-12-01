@@ -13,6 +13,7 @@ import { rootReducerI } from '../../redux/reducers';
 import axios from '../../config/axios';
 import { newProducts } from '../constants';
 import Head from 'next/head';
+import { Divider, Hidden } from '@mui/material';
 
 const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
   const classes = useStyles();
@@ -102,7 +103,19 @@ const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
       <div className={classes.root}>
         <div className={classes.sectionA}>
           <Supplier {...{ supplier, market }} />
-          <div className={classes.catW}>
+          <Hidden smDown>
+            <div className={classes.catW}>
+              <Categories
+                {...{
+                  categories,
+                  onClick: onCategoryClick,
+                }}
+              />
+            </div>
+          </Hidden>
+        </div>
+        <Hidden smUp>
+          <div className={classes.catMW}>
             <Categories
               {...{
                 categories,
@@ -110,7 +123,8 @@ const SupplierDetails = ({ supplierId }: { supplierId?: number }) => {
               }}
             />
           </div>
-        </div>
+        </Hidden>
+        <Divider />
         <Products
           name={currentCat.name}
           data={products}

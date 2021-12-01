@@ -9,6 +9,11 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       boxShadow: '0 20px 25px -10px rgba(0,0,0,0.15)',
       borderRadius: 8,
+      [theme.breakpoints.down('sm')]: {
+        width: 'unset',
+        flex: 1,
+        flexDirection: 'row',
+      },
     },
     supplierImg: {
       position: 'relative',
@@ -17,6 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 8,
       overflow: 'hidden',
       boxShadow: '0 10px 10px -5px rgba(0,0,0,0.15)',
+      [theme.breakpoints.down('sm')]: {
+        width: 150,
+        height: 150,
+      },
     },
     supplierDetails: {
       display: 'flex',

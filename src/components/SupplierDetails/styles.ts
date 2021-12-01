@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'block',
       width: 'calc(100% - 300px)',
     },
+    catMW: {
+      width: '100%',
+      marginTop: theme.spacing(4),
+    },
   }),
 );
 
