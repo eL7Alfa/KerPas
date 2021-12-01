@@ -1,11 +1,18 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Box, Divider, Modal, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  Modal,
+  Paper,
+  Typography,
+} from '@mui/material';
 import useStyles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import { setTransactionDetailsModalR } from '../../../redux/actions/appRActions';
 import axios from '../../../config/axios';
-import { ListAlt } from '@mui/icons-material';
+import { Close, ListAlt } from '@mui/icons-material';
 import Image from 'next/image';
 import { productImgUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
@@ -19,6 +26,7 @@ const TransactionDetails = () => {
   const [transaction, setTransaction] = useState<any>({});
 
   const getTransactionDetail = () => {
+    setTransaction({});
     axios(authState.userData.token)
       .post('/market/transactions/detail', {
         ckode_user: authState.userData.ckode_user,
@@ -28,7 +36,6 @@ const TransactionDetails = () => {
         if (response === 200 && !error) {
           const newTransaction = result[0];
           setTransaction(newTransaction);
-          console.log(newTransaction);
         }
       });
   };
@@ -93,6 +100,9 @@ const TransactionDetails = () => {
             <Typography variant={'h5'} className={classes.title}>
               Detail Transaksi
             </Typography>
+            <IconButton className={classes.closeBtn} onClick={onClose}>
+              <Close />
+            </IconButton>
           </div>
           <Divider />
           <div className={classes.body}>
@@ -144,6 +154,33 @@ const TransactionDetails = () => {
               <Typography variant={'body2'}>Total Item:</Typography>
               <Typography variant={'body2'}>{`${totalItems} item`}</Typography>
             </div>
+            <div className={classes.tBItem}>
+              <Typography variant={'body2'}>Sub Total Harga:</Typography>
+              <Typography variant={'body2'}>
+                {toRupiah(transaction.payment.nharga_produk)}
+              </Typography>
+            </div>
+            <div className={classes.tBItem}>
+              <Typography variant={'body2'}>Biaya Layanan:</Typography>
+              <Typography variant={'body2'}>
+                {toRupiah(transaction.payment.nbiaya_layanan)}
+              </Typography>
+            </div>
+            <div className={classes.tBItem}>
+              <Typography variant={'body2'}>Ongkos kirim:</Typography>
+              <Typography variant={'body2'}>
+                {toRupiah(transaction.shipping.nongkir)}
+              </Typography>
+            </div>
+            {transaction.payment.cpayment_type.toUpperCase() ===
+              'TRANSFER_MANUAL' && (
+              <div className={classes.tBItem}>
+                <Typography variant={'body2'}>Kode pembayaran:</Typography>
+                <Typography variant={'body2'}>
+                  {toRupiah(transaction.payment.nunique_code)}
+                </Typography>
+              </div>
+            )}
             <div className={classes.tBItem}>
               <Typography variant={'body2'}>Metode Pembayaran:</Typography>
               <Typography variant={'body2'}>

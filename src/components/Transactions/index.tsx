@@ -329,7 +329,7 @@ const Transactions = () => {
                                 variant={'contained'}
                                 className={classes.tFPaymentBtn}
                                 onClick={onPaymentBtnClicked(t.cnmr_po)}>
-                                Pembayaran
+                                Konfirmasi Pembayaran
                               </Button>
                             </Fragment>
                           ) : (

@@ -1,6 +1,5 @@
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
-import shadows from '@mui/material/styles/shadows';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,6 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 800,
       color: '#424242',
     },
+    closeBtn: {
+      marginLeft: 'auto',
+    },
     body: {
       display: 'flex',
       flexDirection: 'column',
@@ -73,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderLeftWidth: 2,
       borderLeftStyle: 'solid',
       borderRadius: theme.spacing(0.5),
-      boxShadow: shadows[2],
+      boxShadow: '0 2px 5px rgba(0,0,0,0.15)',
     },
     tBProductInfo: {
       display: 'flex',
