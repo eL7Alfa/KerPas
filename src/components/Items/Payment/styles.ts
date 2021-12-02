@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 800,
       color: '#424242',
     },
+    closeBtn: {
+      marginLeft: 'auto',
+    },
     body: {
       display: 'flex',
       flexDirection: 'column',

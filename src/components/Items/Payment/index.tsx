@@ -11,6 +11,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  IconButton,
   Modal,
   Paper,
   TextField,
@@ -21,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { rootReducerI } from '../../../redux/reducers';
 import { setPaymentModalR } from '../../../redux/actions/appRActions';
 import axios from '../../../config/axios';
-import { ExpandMore, Payment as PaymentIcon } from '@mui/icons-material';
+import { Close, ExpandMore, Payment as PaymentIcon } from '@mui/icons-material';
 import Image from 'next/image';
 import { paymentIconUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
@@ -141,6 +142,9 @@ const Payment = ({ confirmedCallback = () => {} }: PaymentPropsTypes) => {
             <Typography variant={'h5'} className={classes.title}>
               Pembayaran
             </Typography>
+            <IconButton className={classes.closeBtn} onClick={onClose}>
+              <Close />
+            </IconButton>
           </div>
           <div className={classes.body}>
             <div className={classes.imgW}>
