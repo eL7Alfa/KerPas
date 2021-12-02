@@ -129,6 +129,7 @@ const useStyles = makeStyles((theme: Theme) =>
     tHNoInvoice: {
       fontWeight: 800,
       color: grey[800],
+      textDecoration: 'underline',
     },
     tBody: {
       display: 'flex',
