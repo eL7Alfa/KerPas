@@ -22,11 +22,15 @@ import {
   LocalizationProvider,
   MobileDatePicker,
 } from '@mui/lab';
-import { triggerCartUpdateR } from '../../../redux/actions/appRActions';
+import {
+  setDialogR,
+  triggerCartUpdateR,
+} from '../../../redux/actions/appRActions';
 import Snackbar from '../../../smallComponents/Snackbar';
 import { useRouter } from 'next/router';
 import moment, { Moment } from 'moment';
 import DateAdapter from '@mui/lab/AdapterMoment';
+import Dialog from '../../Items/Dialog';
 
 const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
   const classes = useStyles();
@@ -155,7 +159,19 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     setNoteInputValue(value);
   };
 
-  const onOrderBtnClicked = () => {
+  const onShowOrderDialogBtnClicked = () => {
+    dispatch(
+      setDialogR({
+        open: true,
+        agreeBtnText: 'LANJUTKAN',
+        disagreeBtnText: 'BATAL',
+        title: 'Konfirmasi Checkout',
+        body: 'Transaksi tidak dapat dibatalkan ketika sudah terbayar, Pengembalian dana atas transaksi yang dibatalkan akan dikembalikan dalam bentuk point.',
+      }),
+    );
+  };
+
+  const onConfirmBtnClicked = () => {
     if (!Object.keys(appState.selectedAddress).length) {
       setSnackPack(prev => [
         ...prev,
@@ -287,7 +303,10 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
     //   ]);
     //   return;
     // }
+    onOrder();
+  };
 
+  const onOrder = () => {
     setIsOrdering(true);
     let postData = {
       ckode_user: authState.userData.ckode_user,
@@ -326,7 +345,6 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
             nmax_amount_po_non_cod: 0,
           });
           setNoteInputValue('');
-          dispatch(triggerCartUpdateR());
           if (currentPaymentMethod.method.toUpperCase() === 'EMONEY') {
             window.open(result.actions[0].url);
           }
@@ -343,6 +361,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           ]);
           getUserWallet();
           router.push('/transactions');
+          dispatch(triggerCartUpdateR());
         }
       })
       .finally(() => setIsOrdering(false));
@@ -696,7 +715,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           <LoadingButton
             variant={'contained'}
             className={classes.orderBtn}
-            onClick={onOrderBtnClicked}
+            onClick={onShowOrderDialogBtnClicked}
             disabled={!cartProducts.length || !settings.id}
             loading={isOrdering}>
             Checkout
@@ -722,6 +741,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
           }
           {...{ currentPaymentMethod }}
         />
+        <Dialog agreeCallback={onConfirmBtnClicked} />
         <Snackbar
           key={snackbarState.key}
           open={snackbarState.open}
