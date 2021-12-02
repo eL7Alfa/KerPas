@@ -389,17 +389,17 @@ const Transactions = () => {
                             Pesan Ulang
                           </Button>
                         )}
-                        {t.cstatus === '2' ||
+                        {(t.cstatus === '2' ||
                           t.cstatus === '3' ||
                           t.cstatus === '4' ||
-                          t.cstatus === '9' || (
-                            <Button
-                              variant={'contained'}
-                              className={classes.tFCallCourierBtn}
-                              href={'tel:082191732180'}>
-                              <Call /> Telepon Kurir
-                            </Button>
-                          )}
+                          t.cstatus === '9') && (
+                          <Button
+                            variant={'contained'}
+                            className={classes.tFCallCourierBtn}
+                            href={'tel:082191732180'}>
+                            <Call /> Telepon Kurir
+                          </Button>
+                        )}
                       </Fragment>
                     )}
                   </div>
