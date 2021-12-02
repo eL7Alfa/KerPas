@@ -397,7 +397,7 @@ const Transactions = () => {
                             variant={'contained'}
                             className={classes.tFCallCourierBtn}
                             href={`tel:${t.courier.ctelp}`}>
-                            <Call /> `${t.courier.ctelp} (Kurir)`
+                            <Call /> {`${t.courier.ctelp} (Kurir)`}
                           </Button>
                         )}
                       </Fragment>
