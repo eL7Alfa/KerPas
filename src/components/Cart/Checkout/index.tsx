@@ -166,7 +166,7 @@ const CheckOut = ({ cartProducts }: { cartProducts: CartProductTypes[] }) => {
         agreeBtnText: 'LANJUTKAN',
         disagreeBtnText: 'BATAL',
         title: 'Konfirmasi Checkout',
-        body: 'Transaksi tidak dapat dibatalkan ketika sudah terbayar, Pengembalian dana atas transaksi yang dibatalkan akan dikembalikan dalam bentuk point.',
+        body: 'Transaksi tidak dapat dibatalkan ketika sudah terbayar, pengembalian dana atas transaksi yang dibatalkan akan dikembalikan dalam bentuk point.',
       }),
     );
   };
