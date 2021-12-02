@@ -80,7 +80,8 @@ const AppHeader = () => {
   const onSearchSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    router.push(`/search/${formData.get('search')}`);
+    !!formData.get('search') &&
+      router.push(`/search/${formData.get('search')}`);
   };
 
   const onAccountBtnClicked = (e: {
