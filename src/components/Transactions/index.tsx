@@ -389,10 +389,10 @@ const Transactions = () => {
                             Pesan Ulang
                           </Button>
                         )}
-                        {t.cstatus === '2' &&
-                          t.cstatus === '3' &&
-                          t.cstatus === '4' &&
-                          t.cstatus === '9' && (
+                        {t.cstatus === '2' ||
+                          t.cstatus === '3' ||
+                          t.cstatus === '4' ||
+                          t.cstatus === '9' || (
                             <Button
                               variant={'contained'}
                               className={classes.tFCallCourierBtn}
