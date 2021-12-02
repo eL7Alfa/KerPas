@@ -210,6 +210,7 @@ const Payment = ({ confirmedCallback = () => {} }: PaymentPropsTypes) => {
                   Pilih Foto
                   <input
                     type="file"
+                    name={'cimg'}
                     hidden
                     accept={'image/*'}
                     onChange={onPickedFile}
