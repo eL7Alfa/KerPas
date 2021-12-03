@@ -253,6 +253,12 @@ export const checkUserData = ({
         .then(({ data: { response, result } }) => {
           if (response === 200) {
             const newUserData = { ...result, token: token };
+            const _userData = localStorage.getItem('userData');
+            if (_userData) {
+              const userData = JSON.parse(_userData);
+              userData.ckode_user === userCode &&
+                localStorage.removeItem('selectedAddress');
+            }
             localStorage.setItem('userData', JSON.stringify(newUserData));
             resolve(newUserData);
           }
