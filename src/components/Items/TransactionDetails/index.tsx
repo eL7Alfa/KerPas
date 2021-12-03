@@ -17,6 +17,7 @@ import Image from 'next/image';
 import { productImgUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
 import { grey, yellow } from '@mui/material/colors';
+import Direction from '../Direction';
 
 const TransactionDetails = () => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
@@ -24,6 +25,10 @@ const TransactionDetails = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [transaction, setTransaction] = useState<any>({});
+  const [courierLoc, setCourierLoc] = useState<{ lat: number; lng: number }>({
+    lat: 0,
+    lng: 0,
+  });
 
   const getTransactionDetail = () => {
     setTransaction({});
@@ -36,8 +41,46 @@ const TransactionDetails = () => {
         if (response === 200 && !error) {
           const newTransaction = result[0];
           setTransaction(newTransaction);
+          console.log({
+            lat: Number(newTransaction.address.shipping_address.dlat),
+            lng: Number(newTransaction.address.shipping_address.dlng),
+          });
         }
       });
+  };
+
+  let getCourierLocInterval: any = null;
+  const getCourierLoc = () => {
+    setCourierLoc({ lat: 0, lng: 0 });
+    axios(authState.userData.token)
+      .post('/market/courier/location', {
+        cnmr_po: appState.transactionDetails.transactionCode,
+      })
+      .then(({ data: { result, response, error } }) => {
+        if (response === 200 && !error) {
+          const newCourierLoc = {
+            lat: Number(result.ccourier_lat),
+            lng: Number(result.ccourier_lng),
+          };
+          setCourierLoc(newCourierLoc);
+        }
+      });
+
+    getCourierLocInterval = setInterval(() => {
+      axios(authState.userData.token)
+        .post('/market/courier/location', {
+          cnmr_po: appState.transactionDetails.transactionCode,
+        })
+        .then(({ data: { result, response, error } }) => {
+          if (response === 200 && !error) {
+            const newCourierLoc = {
+              lat: Number(result.ccourier_lat),
+              lng: Number(result.ccourier_lng),
+            };
+            setCourierLoc(newCourierLoc);
+          }
+        });
+    }, 20000);
   };
 
   const onClose = () => {
@@ -48,7 +91,12 @@ const TransactionDetails = () => {
     setOpen(appState.transactionDetails.open);
     if (appState.transactionDetails.open) {
       getTransactionDetail();
+      getCourierLoc();
     }
+    !!getCourierLocInterval && clearInterval(getCourierLocInterval);
+    return () => {
+      !!getCourierLocInterval && clearInterval(getCourierLocInterval);
+    };
   }, [appState.transactionDetails.open]);
 
   if (!Object.keys(transaction).length) {
@@ -104,6 +152,19 @@ const TransactionDetails = () => {
               <Close />
             </IconButton>
           </div>
+          {transaction.cstatus === '3' && courierLoc.lat && (
+            <Fragment>
+              <Divider />
+              <Direction
+                origin={courierLoc}
+                destination={{
+                  lat: Number(transaction.address.shipping_address.dlat),
+                  lng: Number(transaction.address.shipping_address.dlng),
+                }}
+                className={classes.mapW}
+              />
+            </Fragment>
+          )}
           <Divider />
           <div className={classes.body}>
             <div className={classes.tBAddressInfo}>

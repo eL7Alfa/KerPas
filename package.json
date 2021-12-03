@@ -19,6 +19,7 @@
     "@mui/lab": "^5.0.0-alpha.58",
     "@mui/material": "^5.2.2",
     "@mui/styles": "^5.2.2",
+    "@react-google-maps/api": "^2.7.0",
     "@reduxjs/toolkit": "^1.6.1",
     "@types/facebook-js-sdk": "^3.3.5",
     "@types/formidable": "^1.2.4",

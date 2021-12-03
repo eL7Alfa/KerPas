@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('sm')]: {
         width: '95%',
       },
-      maxWidth: theme.breakpoints.values.sm - 100,
+      maxWidth: theme.breakpoints.values.sm - 50,
       maxHeight: '90vh',
     },
     paper: {
@@ -56,6 +56,10 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: 'auto',
       maxHeight: '100%',
       padding: theme.spacing(1, 1),
+    },
+    mapW: {
+      display: 'flex',
+      minHeight: 350,
     },
     tBProductItem: {
       display: 'flex',

@@ -279,14 +279,6 @@ const Transactions = () => {
                             </Typography>
                           </div>
                         )}
-                      {t.cstatus !== '0' && (
-                        <div className={classes.tBItem}>
-                          <Typography variant={'body2'}>Kurir:</Typography>
-                          <Typography variant={'body2'}>
-                            {t.courier.cnama}
-                          </Typography>
-                        </div>
-                      )}
                       <div className={classes.tBItem}>
                         <Typography variant={'body2'}>
                           Metode Pembayaran:
@@ -311,6 +303,14 @@ const Transactions = () => {
                           }
                         </Typography>
                       </div>
+                      {t.cstatus !== '0' && (
+                        <div className={classes.tBItem}>
+                          <Typography variant={'body2'}>Kurir:</Typography>
+                          <Typography variant={'body2'}>
+                            {t.courier.cnama}
+                          </Typography>
+                        </div>
+                      )}
                     </div>
                   </ButtonBase>
                   <div className={classes.tFooter}>
