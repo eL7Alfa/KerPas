@@ -1,8 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 import {
   DirectionsRenderer,
   GoogleMap,
   LoadScriptNext,
+  useLoadScript,
 } from '@react-google-maps/api';
 import { googleMapsApiKey } from '../../constants';
 
@@ -17,12 +18,15 @@ const Direction: FC<DirectionPropsType> = ({
   destination,
   className,
 }) => {
-  // eslint-disable-next-line no-undef
-  const DirectionsService = new google.maps.DirectionsService();
-  const [directions, setDirections] = useState<any>();
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey,
+  });
 
+  const [directions, setDirections] = useState<any>();
   useEffect(() => {
-    if (origin.lat && destination.lat) {
+    if (isLoaded && !!origin.lat && !!destination.lat) {
+      // eslint-disable-next-line no-undef
+      const DirectionsService = new google.maps.DirectionsService();
       DirectionsService.route(
         {
           // eslint-disable-next-line no-undef
@@ -44,17 +48,24 @@ const Direction: FC<DirectionPropsType> = ({
     } else {
       setDirections(undefined);
     }
-  }, [origin, destination]);
+  }, [origin, destination, isLoaded]);
 
-  return (
-    <div {...{ className }}>
-      <LoadScriptNext {...{ googleMapsApiKey }}>
-        <GoogleMap center={destination} mapContainerStyle={{ width: '100%' }}>
-          {directions && <DirectionsRenderer {...{ directions }} />}
-        </GoogleMap>
-      </LoadScriptNext>
-    </div>
-  );
+  if (!loadError) {
+    return (
+      <div {...{ className }}>
+        <LoadScriptNext {...{ googleMapsApiKey }}>
+          <GoogleMap
+            center={destination}
+            mapContainerStyle={{ width: '100%' }}
+            zoom={13}>
+            {directions && <DirectionsRenderer {...{ directions }} />}
+          </GoogleMap>
+        </LoadScriptNext>
+      </div>
+    );
+  }
+
+  return <Fragment />;
 };
 
 export default Direction;
