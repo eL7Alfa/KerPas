@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
         width: '95%',
       },
       maxWidth: theme.breakpoints.values.sm - 50,
-      maxHeight: '90vh',
+      maxHeight: '95vh',
     },
     paper: {
       display: 'flex',

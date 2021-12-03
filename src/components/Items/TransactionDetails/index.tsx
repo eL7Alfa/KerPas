@@ -88,8 +88,9 @@ const TransactionDetails = () => {
     if (appState.transactionDetails.open) {
       getTransactionDetail();
       getCourierLoc();
+    } else {
+      !!getCourierLocInterval && clearInterval(getCourierLocInterval);
     }
-    !!getCourierLocInterval && clearInterval(getCourierLocInterval);
     return () => {
       !!getCourierLocInterval && clearInterval(getCourierLocInterval);
     };
