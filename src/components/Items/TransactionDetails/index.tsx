@@ -41,10 +41,6 @@ const TransactionDetails = () => {
         if (response === 200 && !error) {
           const newTransaction = result[0];
           setTransaction(newTransaction);
-          console.log({
-            lat: Number(newTransaction.address.shipping_address.dlat),
-            lng: Number(newTransaction.address.shipping_address.dlng),
-          });
         }
       });
   };
