@@ -26,6 +26,7 @@ import { Close, ExpandMore, Payment as PaymentIcon } from '@mui/icons-material';
 import Image from 'next/image';
 import { paymentIconUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
+import base64 from '../../../modules/base64';
 
 type PaymentPropsTypes = { confirmedCallback: () => void };
 
@@ -49,6 +50,11 @@ const Payment = ({ confirmedCallback = () => {} }: PaymentPropsTypes) => {
       const formData = new FormData(e.currentTarget);
       formData.append('cnmr_po', transaction.cnmr_po);
       formData.append('ckode_user', authState.userData.ckode_user);
+      base64(formData.get('image') as File, e => {
+        if (e) {
+          return formData.append('cimg', e.toString());
+        }
+      });
       axios(authState.userData.token)
         .post('market/payment/upload', formData)
         .then(({ data: { response } }) => {
@@ -214,7 +220,7 @@ const Payment = ({ confirmedCallback = () => {} }: PaymentPropsTypes) => {
                   Pilih Foto
                   <input
                     type="file"
-                    name={'cimg'}
+                    name={'image'}
                     hidden
                     accept={'image/*'}
                     onChange={onPickedFile}

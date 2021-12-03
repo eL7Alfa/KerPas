@@ -164,7 +164,6 @@ const useStyles = makeStyles((theme: Theme) =>
     tBIStatus: {
       fontWeight: 800,
       fontSize: 15,
-      textDecoration: 'underline',
       '&.checkout': {
         color: yellow[900],
       },
