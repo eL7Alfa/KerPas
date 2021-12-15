@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  DirectionsRenderer,
+  DirectionsRenderer as DirectionsR,
   GoogleMap as GMap,
   LoadScriptNext,
   Marker,
@@ -20,6 +20,7 @@ const Direction = ({ origin, destination, className }: DirectionPropsType) => {
   });
 
   const GoogleMap = useRef(GMap).current;
+  const DirectionsRenderer = useRef(DirectionsR).current;
 
   const [directions, setDirections] = useState<any>();
   useEffect(() => {
@@ -49,19 +50,15 @@ const Direction = ({ origin, destination, className }: DirectionPropsType) => {
     }
   }, [origin, destination, isLoaded]);
 
-  const DirectionR = () =>
-    useMemo(
-      () => (
-        <DirectionsRenderer
-          {...{ directions }}
-          options={{
-            suppressMarkers: true,
-            suppressBicyclingLayer: true,
-          }}
-        />
-      ),
-      [],
-    );
+  const DirectionR = () => (
+    <DirectionsRenderer
+      {...{ directions }}
+      options={{
+        suppressMarkers: true,
+        suppressBicyclingLayer: true,
+      }}
+    />
+  );
 
   const Map = ({ children }: any) => (
     <GoogleMap
