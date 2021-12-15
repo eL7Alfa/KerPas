@@ -62,6 +62,7 @@ const TransactionDetails = () => {
         }
       });
 
+    !!getCourierLocInterval && clearInterval(getCourierLocInterval);
     getCourierLocInterval = setInterval(() => {
       axios(authState.userData.token)
         .post('/market/courier/location', {
