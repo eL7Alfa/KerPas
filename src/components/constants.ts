@@ -11,7 +11,7 @@ import { rootReducerI } from '../redux/reducers';
 import { useRouter } from 'next/router';
 
 // Google API Key
-export const googleMapsApiKey = 'AIzaSyAygO3Nj3KsaI1hAlGUBeGWpGQeW9pZOkc';
+export const googleMapsApiKey = 'AIzaSyCeWGNCefMPuEZkeu3R-jMxhwmmFw5Is6cs';
 
 export type getDistanceMatrixProps = {
   destinations: { lat: number; lng: number }[];
