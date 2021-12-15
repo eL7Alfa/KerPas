@@ -150,7 +150,7 @@ const TransactionDetails = () => {
               <Close />
             </IconButton>
           </div>
-          {transaction.cstatus === '3' && courierLoc.lat && (
+          {transaction.cstatus === '3' && !!courierLoc.lat && (
             <Fragment>
               <Divider />
               <Direction
