@@ -63,7 +63,7 @@ const Direction = ({ origin, destination, className }: DirectionPropsType) => {
       [],
     );
 
-  const Map = () => (
+  const Map = ({ children }: any) => (
     <GoogleMap
       center={destination}
       mapContainerStyle={{ width: '100%' }}
