@@ -76,7 +76,7 @@ const TransactionDetails = () => {
             setCourierLoc(newCourierLoc);
           }
         });
-    }, 20000);
+    }, 3000);
   };
 
   const onClose = () => {

@@ -1,8 +1,9 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import {
   DirectionsRenderer,
-  GoogleMap,
+  GoogleMap as GMap,
   LoadScriptNext,
+  Marker,
   useLoadScript,
 } from '@react-google-maps/api';
 import { googleMapsApiKey } from '../../constants';
@@ -13,14 +14,12 @@ type DirectionPropsType = {
   className: string;
 };
 
-const Direction: FC<DirectionPropsType> = ({
-  origin,
-  destination,
-  className,
-}) => {
+const Direction = ({ origin, destination, className }: DirectionPropsType) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey,
   });
+
+  const GoogleMap = useRef(GMap).current;
 
   const [directions, setDirections] = useState<any>();
   useEffect(() => {
@@ -50,16 +49,38 @@ const Direction: FC<DirectionPropsType> = ({
     }
   }, [origin, destination, isLoaded]);
 
+  const DirectionR = () =>
+    useMemo(
+      () => (
+        <DirectionsRenderer
+          {...{ directions }}
+          options={{
+            suppressMarkers: true,
+            suppressBicyclingLayer: true,
+          }}
+        />
+      ),
+      [],
+    );
+
+  const Map = () => (
+    <GoogleMap
+      center={destination}
+      mapContainerStyle={{ width: '100%' }}
+      zoom={13}>
+      <Marker position={origin} />
+      <Marker position={destination} />
+      {directions && <DirectionR />}
+    </GoogleMap>
+  );
+
   if (!loadError) {
     return (
       <div {...{ className }}>
         <LoadScriptNext {...{ googleMapsApiKey }}>
-          <GoogleMap
-            center={destination}
-            mapContainerStyle={{ width: '100%' }}
-            zoom={13}>
-            {directions && <DirectionsRenderer {...{ directions }} />}
-          </GoogleMap>
+          <Map>
+            <DirectionR />
+          </Map>
         </LoadScriptNext>
       </div>
     );
