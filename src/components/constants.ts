@@ -13,6 +13,17 @@ import { useRouter } from 'next/router';
 // Google API Key
 export const googleMapsApiKey = 'AIzaSyAygO3Nj3KsaI1hAlGUBeGWpGQeW9pZOkc';
 
+export const firebaseConfig = {
+  apiKey: 'AIzaSyCzcMymlV2VwZ8fJJUpLutquJuqXzeX71k',
+  authDomain: 'keranjangbelanja-2e16f.firebaseapp.com',
+  databaseURL: 'https://keranjangbelanja-2e16f.firebaseio.com',
+  projectId: 'keranjangbelanja-2e16f',
+  storageBucket: 'keranjangbelanja-2e16f.appspot.com',
+  messagingSenderId: '332037196742',
+  appId: '1:332037196742:web:f9d7e0755b94fb105f40c7',
+  measurementId: 'G-7GB3RF701M',
+};
+
 export type getDistanceMatrixProps = {
   destinations: { lat: number; lng: number }[];
   origins: { lat: number; lng: number }[];

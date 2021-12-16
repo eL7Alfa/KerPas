@@ -18,6 +18,9 @@ import { productImgUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
 import { grey, yellow } from '@mui/material/colors';
 import Direction from '../Direction';
+import { initializeApp } from 'firebase/app';
+import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import { firebaseConfig } from '../../constants';
 
 const TransactionDetails = () => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
@@ -29,6 +32,27 @@ const TransactionDetails = () => {
     lat: 0,
     lng: 0,
   });
+
+  const fCMessagingListener = () => {
+    // Initialize Firebase
+    const firebaseApp = initializeApp(firebaseConfig);
+    const firebaseMessaging = getMessaging(firebaseApp);
+    navigator.serviceWorker.register('/firebase-messaging-sw.js').then(reg => {
+      console.log('Registration successful, scope is:', reg.scope);
+      getToken(firebaseMessaging, {
+        vapidKey:
+          'BIrBg-y1TZFkMuIFdiBS3-3wAEzfk5_qI8RTLnMc1LhkOyxKyI-feeS00V4clez2p4RytrOPnXodxfyPhnnXIag',
+      })
+        .then(currentToken => {
+          if (currentToken) {
+            onMessage(firebaseMessaging, payload => {
+              console.log(payload);
+            });
+          }
+        })
+        .catch(e => console.log('err' + e));
+    });
+  };
 
   const getTransactionDetail = () => {
     setTransaction({});
@@ -89,6 +113,7 @@ const TransactionDetails = () => {
     if (appState.transactionDetails.open) {
       getTransactionDetail();
       getCourierLoc();
+      fCMessagingListener();
     } else {
       !!getCourierLocInterval && clearInterval(getCourierLocInterval);
     }

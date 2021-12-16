@@ -47,7 +47,6 @@ const Direction = ({ origin, destination, className }: DirectionPropsType) => {
                 // eslint-disable-next-line no-undef
                 result as google.maps.DirectionsResult,
               );
-              console.log('lol');
             } else {
               console.error(`error fetching directions ${result}`);
             }
