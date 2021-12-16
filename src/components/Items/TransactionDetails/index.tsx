@@ -44,9 +44,10 @@ const TransactionDetails = () => {
           'BIrBg-y1TZFkMuIFdiBS3-3wAEzfk5_qI8RTLnMc1LhkOyxKyI-feeS00V4clez2p4RytrOPnXodxfyPhnnXIag',
       })
         .then(currentToken => {
+          console.log('currentToken: ' + currentToken);
           if (currentToken) {
             onMessage(firebaseMessaging, payload => {
-              console.log(payload);
+              console.log('payload: ' + payload);
             });
           }
         })
