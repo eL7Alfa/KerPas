@@ -18,9 +18,8 @@ import { productImgUrl } from '../../../config/urls';
 import toRupiah from '../../../modules/toRupiah';
 import { grey, yellow } from '@mui/material/colors';
 import Direction from '../Direction';
-import { initializeApp } from '@firebase/app';
-import { getMessaging, onMessage, getToken } from '@firebase/messaging';
-import { firebaseConfig } from '../../constants';
+import { firebaseCloudMessaging } from '../../../config/firebaseUtil';
+import firebase from 'firebase/app';
 
 const TransactionDetails = () => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
@@ -35,21 +34,32 @@ const TransactionDetails = () => {
 
   const fCMessagingListener = () => {
     // Initialize Firebase
-    const firebaseApp = initializeApp(firebaseConfig);
-    const firebaseMessaging = getMessaging(firebaseApp);
-    getToken(firebaseMessaging, {
-      vapidKey:
-        'BIrBg-y1TZFkMuIFdiBS3-3wAEzfk5_qI8RTLnMc1LhkOyxKyI-feeS00V4clez2p4RytrOPnXodxfyPhnnXIag',
-    })
-      .then(currentToken => {
-        if (currentToken) {
-          console.log('currentToken: ' + currentToken);
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js').then(() => {
+        navigator.serviceWorker.addEventListener('message', event =>
+          console.log('event for the service worker', event),
+        );
+      });
+    }
+
+    async function setToken() {
+      try {
+        const token = await firebaseCloudMessaging.init();
+        if (token) {
+          console.log('token', token);
+          getMessage();
         }
-        onMessage(firebaseMessaging, payload => {
-          console.log('payload: ' + payload);
-        });
-      })
-      .catch(e => console.log('err' + e));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    setToken();
+  };
+
+  const getMessage = () => {
+    const messaging = firebase.messaging();
+    messaging.onMessage(message => console.log('foreground', message));
   };
 
   const getTransactionDetail = () => {
