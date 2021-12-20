@@ -20,6 +20,7 @@ import { grey, yellow } from '@mui/material/colors';
 import Direction from '../Direction';
 import { firebaseCloudMessaging } from '../../../config/firebaseUtil';
 import firebase from 'firebase/app';
+import 'firebase/messaging';
 
 const TransactionDetails = () => {
   const { appState, authState } = useSelector((state: rootReducerI) => state);
